@@ -8,6 +8,23 @@ This is the project for UMJI VE441 App Development for Entrepreneurs from Group 
 documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies. 
 -->
 
+### FrontEnd
+
+- Image editing:  IMG.LY https://img.ly/docs/pesdk/android/introduction/getting_started/
+  
+
+<!--
+Andriod camera  https://developer.android.com/guide/topics/media/camera
+preview + video,audio + focus + face detection
+Andriod audio  https://developer.android.com/training/wearables/user-input/voice
+no audio recognition
+-->
+
+
+
+
+### Backend
+
 ## Model and Engine
 <!--
 put a copy of your Storymap here.  List all components of your engine architectures and how they tie together. Draw a block diagram showing your data and control flows in the engine. For each block, describe how the functionalities will be implemented. If your app doesn't have its own engine, describe how you will use the OS sub-systems or 3rd-party SDKs to build your app. You can re-use your engine architecture slides from the DRAFT portion of this assignment, but they should be accompanied by descriptive explanation, e.g., the talk to give accompanying each slide. 
