@@ -11,6 +11,7 @@ documentation on how to build and run your project. For now, simply list and pro
 ### FrontEnd
 
 - Image editing:  IMG.LY https://img.ly/docs/pesdk/android/introduction/getting_started/
+- Automatic Speech Recognition Xunfei https://www.xfyun.cn/doc/asr/voicedictation/Android-SDK.html#_1%E3%80%81%E7%AE%80%E4%BB%8B
   
 
 <!--
