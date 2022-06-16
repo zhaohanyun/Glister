@@ -45,7 +45,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   | form-data part | value        |
   | -------------- | ------------ |
   | `username`     | user name    |
-  | `projectName`  | project name |
+  | `project_name` | project name |
   | `image`        | image file   |
   
   *Response code*:  
@@ -64,7 +64,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   | form-data part | value        |
   | -------------- | ------------ |
   | `username`     | user name    |
-  | `projectName`  | project name |
+  | `project_name` | project name |
   | `video`        | video file   |
   
   *Response code*:  
