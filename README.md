@@ -36,6 +36,97 @@ put a copy of your Storymap here.  List all components of your engine architectu
  describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
  -->
 
+- `POST /image` <!-- 带文件的http request不会写 -->
+  
+  Use **OkHttp SDK** to upload a photo to server using `multipart/form-data` representation/encoding.
+  
+  *request parameters*:
+  
+  | form-data part | value        |
+  | -------------- | ------------ |
+  | `username`     | user name    |
+  | `projectName`  | project name |
+  | `image`        | image file   |
+  
+  *Response code*:  
+  
+  - 200 if success  
+  - 404 if user or project does not exist
+  
+  
+  
+- `POST /video`
+
+  Use **OkHttp SDK** to upload a video to server using `multipart/form-data` representation/encoding.
+
+  *request parameters*:
+
+  | form-data part | value        |
+  | -------------- | ------------ |
+  | `username`     | user name    |
+  | `projectName`  | project name |
+  | `video`        | video file   |
+  
+  *Response code*:  
+  
+  - 200 if success  
+  - 404 if user or project does not exist
+  
+  
+  
+- `POST /project?username=&project_name=`
+
+  Create a new project for a certain user.
+
+  *Response code*:  
+
+  - 200 if success
+  - 404 if user not exist
+  - 409 if project name already exist
+
+  
+
+- `DELETE /project?username=&project_name=`
+
+  Delete a project of a certain user, or do nothing if project name not exist.
+
+  *Response code*:  
+
+  - 200 if success
+  - 404 if user does not exist
+
+  
+
+- `GET /image?username=&project_name=`
+
+  *Return*: a JSON object that contains a list of all urls and a list of all scores of images in this project. And later use these url to download previews for each image in the project. We use the image view `.load()` extension from the **Coil SDK** to download the image directly from its URL under expected resolution. <!--also employing a crossfade effect to *mimic* progressive JPEG.-->
+
+  ```javascript
+  {
+      "urls":[url1, url2, ...],
+      "scores":[score1, score2, ...]
+  }
+  ```
+
+  *Response code*:  
+
+  - 200 if success
+  - 404 if user or project does not exist
+
+  
+
+- `POST /focus?username=&project_name=&focus=[enum]`
+
+  Set the what kind of object you would like to focus on, which will be used in image filtering, scoring and processing. The value of `focus` must be one of the items that allowed by our system. A example for our possible`focus` set could be `Enum("car", "flower", "face", ...)`.
+
+  *Response code*:  
+
+  - 200 if success
+  - 404 if user or project does not exist
+  - 422 if invalid focus
+
+  
+
  ## View UI/UX
  <!--
  leave this section blank for now.  You will populate it with your UI/UX design in a latter assignment. 
