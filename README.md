@@ -51,9 +51,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   *Response code*:  
   
   - 200 if success  
-  - 404 if user or project does not exist
-  
-  
+  - 404 if user or project does not exist  
   
 - `POST /video`
 
@@ -70,9 +68,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   *Response code*:  
   
   - 200 if success  
-  - 404 if user or project does not exist
-  
-  
+  - 404 if user or project does not exist  
   
 - `POST /project?username=&project_name=`
 
@@ -82,9 +78,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
 
   - 200 if success
   - 404 if user not exist
-  - 409 if project name already exist
-
-  
+  - 409 if project name already exist  
 
 - `DELETE /project?username=&project_name=`
 
@@ -93,9 +87,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   *Response code*:  
 
   - 200 if success
-  - 404 if user does not exist
-
-  
+  - 404 if user does not exist  
 
 - `GET /image?username=&project_name=`
 
@@ -111,9 +103,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   *Response code*:  
 
   - 200 if success
-  - 404 if user or project does not exist
-
-  
+  - 404 if user or project does not exist  
 
 - `POST /focus?username=&project_name=&focus=[enum]`
 
@@ -123,8 +113,8 @@ put a copy of your Storymap here.  List all components of your engine architectu
 
   - 200 if success
   - 404 if user or project does not exist
-  - 422 if invalid focus
-
+  - 422 if invalid focus  
+    
   
 
  ## View UI/UX
