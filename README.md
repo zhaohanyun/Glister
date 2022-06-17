@@ -23,8 +23,8 @@ no audio recognition
 
 
 ### Algorithm
-- [Aesthetic-based Image Assessment Module (SAMP-Net)]([url](https://github.com/bcmi/Image-Composition-Assessment-Dataset-CADB))
-- [Object Detection API]([url](https://github.com/OlafenwaMoses/ImageAI))
+- [Aesthetic-based Image Assessment Module (SAMP-Net)](https://github.com/bcmi/Image-Composition-Assessment-Dataset-CADB)
+- [Object Detection API](https://github.com/OlafenwaMoses/ImageAI)
 
 ### Backend
 - Rest API: https://restfulapi.net/
