@@ -43,8 +43,8 @@ put a copy of your Storymap here.  List all components of your engine architectu
 - **Image Filter**: Its function is filtering images by specific object focus. We will employ an object detection deep learning algorithm to judge whether the image contains the object and filter it out if not.
 - **Image Scorer**: Its function is giving aesthetic scores to images by quality. We will employ an image scoring deep learning algorithm and score each image based on its clarity, lightness, colorfulness and etc.
 ### Backend:
-- **Cloud Server**: We will deploy our backend on an AWS cloud server. We will store all the images and do back-end processing on this server.
-- **Local File DB**: We will use a MySQL database to store all the paths of images, their scores and classes.
+- **Cloud Server**: We will deploy our backend on an AWS cloud server. We will store all the images and do back-end processing on this server. We will use a MySQL database to store all the paths of images, their scores and classes.
+- **Local File DB**: The local photo album of the user's phone.
 
 
 
