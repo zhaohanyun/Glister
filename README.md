@@ -22,14 +22,29 @@ no audio recognition
 -->
 
 
-
+### Algorithm
 
 ### Backend
+- Rest API: https://restfulapi.net/
+- Database: https://www.w3schools.com/php/php_mysql_intro.asp
+
 
 ## Model and Engine
 <!--
 put a copy of your Storymap here.  List all components of your engine architectures and how they tie together. Draw a block diagram showing your data and control flows in the engine. For each block, describe how the functionalities will be implemented. If your app doesn't have its own engine, describe how you will use the OS sub-systems or 3rd-party SDKs to build your app. You can re-use your engine architecture slides from the DRAFT portion of this assignment, but they should be accompanied by descriptive explanation, e.g., the talk to give accompanying each slide. 
 -->
+<img src="images/StoryMap.png" />
+
+### Frontend
+- **Camera API**: It depends on Andriod built-in camera APIs. We will use functionalities such as `takephotos`, `takevideos`, `zoom`, `focus` and `crop`.
+- **Speech Recognition API**: It depends on Andriod built-in `SpeechRecognizer` class. It streams audio to remote servers to perform speech recognition.
+### Algorithm:
+- **Video-clip Handler**: Its function is transfroming a video to a image set. We will simply take video frames that are evenly distributed over the time.
+- **Image Filter**: Its function is filtering images by specific object focus. We will employ an object detection deep learning algorithm to judge whether the image contains the object and filter it out if not.
+- **Image Scorer**: Its function is giving aesthetic scores to images by quality. We will employ an image scoring deep learning algorithm and score each image based on its clarity, lightness, colorfulness and etc.
+### Backend:
+- **Cloud Server**: We will deploy our backend on an AWS cloud server. We will store all the images and do back-end processing on this server.
+- **Local File DB**: We will use a MySQL database to store all the paths of images, their scores and classes.
 
 ## APIs and Controller
 <!--
