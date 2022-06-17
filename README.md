@@ -46,6 +46,8 @@ put a copy of your Storymap here.  List all components of your engine architectu
 - **Cloud Server**: We will deploy our backend on an AWS cloud server. We will store all the images and do back-end processing on this server.
 - **Local File DB**: We will use a MySQL database to store all the paths of images, their scores and classes.
 
+![engineArchitecture](/projectManagement/images/engineArchitecture.png)
+
 ## APIs and Controller
 <!--
  describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
