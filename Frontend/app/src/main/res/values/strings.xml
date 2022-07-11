@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Glister Frontend</string>
+    <string name="edit">Edit</string>
+    <string name="album">Album</string>
+    <string name="preview">Image</string>
 </resources>
