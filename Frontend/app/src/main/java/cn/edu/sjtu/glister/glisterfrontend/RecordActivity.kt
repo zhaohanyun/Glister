@@ -4,7 +4,6 @@ package cn.edu.sjtu.glister.glisterfrontend
 import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 
 //class MainActivity : AppCompatActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,12 +21,13 @@ import android.content.pm.PackageManager
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.MediaController
-import android.widget.VideoView
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.startActivityForResult
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 
 
 import kotlinx.android.synthetic.main.activity_record.*
@@ -80,11 +80,45 @@ class RecordActivity : AppCompatActivity() {
             }
         }
 
+        navigation.setOnNavigationItemSelectedListener{ item ->
+        //NavigationBarView.OnItemSelectedListener { item ->
+            println("hello object")
+            when(item.itemId) {
+                R.id.object_focus -> {
+                    // Respond to navigation item 1 click
+                    val button = findViewById<BottomNavigationItemView>(R.id.object_focus)
+                    val popupMenu: PopupMenu = PopupMenu(this,button)
+                    popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
+                    popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { obj ->
+                        when(obj.itemId) {
+                            R.id.object_flowers ->
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                            R.id.object_faces ->
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                            R.id.object_cars ->
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                        }
+                        true
+                    })
+                    popupMenu.show()
+                    true
+                }
+                R.id.upload -> {
+                    // Respond to navigation item 2 click
+                    true
+                }
+                R.id.profile -> {
+                    // Respond to navigation item 2 click
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
     fun startRecording(view: View) {
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-        println("hello")
         //startActivityForResult(intent, VIDEO_CAPTURE)已弃用
         startForRecordResult.launch(intent)
     }
