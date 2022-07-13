@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
 
-from Backend.routing.settings import MEDIA_ROOT, MEDIA_URL
+from routing.settings import MEDIA_ROOT, MEDIA_URL
 
 """
 {

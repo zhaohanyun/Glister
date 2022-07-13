@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
-from Backend.routing.settings import MEDIA_ROOT, MEDIA_URL
+from routing.settings import MEDIA_ROOT, MEDIA_URL
 
 
 """
@@ -46,6 +46,8 @@ def getPhotos(request):
     response['photos'] = rows
     return JsonResponse(response)
 
+def postPhotos(request):
+    pass
 
 def deletePhoto(request):
     if request.method != 'DELETE':

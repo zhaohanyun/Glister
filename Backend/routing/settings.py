@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'routing.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'GlisterDB',
+        'NAME': 'GlisterDB.sqlite3',
         'USER': 'root',
         'PASSWORD': "Glister123",
         'HOST': 'localhost',
