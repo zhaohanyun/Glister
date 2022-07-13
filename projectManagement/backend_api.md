@@ -56,10 +56,10 @@ Photo:
 # GET /getfolders?username=&albumname=&foldername=&
 getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
 
-# input: ..., whether to star or unstar the photo
+# input: ..., whether to star or unstar the photo (1 for star, 0 for unstar)
 # output: editted photo
-# POST /starphoto?username=&albumname=&foldername=&photoid=&star=
-starPhoto(username: str, albumname: str, foldername: str, photoId: int, star: bool) -> Photo
+# POST /starphoto?photoid=&star=
+starPhoto(photoId: int, star: int) -> Photo
 
 # input: ..., photo to delete
 # DELETE /deletephoto?username=&albumname=&foldername=&photoid=

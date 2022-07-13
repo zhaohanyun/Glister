@@ -15,12 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app import views
+from app import photos
+from app import albums
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('getalbums/', views.getimages, name='getalbums'),
-    path('getphotos/', views.getPhotos, name='getphotos'),
-    path('postphotos/', views.getimages, name='postphotos'),
+    path('getalbums/', albums.getAlbums, name='getalbums'),
+    path('getfolders/', albums.getFolders, name='getfolders'),
+    path('getphotos/', photos.getPhotos, name='getphotos'),
+    path('deletephoto/', photos.deletePhoto, name='getphoto'),
+    path('starphoto/', photos.starPhoto, name='starphoto'),
+    path('postphotos/', photos.postPhotos, name='postphotos'),
 ]

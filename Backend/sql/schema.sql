@@ -22,12 +22,11 @@ CREATE TABLE folders(
 
 CREATE TABLE photos(
   photoId INTEGER PRIMARY KEY AUTOINCREMENT,
-  photoName VARCHAR(64) NOT NULL,
+  photoname VARCHAR(64) NOT NULL,
   photoScore INTEGER NOT NULL,
   isRecommended INTEGER NOT NULL,
   isStarred INTEGER NOT NULL,
   folderId INTEGER REFERENCES folders(folderId) ON DELETE CASCADE,
   albumId INTEGER REFERENCES albums(albumId) ON DELETE CASCADE,
   owner VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE,
-  photoPath VARCHAR(256) NOT NULL
 );

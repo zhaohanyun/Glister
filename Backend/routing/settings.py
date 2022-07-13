@@ -130,6 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-UPLOAD_URL = 'https://106.14.1.108/upload/'
-UPLOAD_ROOT = BASE_DIR / 'uploads'
+MEDIA_URL = 'https://106.14.1.108/uploads/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760

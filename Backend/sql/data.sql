@@ -5,20 +5,20 @@ VALUES
 ('hzc', '123'),
 ('xyc', '123');
 
-INSERT INTO albums (albumname, owner, albumPath)
+INSERT INTO albums (albumname, owner)
 VALUES
-('animals', 'qyq', 'album1'),
-('vehicles', 'hzc', 'album1'),
-('nature', 'xyc', 'concert');
+('animals', 'qyq'),
+('vehicles', 'hzc'),
+('nature', 'xyc');
 
 INSERT INTO folders (foldername, albumId, owner, folderPath)
 VALUES
-('cats', '1', 'qyq', 'tree'),
-('boats', '2', 'hzc', 'tree'),
-('trees', '3', 'xyc', 'people');
+('cats', '1', 'qyq'),
+('boats', '2', 'hzc'),
+('trees', '3', 'xyc');
 
-INSERT INTO photos (photoName, photoScore, isRecommended, isStarred, folderId, albumId, owner, photoPath)
+INSERT INTO photos (photoUrl, photoScore, isRecommended, isStarred, folderId, albumId, owner)
 VALUES
-('qyq-animals-cats-1', '80', '0', '0', '1', '1', 'qyq', 'frame1.jpg'),
-('hzc-vehicles-boats-1', '90', '1', '0', '2', '2', 'hzc', 'frame1.jpg'),
-('xyc-nature-trees-1', '100', '1', '1', '3', '3', 'xyc', 'frame1.jpg');
+('qyq-animals-cats-123', '80', '0', '0', '1', '1', 'qyq'),
+('hzc-vehicles-boats-456', '90', '1', '0', '2', '2', 'hzc'),
+('xyc-nature-trees-789', '100', '1', '1', '3', '3', 'xyc');
