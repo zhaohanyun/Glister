@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import kotlinx.android.synthetic.main.activity_view.*
 import java.time.temporal.TemporalAdjusters.next
 import kotlin.coroutines.EmptyCoroutineContext.plus
 
@@ -24,8 +25,8 @@ class ViewImages : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view)
-        val plus = findViewById<Button>(R.id.plus)
-        val minus = findViewById<Button>(R.id.minus)
+        //val plus = findViewById<Button>(R.id.plus)
+        //val minus = findViewById<Button>(R.id.minus)
         val image1 = findViewById<ImageView>(R.id.image1)
         val next = findViewById<Button>(R.id.next)
         next.setOnClickListener {
@@ -33,12 +34,12 @@ class ViewImages : AppCompatActivity() {
         }
         // 定义改变图片透明度的方法
         val listener = View.OnClickListener {v ->
-            if (v == plus) {
+            /*if (v == plus) {
                 alpha += 20
             }
             if (v == minus){
                 alpha -= 20
-            }
+            }*/
             if (alpha >= 255){
                 alpha = 255
             }
@@ -47,8 +48,8 @@ class ViewImages : AppCompatActivity() {
             }
             image1.imageAlpha = alpha
         }
-        plus.setOnClickListener(listener)
-        minus.setOnClickListener(listener)
+        //plus.setOnClickListener(listener)
+        //minus.setOnClickListener(listener)
         image1.setOnTouchListener { v, event ->
             val bitmapDrawable = image1.drawable as BitmapDrawable
             val bitmap = bitmapDrawable.bitmap

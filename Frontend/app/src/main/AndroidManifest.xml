@@ -18,7 +18,7 @@
             <data android:mimeType="image/*" />
         </intent>
     </queries>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,10 +35,10 @@
             android:name=".EditActivity"
             android:label="@string/edit"
             android:parentActivityName=".RecordActivity" />
-        <activity
+        <!--<activity
             android:name=".ViewImages"
             android:label="ViewImages"
-            android:parentActivityName=".RecordActivity" />
+            android:parentActivityName=".RecordActivity" /> -->
         <activity
             android:name=".RecordActivity"
             android:exported="true">
@@ -48,6 +48,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ImageActivity"
+            android:label="@string/preview"
+            android:parentActivityName=".RecordActivity" />
 
 
 <!--        <activity-->
