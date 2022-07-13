@@ -343,3 +343,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+*.sqlite3
