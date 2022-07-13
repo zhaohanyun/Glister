@@ -15,22 +15,26 @@ login(username: str, password: str)
 ```python
 # input: username
 # output: a list of albums of this user (e.g. Jay Chou concert, NBA live)
+# GET /getalbums?username=&albumname=
 getAlbums(username: str) -> list[str]
 
 
 # Upload video to the server, and create a new album.
 # input: username, album name, the uploaded video
 # output: a list of albums of this user
+# POST /postalbum?username=&albumname=&image=&video=
 postAlbum(username: str, albumname: str, video) -> list[str]
 
 
 # input: username, album to edit, new album name
 # output: a list of albums of this user
+# PUT /editalbum?username=&albumname=&newalbumname=
 editAlbum(username: str, albumname: str, newAlbumname: str) -> list[str]
 
 
 # input: username, album to open
 # output: a list of foldernames in the album
+# GET /getfolders?username=&albumname=
 getFolders(username: str, albumname: str) -> list[str]
 
 ```
@@ -49,13 +53,16 @@ Photo:
 
 # input: user name, album name, folder to open (e.g. default/tree/people/favourite)
 # output: a list of photos in this folder
+# GET /getfolders?username=&albumname=&foldername=&
 getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
 
 # input: ..., whether to star or unstar the photo
 # output: editted photo
+# POST /starphoto?username=&albumname=&foldername=&photoid=&star=
 starPhoto(username: str, albumname: str, foldername: str, photoId: int, star: bool) -> Photo
 
 # input: ..., photo to delete
+# DELETE /deletephoto?username=&albumname=&foldername=&photoid=
 deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
 ```
 
