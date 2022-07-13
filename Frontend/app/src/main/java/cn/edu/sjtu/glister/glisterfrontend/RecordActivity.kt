@@ -14,23 +14,33 @@ import android.os.Bundle
 
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 
 //import android.support.v7.app.AppCompatActivity
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.lifecycle.ViewModel
+import cn.edu.sjtu.glister.glisterfrontend.ChattStore.postChatt
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
 
 import kotlinx.android.synthetic.main.activity_record.*
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 class RecordActivity : AppCompatActivity() {
     fun startEdit(view: View?) = startActivity(Intent(this, EditActivity::class.java))
@@ -38,6 +48,8 @@ class RecordActivity : AppCompatActivity() {
     private val VIDEO_CAPTURE = 101
     private lateinit var startForRecordResult: ActivityResultLauncher<Intent>
     private lateinit var videoView:VideoView
+    private val viewState: PostViewState by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,12 +78,12 @@ class RecordActivity : AppCompatActivity() {
         { result ->
             val videoUri = result.data?.data
             if (result.resultCode == Activity.RESULT_OK) {
-
                 videoView.setVideoURI(videoUri)
                 videoView.start()//https://www.youtube.com/watch?v=XV0SZyy0Xis
 
                 Toast.makeText(this, "Video saved to:\n"
                         + videoUri, Toast.LENGTH_LONG).show()
+                viewState.videoUri=videoUri
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "Video recording cancelled.",
                     Toast.LENGTH_LONG).show()
@@ -81,9 +93,37 @@ class RecordActivity : AppCompatActivity() {
             }
         }
 
+
+        val forPickedResult =
+            registerForActivityResult(ActivityResultContracts.GetContent(), fun(uri: Uri?) {
+                uri?.let {
+                    if (it.toString().contains("video")) {
+                        viewState.videoUri = it
+                        viewState.videoIcon = android.R.drawable.presence_video_busy
+                        //view.videoButton.setImageResource(viewState.videoIcon)
+                    } else {
+                        val inStream = contentResolver.openInputStream(it) ?: return
+                        viewState.imageUri = mediaStoreAlloc("image/jpeg")
+                        viewState.imageUri?.let {
+                            val outStream = contentResolver.openOutputStream(it) ?: return
+                            val buffer = ByteArray(8192)
+                            var read: Int
+                            while (inStream.read(buffer).also{ read = it } != -1) {
+                                outStream.write(buffer, 0, read)
+                            }
+                            outStream.flush()
+                            outStream.close()
+                            inStream.close()
+                        }
+                        //doCrop(cropIntent)
+                    }
+                } ?: run { Log.d("Pick media", "failed") }
+            })
+
+
         navigation.setOnNavigationItemSelectedListener{ item ->
         //NavigationBarView.OnItemSelectedListener { item ->
-            println("hello object")
+            //println("hello object")
             when(item.itemId) {
                 R.id.object_focus -> {
                     // Respond to navigation item 1 click
@@ -106,6 +146,7 @@ class RecordActivity : AppCompatActivity() {
                 }
                 R.id.upload -> {
                     // Respond to navigation item 2 click
+                    forPickedResult.launch("*/*")
                     true
                 }
                 R.id.profile -> {
@@ -116,10 +157,12 @@ class RecordActivity : AppCompatActivity() {
             }
         }
 
+
     }
 
     fun startRecording(view: View) {
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaStoreAlloc("video/mp4"))
         //startActivityForResult(intent, VIDEO_CAPTURE)已弃用
         startForRecordResult.launch(intent)
     }
@@ -129,6 +172,60 @@ class RecordActivity : AppCompatActivity() {
             PackageManager.FEATURE_CAMERA_ANY)
     }
 
+    private fun mediaStoreAlloc(mediaType: String): Uri? {
+        val values = ContentValues()
+        values.put(MediaStore.MediaColumns.MIME_TYPE, mediaType)
+        values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+
+        return contentResolver.insert(
+            if (mediaType.contains("video"))
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            else
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            values)
+    }
+
+//    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+//        menu?.apply {
+//            add(Menu.NONE, Menu.FIRST, Menu.NONE, getString(R.string.send))
+//            getItem(0).setIcon(android.R.drawable.ic_menu_send).setEnabled(viewState.enableSend)
+//                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+//        }
+//        return super.onPrepareOptionsMenu(menu)
+//    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.apply {
+            add(Menu.NONE, Menu.FIRST, Menu.NONE, getString(R.string.send))
+            getItem(0).setIcon(android.R.drawable.ic_menu_send)
+                .setEnabled(viewState.enableSend)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == Menu.FIRST) {
+            viewState.enableSend = false
+            invalidateOptionsMenu()
+            submitChatt()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun submitChatt() {
+        val chatt = Chatt(username = "Glister zhaohanyun",
+            message = "test http")
+
+        postChatt(applicationContext, chatt, viewState.imageUri, viewState.videoUri) { msg ->
+            runOnUiThread {
+                toast(msg)
+            }
+            //finish() //will return to parent?
+        }
+        viewState.enableSend=true
+
+    }
 // onActivityResult已弃用
 //    override fun onActivityResult(requestCode: Int,
 //                                  resultCode: Int, data: Intent?) {
@@ -152,3 +249,39 @@ class RecordActivity : AppCompatActivity() {
 
 }
 
+
+class PostViewState: ViewModel() {
+    var enableSend = true
+    var imageUri: Uri? = null
+    var videoUri: Uri? = null
+    var videoIcon = android.R.drawable.presence_video_online
+}
+
+//only used for test
+class Chatt(var username: String? = null,
+            var message: String? = null,
+            var timestamp: String? = null,
+            imageUrl: String? = null,
+            videoUrl: String? = null) {
+    var imageUrl: String? by ChattPropDelegate(imageUrl)
+    var videoUrl: String? by ChattPropDelegate(videoUrl)
+}
+class ChattPropDelegate private constructor ():
+    ReadWriteProperty<Any?, String?> {
+    private var _value: String? = null
+        // Kotlin custom setter
+        set(newValue) {
+            newValue ?: run {
+                field = null
+                return
+            }
+            field = if (newValue == "null" || newValue.isEmpty()) null else newValue
+        }
+
+    constructor(initialValue: String?): this() { _value = initialValue }
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>) = _value
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
+        _value = value
+    }
+}
