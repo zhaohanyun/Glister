@@ -40,6 +40,15 @@
         app2:menu="@menu/my_navigation_items"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:onClick="startEdit"
+        android:text="@string/edit"
+        app:layout_constraintStart_toEndOf="@+id/recordButton"
+        app:layout_constraintTop_toTopOf="@+id/recordButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
