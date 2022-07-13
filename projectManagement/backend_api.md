@@ -58,7 +58,7 @@ getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
 
 # input: ..., whether to star or unstar the photo (1 for star, 0 for unstar)
 # output: editted photo
-# POST /starphoto?photoid=&star=
+# PUT /starphoto?photoid=&star=
 starPhoto(photoId: int, star: int) -> Photo
 
 # input: ..., photo to delete

@@ -26,5 +26,5 @@ urlpatterns = [
     path('getphotos/', photos.getPhotos, name='getphotos'),
     path('deletephoto/', photos.deletePhoto, name='getphoto'),
     path('starphoto/', photos.starPhoto, name='starphoto'),
-    path('postphotos/', photos.postPhotos, name='postphotos'),
+    path('postalbum/', albums.postAlbum, name='postalbum'),
 ]

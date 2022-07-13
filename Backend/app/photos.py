@@ -7,8 +7,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
-from routing.settings import MEDIA_ROOT, MEDIA_URL
-
 
 """
 {
@@ -41,13 +39,11 @@ def getPhotos(request):
     )
     rows = cursor.fetchall()
     for row in rows:
-        row['photo_url'] = "{}{}/{}/{}/{}".format(MEDIA_URL, username, albumname, foldername, row['photo_url'])
+        row['photoname'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row['photoname'])
     response = {}
     response['photos'] = rows
     return JsonResponse(response)
 
-def postPhotos(request):
-    pass
 
 def deletePhoto(request):
     if request.method != 'DELETE':
@@ -79,7 +75,7 @@ def deletePhoto(request):
     photoname = cursor.fetchall()[0]
     
     # delete from fileStorage
-    dirPath = MEDIA_ROOT / username / albumname / foldername;
+    dirPath = settings.MEDIA_ROOT / username / albumname / foldername;
     fs = FileSystemStorage(location=dirPath)
     fs.delete(photoname)
     return JsonResponse({})

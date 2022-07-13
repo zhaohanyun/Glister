@@ -23,7 +23,7 @@ CREATE TABLE photos(
   photoname VARCHAR(64) NOT NULL,
   photoScore INTEGER NOT NULL,
   isRecommended INTEGER NOT NULL,
-  isStarred INTEGER NOT NULL,
+  isStarred INTEGER DEFAULT 0 NOT NULL,
   folderId INTEGER REFERENCES folders(folderId) ON DELETE CASCADE,
   albumId INTEGER REFERENCES albums(albumId) ON DELETE CASCADE,
   owner VARCHAR(20) REFERENCES users(username) ON DELETE CASCADE
