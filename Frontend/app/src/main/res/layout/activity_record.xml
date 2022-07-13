@@ -50,7 +50,7 @@
         app:layout_constraintStart_toEndOf="@+id/recordButton"
         app:layout_constraintTop_toTopOf="@+id/recordButton" />
 
-    <Button
+    <!--<Button
         android:id="@+id/view_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         android:onClick="startView"
         android:text="ViewImages"
         app:layout_constraintEnd_toStartOf="@+id/recordButton"
-        app:layout_constraintTop_toTopOf="@+id/recordButton" />
+        app:layout_constraintTop_toTopOf="@+id/recordButton" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

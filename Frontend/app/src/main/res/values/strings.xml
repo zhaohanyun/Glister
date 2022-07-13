@@ -3,6 +3,7 @@
     <string name="edit">Edit</string>
     <string name="album">Album</string>
     <string name="preview">Image</string>
+    <string name="score">Score</string>
 
 <!--    popup menu-->
     <string name="action_settings">Settings</string>
