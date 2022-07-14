@@ -345,4 +345,5 @@ dmypy.json
 .pyre/
 
 *.sqlite3
-uploads/*
+Backend/uploads/*
+Backend/app/SAMPNet/*

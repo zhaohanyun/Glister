@@ -126,7 +126,7 @@ def postAlbum(request):
         filename = fs.save(filename, content)
         processVideo(username, albumname, albumId, filename, cursor)
     else:
-        # print("postAlbum() unknown file format:", request.FILES)
+        print("postAlbum() unknown file format:", request.FILES)
     return JsonResponse({})
 
 
@@ -170,7 +170,7 @@ def processImages(username, albumname, albumId, cursor):
             filename = rst['filename']
             score = rst['score']
             isRecommended = rst['isRecommended']
-            newFileName = "{}_{}_{}_{}".format(username, albumname, foldername, idx)
+            newFileName = "{}_{}_{}_{}.jpg".format(username, albumname, foldername, idx)
             oldFilePath = albumPath / filename
             newFilePath = folderPath / newFileName
             shutil.move(str(oldFilePath), str(newFilePath))
