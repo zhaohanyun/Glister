@@ -1,6 +1,7 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toFile
@@ -20,12 +21,14 @@ import kotlin.reflect.full.declaredMemberProperties
 
 
 object ImageStore {
+
     private val _images = arrayListOf<Image>()
     //val chatts: List<Chatt> = _chatts
     private val nFields = Image::class.declaredMemberProperties.size
 
     //private lateinit var queue: RequestQueue
-
+    //private const val serverUrl ="https://52.39.198.75/"
+    private val serverUrl : String=  Resources.getSystem().getString(R.string.Hanyun_server)
     private val client = OkHttpClient()
 
 

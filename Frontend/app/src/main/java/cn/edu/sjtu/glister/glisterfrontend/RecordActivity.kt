@@ -32,7 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
-import cn.edu.sjtu.glister.glisterfrontend.ChattStore.postChatt
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -208,16 +208,16 @@ class RecordActivity : AppCompatActivity() {
         if (item.itemId == Menu.FIRST) {
             viewState.enableSend = false
             invalidateOptionsMenu()
-            submitChatt()
+            submitAlbum()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun submitChatt() {
+    private fun submitAlbum() {
         val chatt = Chatt(username = "Glister zhaohanyun",
-            message = "test http")
+            message = "test http") //chatt will be replaced later
 
-        postChatt(applicationContext, chatt, viewState.imageUri, viewState.videoUri) { msg ->
+        postAlbum(applicationContext, chatt, viewState.imageUri, viewState.videoUri) { msg ->
             runOnUiThread {
                 toast(msg)
             }

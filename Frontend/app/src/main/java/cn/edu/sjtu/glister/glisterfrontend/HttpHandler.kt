@@ -1,7 +1,10 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
+import android.provider.Settings.Global.getString
+import android.util.Log
 import androidx.core.net.toFile
 import androidx.databinding.ObservableArrayList
 import okhttp3.*
@@ -15,18 +18,25 @@ import org.json.JSONException
 import org.json.JSONObject
 import kotlin.reflect.full.declaredMemberProperties
 
-object ChattStore {
+object AlbumStore {
 //    private val _chatts = arrayListOf<Chatt>()
 //    val chatts = ObservableArrayList<Chatt>()
 //    private val nFields = Chatt::class.declaredMemberProperties.size
 
-    private const val serverUrl = "https://52.39.198.75/"
+    //private const val serverUrl ="https://52.39.198.75/"
+    private val serverUrl : String=  Resources.getSystem().getString(R.string.Hanyun_server)
     private val client = OkHttpClient()
 
-    fun postChatt(
-        context: Context, chatt: Chatt, imageUri: Uri?, videoUri: Uri?,
+
+    fun postAlbum(
+        context: Context, chatt: Chatt, imageUri: Uri?, videoUri: Uri?, //chatt will be replaced later
         completion: (String) -> Unit
-    ) {
+    )
+    //        # Upload video to the server, and create a new album.
+    //        # input: username, album name, the uploaded video
+    //        # output: a list of albums of this user
+    //        # POST /postalbum?username=&albumname=&image=&video=
+    {
         val mpFD = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("username", chatt.username ?: "")
             .addFormDataPart("message", chatt.message ?: "")
@@ -36,7 +46,7 @@ object ChattStore {
         imageUri?.run {
             toFile(context)?.let {
                 mpFD.addFormDataPart(
-                    "image", "chattImage",
+                    "image", "albumImage",
                     it.asRequestBody("image/jpeg".toMediaType())
                 )
             } ?: run{
@@ -48,7 +58,7 @@ object ChattStore {
         videoUri?.run {
             toFile(context)?.let {
                 mpFD.addFormDataPart(
-                    "video", "chattVideo",
+                    "video", "albumVideo",
                     it.asRequestBody("video/mp4".toMediaType())
                 )
             } ?: run{
@@ -84,5 +94,14 @@ object ChattStore {
             }
 
         })
+    }
+
+    fun getAlbums()
+//        # input: username
+//        # output: a list of albums of this user (e.g. Jay Chou concert, NBA live)
+//        # GET /getalbums?username=&albumname=
+//        getAlbums(username: str) -> list[str]
+    {
+
     }
 }
