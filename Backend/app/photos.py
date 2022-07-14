@@ -42,7 +42,7 @@ def getPhotos(request):
     for row in rows:
         photo = {}
         photo['photoId'] = row[0]
-        photo['photo_url'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
+        photo['photo_url'] = "{}{}/{}/{}/{}.".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
         photo['score'] = row[2]
         photo['isRecommended'] = row[3]
         photo['isStarred'] = row[4]

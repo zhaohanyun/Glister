@@ -111,18 +111,17 @@ def postAlbum(request):
     albumId = cursor.lastrowid 
     # process images or videos
     dirpath = settings.MEDIA_ROOT / username / albumname;
-    baseurl = '{}{}/{}/'.format(settings.MEDIA_URL, username, albumname)
     os.makedirs(dirpath)
     if request.FILES.get("image"):
         content = request.FILES['image']
-        filename = username+albumname+str(time.time())+".jpeg"
-        fs = FileSystemStorage(location=dirpath, base_url=baseurl)
+        filename = "{}_{}_{}.jpg".format(username, albumname, str(round(time.time())))
+        fs = FileSystemStorage(location=dirpath / "tmp")
         filename = fs.save(filename, content)
-        processImages(username, albumname, albumId, cursor)
+        processImages(username, albumname, albumId, "tmp", cursor)
     elif request.FILES.get("video"):
         content = request.FILES['video']
-        filename = username+albumname+str(round(time.time()))+".mp4"
-        fs = FileSystemStorage(location=dirpath, base_url=baseurl)
+        filename = "{}_{}_{}.mp4".format(username, albumname, str(round(time.time())))
+        fs = FileSystemStorage(location=dirpath)
         filename = fs.save(filename, content)
         processVideo(username, albumname, albumId, filename, cursor)
     else:
@@ -134,20 +133,24 @@ def processVideo(username, albumname, albumId, filename, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     filePath = albumPath / filename
     # extract photos from videos
-    os.system('python3 app/utils/PyVideoFramesExtractor/extract.py --video {} --sampling 0.5 --output-root {} 2> out.txt'.format(str(filePath), str(albumPath)))
+    os.system('python3 /root/Glister/Backend/app/algorithms/PyVideoFramesExtractor/extract.py --video {} --sampling 0.5 --output-root {} 2> out.txt'.format(str(filePath), str(albumPath)))
     outputDir = filename[:-4] + '_frames'
-    outputPath = albumPath / outputDir
-    for f in os.listdir(outputPath):
-        shutil.move(str(outputPath / f), str(albumPath / f))
-    os.rmdir(outputPath)
-    processImages(username, albumname, albumId, cursor)
+    os.remove(filePath)
+    processImages(username, albumname, albumId, outputDir, cursor)
     # print("process video done!")
 
 
-def processImages(username, albumname, albumId, cursor):
+def processImages(username, albumname, albumId, outputDir, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
+    outputPath = albumPath / outputDir
+    rstPath = "/root/Glister/Backend/app/result.txt"
     # classify and score photos
-    results = classifyAndScorePhotos(albumPath)
+    os.system("python3 /root/Glister/Backend/app/SAMPNet/image_scoring.py --img_dir_path {} --rst_path {} 2> out2.txt".format(str(outputPath), rstPath))
+    print("!!!", str(outputPath))
+    results = {}
+    with open(rstPath, 'r') as openfile:
+        results = json.load(openfile)
+    os.remove(rstPath)
     # print("processImages() ", results)
     for foldername in results:
         # create new folder and add to database
@@ -171,10 +174,9 @@ def processImages(username, albumname, albumId, cursor):
             score = rst['score']
             isRecommended = rst['isRecommended']
             newFileName = "{}_{}_{}_{}.jpg".format(username, albumname, foldername, idx)
-            oldFilePath = albumPath / filename
+            oldFilePath = outputPath / filename
             newFilePath = folderPath / newFileName
-            shutil.move(str(oldFilePath), str(newFilePath))
-            #folderId = cursor.lastrowid
+            shutil.copy(str(oldFilePath), str(newFilePath))
             # print("inserting into photos ", newFileName, folderId, albumId, username)
             cursor.execute(
                 '''
@@ -184,29 +186,36 @@ def processImages(username, albumname, albumId, cursor):
                 '''
                 .format(newFileName, score, isRecommended, folderId, albumId, username)
             )
+    shutil.rmtree(outputPath)
     # print("Process image done!")
 
-"""
-{
-    "cats" : [{'filename': '1.jpg', 'score': 80, 'isRecommended': 0},
-              {'filename': '2.jpg', 'score': 90, 'isRecommended': 1},
-              ......],
+# """
+# {
+#     "cats" : [{'filename': '1.jpg', 'score': 80, 'isRecommended': 0},
+#               {'filename': '2.jpg', 'score': 90, 'isRecommended': 1},
+#               ......],
 
-    "dogs" : [{'filename': '3.jpg', 'score': 70, 'isRecommended': 0},
-              {'filename': '4.jpg', 'score': 100, 'isRecommended': 1},
-              ......],
-    ......
-}
-"""
-def classifyAndScorePhotos(filePath):
-    filenames = os.listdir(filePath)
-    results = {"cats" : [], "dogs" : []}
-    folders = ['cats', 'dogs']
-    for i, filename in enumerate(filenames):
-        score = random.randint(10, 100)
-        foldername = folders[0 if i < len(filenames) / 2 else 1]
-        results[foldername].append({'filename': filename, 
-                                    'score': score,
-                                    'isRecommended': 1 if score > 60 else 0})
-    return results
+#     "dogs" : [{'filename': '3.jpg', 'score': 70, 'isRecommended': 0},
+#               {'filename': '4.jpg', 'score': 100, 'isRecommended': 1},
+#               ......],
+#     ......
+# }
+# """
+# def classifyAndScorePhotos(filePath):
+#     filenames = os.listdir(filePath)
+#     results = {"cats" : [], "dogs" : []}
+#     folders = ['cats', 'dogs']
+#     for i, filename in enumerate(filenames):
+#         score = random.randint(10, 100)
+#         foldername = folders[0]
+#         results[foldername].append({'filename': filename, 
+#                                     'score': score,
+#                                     'isRecommended': 1 if score > 60 else 0})
+#     for i, filename in enumerate(filenames):
+#         score = random.randint(10, 100)
+#         foldername = folders[1]
+#         results[foldername].append({'filename': filename, 
+#                                     'score': score,
+#                                     'isRecommended': 1 if score > 60 else 0})
+#     return results
 

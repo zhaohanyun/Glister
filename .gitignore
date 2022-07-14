@@ -346,4 +346,5 @@ dmypy.json
 
 *.sqlite3
 Backend/uploads/*
-Backend/app/SAMPNet/*
+Backend/app/algorithms/SAMPNet/*
+
