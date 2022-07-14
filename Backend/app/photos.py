@@ -27,50 +27,48 @@ def getPhotos(request):
     cursor = connection.cursor()
     cursor.execute(
         '''
-        SELECT p.photoId, p.photoName AS photo_url, p.photoscore AS score
+        SELECT p.photoId, p.photoname, p.photoScore,
         p.isRecommended, p.isStarred
-        FROM photos p 
+        FROM photos p
         LEFT OUTER JOIN folders f ON p.folderId = f.folderId
         LEFT OUTER JOIN albums a ON a.albumId = p.albumId
-        WHERE p.owner = ? AND a.albumname = ? AND f.foldername = ?
-        ORDER BY p.photoscore DESC;
-        ''',
-        (username, albumname, foldername, )
+        WHERE p.owner = '{}' AND a.albumname = '{}' AND f.foldername = '{}'
+        ORDER BY p.photoScore DESC;
+        '''
+        .format(username, albumname, foldername)
     )
     rows = cursor.fetchall()
+    photos = []
     for row in rows:
-        row['photoname'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row['photoname'])
+        photo = {}
+        photo['photoId'] = row[0]
+        photo['photo_url'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
+        photo['score'] = row[2]
+        photo['isRecommended'] = row[3]
+        photo['isStarred'] = row[4]
+        photos.append(photo)
     response = {}
-    response['photos'] = rows
+    response['photos'] = photos
     return JsonResponse(response)
 
 
 def deletePhoto(request):
-    if request.method != 'DELETE':
+    if request.method != 'GET':
         return HttpResponse(status=404)
     username = request.GET.get("username")
     albumname = request.GET.get("albumname")
     foldername = request.GET.get("foldername")
-    photoId = request.DELETE.get("photoid")
-
-    # delete from database
-    cursor = connection.cursor()
-    cursor.execute(
-        '''
-        DELETE FROM photos
-        WHERE photoid = ?;
-        ''',
-        (photoId, )
-    )
+    photoId = request.GET.get("photoid")
 
     # get photoname
+    cursor = connection.cursor()
     cursor.execute(
         '''
         SELECT p.photoname
         FROM photos p
-        WHERE p.photoId = ?;
-        ''',
-        (photoId, )
+        WHERE p.photoId = {};
+        '''
+        .format(photoId)
     )
     photoname = cursor.fetchall()[0]
     
@@ -78,21 +76,30 @@ def deletePhoto(request):
     dirPath = settings.MEDIA_ROOT / username / albumname / foldername;
     fs = FileSystemStorage(location=dirPath)
     fs.delete(photoname)
+
+    # delete from database
+    cursor.execute(
+        '''
+        DELETE FROM photos
+        WHERE photoid = {};
+        '''
+        .format(photoId)
+    )
     return JsonResponse({})
 
 
 def starPhoto(request):
-    if request.method != 'PUT':
+    if request.method != 'GET':
             return HttpResponse(status=404)
-    photoId = request.PUT.get("photoid")
-    star = request.PUT.get("star")
+    photoId = request.GET.get("photoid")
+    star = request.GET.get("star")
     cursor = connection.cursor()
     cursor.execute(
         '''
         UPDATE photos
-        set isStarred = ?
-        WHERE photoid = ?;
-        ''',
-        (star, photoId, )
+        set isStarred = {}
+        WHERE photoid = {};
+        '''
+        .format(star, photoId)
     )
     return JsonResponse({})

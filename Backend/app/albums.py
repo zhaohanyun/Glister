@@ -26,10 +26,10 @@ def getAlbums(request):
         '''
         SELECT a.albumname
         FROM albums a
-        WHERE a.owner = ? 
+        WHERE a.owner = '{}'
         ORDER BY a.created DESC;
-        ''',
-        (username, )
+        '''
+        .format(username)
     )
     rows = cursor.fetchall()
     response = {}
@@ -55,10 +55,10 @@ def getFolders(request):
         SELECT f.foldername
         FROM folders f
         LEFT OUTER JOIN albums a ON f.albumId = a.albumId
-        WHERE a.owner = ? AND a.albumname = ?
+        WHERE a.owner = '{}' AND a.albumname = '{}'
         ORDER BY f.folderId;
-        ''',
-        (username, albumname, )
+        '''
+        .format(username, albumname, )
     )
     rows = cursor.fetchall()
     response = {}
@@ -67,21 +67,21 @@ def getFolders(request):
 
 
 def editAlbum(request):
-    if request.method != 'PUT':
+    if request.method != 'GET':
         return HttpResponse(status=404)
     
-    username = request.PUT.get("username")
-    albumname = request.PUT.get("albumname")
-    newalbumname = request.PUT.get("newalbumname")
+    username = request.GET.get("username")
+    albumname = request.GET.get("albumname")
+    newalbumname = request.GET.get("newalbumname")
 
     cursor = connection.cursor()
     cursor.execute(
         '''
         UPDATE albums
-        set albumname = ?
-        WHERE owner = ? AND albumname = ?;
-        ''',
-        (newalbumname, username, albumname, )
+        set albumname = '{}'
+        WHERE owner = '{}' AND albumname = '{}';
+        '''
+        .format(newalbumname, username, albumname, )
     )
     dir = settings.MEDIA_ROOT / username / albumname;
     newDir = settings.MEDIA_ROOT / username / newalbumname;
@@ -103,9 +103,9 @@ def postAlbum(request):
         '''
         INSERT INTO albums (albumname, owner)
         VALUES
-                (?, ?);
-        ''',
-        (albumname, username, )
+                ('{}', '{}');
+        '''
+        .format(albumname, username, )
     )
 
     # process images or videos
@@ -153,9 +153,9 @@ def processImages(username, albumname, cursor):
             '''
             INSERT INTO folders (foldername, albumId, owner)
             VALUES
-                    (?, ?, ?);
-            ''',
-            (foldername, albumId, username, )
+                    ('{}', {}, '{}');
+            '''
+            .format(foldername, albumId, username)
         )
 
         for idx, rst in enumerate(results[foldername]):
@@ -172,9 +172,9 @@ def processImages(username, albumname, cursor):
                 '''
                 INSERT INTO photos (photoname, photoScore, isRecommended, folderId, albumId, owner)
                 VALUES
-                        (?, ?, ?, ?, ?, ?);
-                ''',
-                (newFileName, score, isRecommended, folderId, albumId, username)
+                        ('{}', {}, {}, {}, {}, '{}');
+                '''
+                .format(newFileName, score, isRecommended, folderId, albumId, username)
             )
 
 
