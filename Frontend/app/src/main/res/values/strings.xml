@@ -19,6 +19,8 @@
 <!--    http handler-->
     <string name="send">Send</string>
     <string name="Hanyun_server">https://52.39.198.75/</string>
+    <string name="server">https://106.14.1.108/</string>
+
 
 </resources>
 

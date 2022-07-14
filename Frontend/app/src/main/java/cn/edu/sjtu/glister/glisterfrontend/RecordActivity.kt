@@ -32,6 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -97,11 +98,8 @@ class RecordActivity : AppCompatActivity() {
         val forPickedResult =
             registerForActivityResult(ActivityResultContracts.GetContent(), fun(uri: Uri?) {
                 uri?.let {
-                    if (it.toString().contains("video")) {
-                        viewState.videoUri = it
-                        viewState.videoIcon = android.R.drawable.presence_video_busy
-                        //view.videoButton.setImageResource(viewState.videoIcon)
-                    } else {
+                    if (it.toString().contains("image"))
+                    {
                         val inStream = contentResolver.openInputStream(it) ?: return
                         viewState.imageUri = mediaStoreAlloc("image/jpeg")
                         viewState.imageUri?.let {
@@ -116,6 +114,11 @@ class RecordActivity : AppCompatActivity() {
                             inStream.close()
                         }
                         //doCrop(cropIntent)
+                    }else
+                    {
+                        viewState.videoUri = it
+                        viewState.videoIcon = android.R.drawable.presence_video_busy
+                        //view.videoButton.setImageResource(viewState.videoIcon)
                     }
                 } ?: run { Log.d("Pick media", "failed") }
             })
@@ -214,14 +217,15 @@ class RecordActivity : AppCompatActivity() {
     }
 
     private fun submitAlbum() {
-        val chatt = Chatt(username = "Glister zhaohanyun",
-            message = "test http") //chatt will be replaced later
+        val album = Album(username = "Hanyun",
+            albumname = "07141621")
 
-        postAlbum(applicationContext, chatt, viewState.imageUri, viewState.videoUri) { msg ->
+        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri) { msg ->
             runOnUiThread {
                 toast(msg)
             }
             //finish() //will return to parent?
+            //TODO:jump to profile/imageActivity
         }
         viewState.enableSend=true
 
@@ -257,7 +261,16 @@ class PostViewState: ViewModel() {
     var videoIcon = android.R.drawable.presence_video_online
 }
 
-//only used for test
+class Album(var username: String? = null,
+            var albumname: String? = null,
+            var timestamp: String? = null,
+            imageUrl: String? = null,
+            videoUrl: String? = null) {
+    var imageUrl: String? by ChattPropDelegate(imageUrl)
+    var videoUrl: String? by ChattPropDelegate(videoUrl)
+}
+
+//only used for test ****************************
 class Chatt(var username: String? = null,
             var message: String? = null,
             var timestamp: String? = null,

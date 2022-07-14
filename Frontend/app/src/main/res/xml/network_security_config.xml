@@ -3,6 +3,7 @@
     <domain-config>
         <!--        <domain includeSubdomains="true">101.132.173.58</domain>-->
         <domain includeSubdomains="true">52.39.198.75</domain>
+        <domain includeSubdomains="true">106.14.1.108</domain>
         <trust-anchors>
             <certificates src="user"/>
         </trust-anchors>

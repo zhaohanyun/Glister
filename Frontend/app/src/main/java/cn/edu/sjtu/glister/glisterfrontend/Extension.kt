@@ -20,12 +20,12 @@ fun ImageView.display(uri: Uri) {
 
 fun Uri.toFile(context: Context): File? {
 
-    if (!(authority == "media" || authority == "com.google.android.apps.photos.contentprovider")) {
-        // for on-device media files only
-        context.toast("Media file not on device")
-        Log.d("Uri.toFile", authority.toString())
-        return null
-    }
+//    if (!(authority == "media" || authority == "com.google.android.apps.photos.contentprovider")) {
+//        // for on-device media files only
+//        context.toast("Media file not on device")
+//        Log.d("Uri.toFile", authority.toString())
+//        return null
+//    }
 
     if (scheme.equals("content")) {
         var cursor: Cursor? = null
