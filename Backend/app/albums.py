@@ -66,6 +66,7 @@ def getFolders(request):
     return JsonResponse(response)
 
 
+@csrf_exempt
 def editAlbum(request):
     if request.method != 'GET':
         return HttpResponse(status=404)
