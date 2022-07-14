@@ -6,7 +6,7 @@ from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-
+from django.views.decorators.csrf import csrf_exempt
 
 """
 {
@@ -52,6 +52,7 @@ def getPhotos(request):
     return JsonResponse(response)
 
 
+@csrf_exempt
 def deletePhoto(request):
     if request.method != 'GET':
         return HttpResponse(status=404)
@@ -70,13 +71,14 @@ def deletePhoto(request):
         '''
         .format(photoId)
     )
-    photoname = cursor.fetchall()[0]
+    photoname = cursor.fetchall()[0][0]
+    # print("photoname:", photoname)
     
     # delete from fileStorage
     dirPath = settings.MEDIA_ROOT / username / albumname / foldername;
     fs = FileSystemStorage(location=dirPath)
     fs.delete(photoname)
-
+    
     # delete from database
     cursor.execute(
         '''
