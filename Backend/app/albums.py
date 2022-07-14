@@ -89,7 +89,7 @@ def editAlbum(request):
     os.rename(str(dir), str(newDir))
     return JsonResponse({})
 
-
+@csrf_exempt
 def postAlbum(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
@@ -97,7 +97,7 @@ def postAlbum(request):
     # loading form-encoded data
     username = request.POST.get("username")
     albumname = request.POST.get("albumname")
-
+    # print("postalbum()", username, albumname)
     # create new album and add to database
     cursor = connection.cursor()
     cursor.execute(
@@ -108,7 +108,7 @@ def postAlbum(request):
         '''
         .format(albumname, username, )
     )
-
+    albumId = cursor.lastrowid 
     # process images or videos
     dirpath = settings.MEDIA_ROOT / username / albumname;
     baseurl = '{}{}/{}/'.format(settings.MEDIA_URL, username, albumname)
@@ -118,38 +118,43 @@ def postAlbum(request):
         filename = username+albumname+str(time.time())+".jpeg"
         fs = FileSystemStorage(location=dirpath, base_url=baseurl)
         filename = fs.save(filename, content)
-        processImages(username, albumname, filename, cursor)
+        processImages(username, albumname, albumId, cursor)
     elif request.FILES.get("video"):
         content = request.FILES['video']
-        filename = username+albumname+str(time.time())+".mp4"
+        filename = username+albumname+str(round(time.time()))+".mp4"
         fs = FileSystemStorage(location=dirpath, base_url=baseurl)
         filename = fs.save(filename, content)
-        processVideo(username, albumname, filename, cursor)
+        processVideo(username, albumname, albumId, filename, cursor)
+    else:
+        # print("postAlbum() unknown file format:", request.FILES)
     return JsonResponse({})
 
 
-def processVideo(username, albumname, filename, cursor):
+def processVideo(username, albumname, albumId, filename, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     filePath = albumPath / filename
     # extract photos from videos
-    os.system('python3 utils/extract.py --video {} --sampling 0.5 --output-root {}'.format(str(filePath), str(albumPath)))
+    os.system('python3 app/utils/PyVideoFramesExtractor/extract.py --video {} --sampling 0.5 --output-root {} 2> out.txt'.format(str(filePath), str(albumPath)))
     outputDir = filename[:-4] + '_frames'
     outputPath = albumPath / outputDir
     for f in os.listdir(outputPath):
         shutil.move(str(outputPath / f), str(albumPath / f))
     os.rmdir(outputPath)
-    processImages(username, albumname, cursor)
+    processImages(username, albumname, albumId, cursor)
+    # print("process video done!")
 
 
-def processImages(username, albumname, cursor):
+def processImages(username, albumname, albumId, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     # classify and score photos
     results = classifyAndScorePhotos(albumPath)
+    # print("processImages() ", results)
     for foldername in results:
         # create new folder and add to database
         folderPath = albumPath / foldername
         os.mkdir(folderPath)
-        albumId = cursor.lastrowid
+        # albumId = cursor.lastrowid
+        # print("processImage()", foldername, albumId, username)
         cursor.execute(
             '''
             INSERT INTO folders (foldername, albumId, owner)
@@ -158,6 +163,7 @@ def processImages(username, albumname, cursor):
             '''
             .format(foldername, albumId, username)
         )
+        folderId = cursor.lastrowid
 
         for idx, rst in enumerate(results[foldername]):
             # move file and add to database
@@ -168,7 +174,8 @@ def processImages(username, albumname, cursor):
             oldFilePath = albumPath / filename
             newFilePath = folderPath / newFileName
             shutil.move(str(oldFilePath), str(newFilePath))
-            folderId = cursor.lastrowid
+            #folderId = cursor.lastrowid
+            # print("inserting into photos ", newFileName, folderId, albumId, username)
             cursor.execute(
                 '''
                 INSERT INTO photos (photoname, photoScore, isRecommended, folderId, albumId, owner)
@@ -177,7 +184,7 @@ def processImages(username, albumname, cursor):
                 '''
                 .format(newFileName, score, isRecommended, folderId, albumId, username)
             )
-
+    # print("Process image done!")
 
 """
 {

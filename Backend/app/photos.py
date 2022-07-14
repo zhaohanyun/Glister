@@ -72,7 +72,6 @@ def deletePhoto(request):
         .format(photoId)
     )
     photoname = cursor.fetchall()[0][0]
-    # print("photoname:", photoname)
     
     # delete from fileStorage
     dirPath = settings.MEDIA_ROOT / username / albumname / foldername;
