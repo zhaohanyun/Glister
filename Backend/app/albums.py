@@ -132,16 +132,18 @@ def processVideo(username, albumname, filename, cursor):
     filePath = albumPath / filename
     # extract photos from videos
     os.system('python3 utils/extract.py --video {} --sampling 0.5 --output-root {}'.format(str(filePath), str(albumPath)))
-    # not sure whether to use fileStorageSystem here
-    os.remove(filePath)
-    processImages(username, albumname, filename, cursor)
+    outputDir = filename[:-4] + '_frames'
+    outputPath = albumPath / outputDir
+    for f in os.listdir(outputPath):
+        shutil.move(str(outputPath / f), str(albumPath / f))
+    os.rmdir(outputPath)
+    processImages(username, albumname, cursor)
 
 
-def processImages(username, albumname, filename, cursor):
+def processImages(username, albumname, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
-    filePath = albumPath / filename
     # classify and score photos
-    results = classifyAndScorePhotos(str(filePath))
+    results = classifyAndScorePhotos(albumPath)
     for foldername in results:
         # create new folder and add to database
         folderPath = albumPath / foldername
@@ -156,8 +158,11 @@ def processImages(username, albumname, filename, cursor):
             (foldername, albumId, username, )
         )
 
-        for idx, (filename, score, isRecommended) in enumerate(results[foldername].items()):
+        for idx, rst in enumerate(results[foldername]):
             # move file and add to database
+            filename = rst['filename']
+            score = rst['score']
+            isRecommended = rst['isRecommended']
             newFileName = "{}_{}_{}_{}".format(username, albumname, foldername, idx)
             oldFilePath = albumPath / filename
             newFilePath = folderPath / newFileName
@@ -195,4 +200,5 @@ def classifyAndScorePhotos(filePath):
         results[foldername].append({'filename': filename, 
                                     'score': score,
                                     'isRecommended': 1 if score > 60 else 0})
+    return results
 
