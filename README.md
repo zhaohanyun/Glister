@@ -211,49 +211,10 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
 
 
  ## View UI/UX
-### Usability Test Results
-#### Numerical Results
-![usabilityTestResults](/projectManagement/images/usabilityTestResults.png)
-#### Summary of Findings
-- Strengths
-  - Users can all upload the photos or videos they want and record the videos
-  - Users can all view or star the photos easily 
-  - Users all know how to download photos
+ <!--
+ leave this section blank for now.  You will populate it with your UI/UX design in a latter assignment. 
+ -->
 
-- Problems
-  - Hard to find the object focus feature
-    - Object focus button is alongside upload button and it confuses users
-  - Hard to be aware of current stage
-  - The 'reco' tag on the recommended photos is confusing
-  - Hard to find the save button after editing photos
-    - The photo is displayed in full screen and it covers the save button
-
-### Design Justification
-![designJustification1](/projectManagement/images/designJustification1.png)
-![designJustification2](/projectManagement/images/designJustification2.png)
-![designJustification3](/projectManagement/images/designJustification3.png)
-![designJustification4](/projectManagement/images/designJustification4.png)
-
-### Final UI/UX Design
-#### Real-Time Recording or Upload local Photos/Videos
-![UIUXFeature1](/projectManagement/images/UIUXFeature1.png)
-- First, users can tap on left-bottom button to define a specific object focus. Users can either input the object by text or audio.
-- Second, users can upload photos or videos. There are two ways of uploading:
-  - Users can tap on the record button to start real-time recording.
-  - Users can tap on the middle-bottom button to upload local images or videos.
-
-#### Get Recommended Photos
-![UIUXFeature2](/projectManagement/images/UIUXFeature2.png)
-- Users can view the photo gallery extracted from the video or photos they uploaded and filtered by the object focus they define.
-- Users can see the score at right-bottom of the photo and the "thumb up" on left-top of the photo implies the photo is recommended.
-- Users can tap on the "star" on right-top of the photo to star it as favorite.
-- Users can go to the "My favorits" folder to see all the photos they have starred.
-
-#### Save Best Moments
-![UIUXFeature3](/projectManagement/images/UIUXFeature3.png)
-- Users can preview the photo by tapping on the photo itself.
-- Users can tap on the right-bottom button to download the photo.
-- Users can tap on the right-bottom button to edit the downloaded photo.
  ## Team Roster
  <!--
  a list of team members and each member's contribution. You may simply list each member's full name for now, leaving the contribution description to the end of term. Should you want to make your GitHub public at the end of term, what do you want visitors (potential employer) to know about your contribution to this project?  
@@ -262,18 +223,19 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
 
   - ​     Finish the UI of the feature of "View scored photos".
-
-
-  - ​     Finish the front end work of the feature of "Get recommended photos".
-
-
-  - ​     Finish the front end work of the feature of "Star photos".
-
-
-  - ​     Finish the feature of "Download photos to local".
-
-
-  - ​     Finish the feature of "Adjust photos".
+  
+  
+    - ​     Finish the front end work of the feature of "Get recommended photos".
+  
+  
+    - ​     Finish the front end work of the feature of "Star photos".
+  
+  
+    - ​     Finish the feature of "Download photos to local".
+  
+  
+    - ​     Finish the feature of "Adjust photos".
+  
 
 
 
@@ -288,20 +250,22 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
 
     
 
--  Simin Fan olivia-fsm@sjtu.edu.cn
-   - Finish testing and deploying image object relatedness scoring model
-   - Finish finetuning and deploying image aesthetic-base assessment scoring model
-   - Finish image construction pattern recognition scoring system
--  Yuchen Xu tonyxu0305@sjtu.edu.cn
--  Yuqing Qiu qiuyuqing@sjtu.edu.cn 
-   -  Finish writing and debugging backend API "getAlbums", "getFolders" and "getPhotos" for the feature of "view scored photos" and "get recommended photos"
-   -  Finish writing and debugging backend API "editAlbum" for the feature of "rename the photo folder
-   -  Finish writing and debugging backend API "starPhoto" for the feature of "star photos"
-   -  Finish writing backend API "deletePhoto" for the feature of "modify photos"
-   -  Finish writing backend API "postAlbum" and subfunctions "processVideo" and "processImages" for the feature of "Real-time recording", "Upload photos" and "Upload videos"
-   -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
-   -  Finish setting up the database
--  Zechen Huang huangzechen@sjtu.edu.cn  
+- Simin Fan olivia-fsm@sjtu.edu.cn
+
+  - ​	Implement object detection and classification
+
+  - ​	Implement aesthetic evaluation
+
+- Yuchen Xu tonyxu0305@sjtu.edu.cn
+- Yuqing Qiu qiuyuqing@sjtu.edu.cn 
+  -  Finish writing and debugging backend API "getAlbums", "getFolders" and "getPhotos" for the feature of "view scored photos" and "get recommended photos"
+  -  Finish writing and debugging backend API "editAlbum" for the feature of "rename the photo folder
+  -  Finish writing and debugging backend API "starPhoto" for the feature of "star photos"
+  -  Finish writing backend API "deletePhoto" for the feature of "modify photos"
+  -  Finish writing backend API "postAlbum" and subfunctions "processVideo" and "processImages" for the feature of "Real-time recording", "Upload photos" and "Upload videos"
+  -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
+  -  Finish setting up the database
+- Zechen Huang huangzechen@sjtu.edu.cn  
    - Deploy the backend frameworks and tools on the cloud server.
    - Configure the backend directory and write shell scripts to control the app.
    - Test and debug skeletal functions.
