@@ -251,4 +251,11 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
 -  Simin Fan olivia-fsm@sjtu.edu.cn
 -  Yuchen Xu tonyxu0305@sjtu.edu.cn
 -  Yuqing Qiu qiuyuqing@sjtu.edu.cn 
+   -  Finish writing and debugging backend API "getAlbums", "getFolders" and "getPhotos" for the feature of "view scored photos" and "get recommended photos"
+   -  Finish writing and debugging backend API "editAlbum" for the feature of "rename the photo folder
+   -  Finish writing and debugging backend API "deletePhoto" for the feature of "modify photos"
+   -  Finish writing and debugging backend API "starPhoto" for the feature of "star photos"
+   -  Finish writing backend API "postAlbum" and subfunctions "processVideo" and "processImages" for the feature of "Real-time recording", "Upload photos" and "Upload videos"
+   -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
+   -  Finish setting up the database
 -  Zechen Huang huangzechen@sjtu.edu.cn  
