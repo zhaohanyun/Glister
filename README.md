@@ -55,7 +55,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
  describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
  -->
 
-- `POST /image` <!-- å¸¦æ–‡ä»¶çš„http requestä¸�ä¼šå†?-->
+<!-- - `POST /image`
   
   Use **OkHttp SDK** to upload a photo to server using `multipart/form-data` representation/encoding.
   
@@ -112,7 +112,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
 
   *Return*: a JSON object that contains a list of all urls and a list of all scores of images in this project. And later use these url to download previews for each image in the project. We use the image view `.load()` extension from the **Coil SDK** to download the image directly from its URL under expected resolution. <!--also employing a crossfade effect to *mimic* progressive JPEG.-->
 
-  ```javascript
+  <!-- ```javascript
   {
       "urls":[url1, url2, ...],
       "scores":[score1, score2, ...]
@@ -134,7 +134,92 @@ put a copy of your Storymap here.  List all components of your engine architectu
   - 404 if user or project does not exist
   - 422 if invalid focus  
     
-  
+   --> -->
+
+## *user identification
+
+> 可以先不用这一块；
+>
+> 后面的函数的参数里(username, albumname)什么的用来控制用户session和权限的，也可以先不用管；
+
+```python
+login(username: str, password: str)
+```
+
+
+
+## albums and folders
+
+```python
+# input: username
+# output: a list of albums of this user
+"""
+{
+    "albums": ["albumname1", "albumname2", "albumname3", ...]
+}
+"""
+# GET /getalbums?username=
+getAlbums(username: str) -> list[str]
+
+# Upload video to the server, and create a new album.
+# input: username, album name, the uploaded video
+# POST /postalbum?username=&albumname=&image=&video=
+postAlbum(username: str, albumname: str, video)
+
+
+# input: username, album to edit, new album name
+# GET /editalbum?username=&albumname=&newalbumname=
+editAlbum(username: str, albumname: str, newAlbumname: str)
+
+
+# input: username, album to open
+# output: a list of foldernames in the album
+"""
+{
+    "folders": ["foldername1", "foldername2", "foldername3", ...]
+}
+"""
+# GET /getfolders?username=&albumname=
+getFolders(username: str, albumname: str) -> list[str]
+
+
+```
+
+
+## photos (in a folder)
+
+```python
+Photo:
+    photoId int
+    photoUri str
+    isRecommended bool
+    isStarred bool
+    score int
+
+# input: user name, album name, folder to open (e.g. default/tree/people/favourite)
+# output: a list of photos in this folder
+"""
+{
+    "photos": [{"photoId": 0, "photo_url": photo_url1, "score": score1, "isRecommended": 0, "isStarred": 0},
+               {"photoId": 1, "photo_url": photo_url2, "score": score2, "isRecommended": 1, "isStarred": 1},
+               ...
+              ]
+}
+"""
+# GET /getfolders?username=&albumname=&foldername=&
+getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
+
+
+# input: photo id, whether to star or unstar the photo (1 for star, 0 for unstar)
+# GET /starphoto?photoid=&star=
+starPhoto(photoId: int, star: int)
+
+# input: user name, album name, folder name, photo id to delete
+# GET /deletephoto?username=&albumname=&foldername=&photoid=
+deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
+```
+
+
 
  ## View UI/UX
  <!--
