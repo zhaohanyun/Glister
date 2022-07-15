@@ -152,11 +152,11 @@ put a copy of your Storymap here.  List all components of your engine architectu
 	             
 	             Finish the UI of the feature of "View scored photos".
 
-	             Finish the UI of the feature of "Get recommended photos".
+	             Finish the front end work of the feature of "Get recommended photos".
 
-	             Finish the UI of the feature of "Star photos".
+	             Finish the front end work of the feature of "Star photos".
 
-	             Finish the UI of the feature of "Download photos to local".
+	             Finish the feature of "Download photos to local".
 
 	             Finish the feature of "Adjust photos".
 
