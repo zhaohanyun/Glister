@@ -134,7 +134,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
   - 404 if user or project does not exist
   - 422 if invalid focus  
     
-   --> -->
+   -->
 
 ## albums and folders
 
