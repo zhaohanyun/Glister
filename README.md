@@ -148,7 +148,8 @@ put a copy of your Storymap here.  List all components of your engine architectu
 
 -  Enzhi Zhang ez_zhang@sjtu.edu.cn
 
-	Contribution:Finish the feature of "View scored photos".
+	Contribution:
+	             Finish the feature of "View scored photos".
 
 	             Finish the feature of "Get recommended photos".
 
