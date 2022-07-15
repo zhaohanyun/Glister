@@ -259,3 +259,7 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
    -  Finish setting up the database
 -  Zechen Huang huangzechen@sjtu.edu.cn  
+   - Deploy the backend frameworks and tools on the cloud server.
+   - Configure the backend directory and write shell scripts to control the app.
+   - Test and debug skeletal functions.
+   - Write the APIs.
