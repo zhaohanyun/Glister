@@ -210,10 +210,49 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
 
 
  ## View UI/UX
- <!--
- leave this section blank for now.  You will populate it with your UI/UX design in a latter assignment. 
- -->
+### Usability Test Results
+#### Numerical Results
+![usabilityTestResults](/projectManagement/images/usabilityTestResults.png)
+#### Summary of Findings
+- Strengths
+  - Users can all upload the photos or videos they want and record the videos
+  - Users can all view or star the photos easily 
+  - Users all know how to download photos
 
+- Problems
+  - Hard to find the object focus feature
+    - Object focus button is alongside upload button and it confuses users
+  - Hard to be aware of current stage
+  - The 'reco' tag on the recommended photos is confusing
+  - Hard to find the save button after editing photos
+    - The photo is displayed in full screen and it covers the save button
+
+### Design Justification
+![designJustification1](/projectManagement/images/designJustification1.png)
+![designJustification2](/projectManagement/images/designJustification2.png)
+![designJustification3](/projectManagement/images/designJustification3.png)
+![designJustification4](/projectManagement/images/designJustification4.png)
+
+### Final UI/UX Design
+#### Real-Time Recording or Upload local Photos/Videos
+![UIUXFeature1](/projectManagement/images/UIUXFeature1.png)
+- First, users can tap on left-bottom button to define a specific object focus. Users can either input the object by text or audio.
+- Second, users can upload photos or videos. There are two ways of uploading:
+  - Users can tap on the record button to start real-time recording.
+  - Users can tap on the middle-bottom button to upload local images or videos.
+
+#### Get Recommended Photos
+![UIUXFeature2](/projectManagement/images/UIUXFeature2.png)
+- Users can view the photo gallery extracted from the video or photos they uploaded and filtered by the object focus they define.
+- Users can see the score at right-bottom of the photo and the "thumb up" on left-top of the photo implies the photo is recommended.
+- Users can tap on the "star" on right-top of the photo to star it as favorite.
+- Users can go to the "My favorits" folder to see all the photos they have starred.
+
+#### Save Best Moments
+![UIUXFeature3](/projectManagement/images/UIUXFeature3.png)
+- Users can preview the photo by tapping on the photo itself.
+- Users can tap on the right-bottom button to download the photo.
+- Users can tap on the right-bottom button to edit the downloaded photo.
  ## Team Roster
  <!--
  a list of team members and each member's contribution. You may simply list each member's full name for now, leaving the contribution description to the end of term. Should you want to make your GitHub public at the end of term, what do you want visitors (potential employer) to know about your contribution to this project?  
