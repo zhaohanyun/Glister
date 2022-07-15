@@ -136,18 +136,6 @@ put a copy of your Storymap here.  List all components of your engine architectu
     
    --> -->
 
-## *user identification
-
-> 可以先不用这一块；
->
-> 后面的函数的参数里(username, albumname)什么的用来控制用户session和权限的，也可以先不用管；
-
-```python
-login(username: str, password: str)
-```
-
-
-
 ## albums and folders
 
 ```python
