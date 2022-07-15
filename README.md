@@ -56,19 +56,19 @@ put a copy of your Storymap here.  List all components of your engine architectu
  -->
 
 <!-- - `POST /image`
-  
+
   Use **OkHttp SDK** to upload a photo to server using `multipart/form-data` representation/encoding.
-  
+
   *request parameters*:
-  
+
   | form-data part | value        |
   | -------------- | ------------ |
   | `username`     | user name    |
   | `project_name` | project name |
   | `image`        | image file   |
-  
+
   *Response code*:  
-  
+
   - 200 if success  
   - 404 if user or project does not exist  
   
@@ -134,9 +134,10 @@ put a copy of your Storymap here.  List all components of your engine architectu
   - 404 if user or project does not exist
   - 422 if invalid focus  
     
+  
    -->
 
-## albums and folders
+### albums and folders
 
 ```python
 # input: username
@@ -174,7 +175,7 @@ getFolders(username: str, albumname: str) -> list[str]
 ```
 
 
-## photos (in a folder)
+### photos (in a folder)
 
 ```python
 Photo:
