@@ -56,19 +56,19 @@ put a copy of your Storymap here.  List all components of your engine architectu
  -->
 
 <!-- - `POST /image`
-  
+
   Use **OkHttp SDK** to upload a photo to server using `multipart/form-data` representation/encoding.
-  
+
   *request parameters*:
-  
+
   | form-data part | value        |
   | -------------- | ------------ |
   | `username`     | user name    |
   | `project_name` | project name |
   | `image`        | image file   |
-  
+
   *Response code*:  
-  
+
   - 200 if success  
   - 404 if user or project does not exist  
   
@@ -134,9 +134,10 @@ put a copy of your Storymap here.  List all components of your engine architectu
   - 404 if user or project does not exist
   - 422 if invalid focus  
     
+  
    -->
 
-## albums and folders
+### albums and folders
 
 ```python
 # input: username
@@ -174,7 +175,7 @@ getFolders(username: str, albumname: str) -> list[str]
 ```
 
 
-## photos (in a folder)
+### photos (in a folder)
 
 ```python
 Photo:
@@ -288,6 +289,9 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
     
 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
+   - Finish testing and deploying image object relatedness scoring model
+   - Finish finetuning and deploying image aesthetic-base assessment scoring model
+   - Finish image construction pattern recognition scoring system
 -  Yuchen Xu tonyxu0305@sjtu.edu.cn
 -  Yuqing Qiu qiuyuqing@sjtu.edu.cn 
    -  Finish writing and debugging backend API "getAlbums", "getFolders" and "getPhotos" for the feature of "view scored photos" and "get recommended photos"
@@ -298,3 +302,7 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
    -  Finish setting up the database
 -  Zechen Huang huangzechen@sjtu.edu.cn  
+   - Deploy the backend frameworks and tools on the cloud server.
+   - Configure the backend directory and write shell scripts to control the app.
+   - Test and debug skeletal functions.
+   - Write the APIs.
