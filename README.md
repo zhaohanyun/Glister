@@ -150,15 +150,16 @@ put a copy of your Storymap here.  List all components of your engine architectu
 
 	Contribution:
 	             
-	             Finish the feature of "View scored photos".
+	             Finish the UI of the feature of "View scored photos".
 
-	             Finish the feature of "Get recommended photos".
+	             Finish the UI of the feature of "Get recommended photos".
 
-	             Finish the feature of "Star photos".
+	             Finish the UI of the feature of "Star photos".
 
-	             Finish the feature of "Download photos to local".
+	             Finish the UI of the feature of "Download photos to local".
 
 	             Finish the feature of "Adjust photos".
+
 -  Hanyun Zhao zhaohanyun@sjtu.edu.cn 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
 -  Yuchen Xu tonyxu0305@sjtu.edu.cn
