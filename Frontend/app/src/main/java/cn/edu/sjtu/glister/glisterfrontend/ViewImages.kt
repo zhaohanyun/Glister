@@ -24,8 +24,8 @@ class ViewImages : AppCompatActivity() {
     private var images = intArrayOf(R.drawable.lijiang, R.drawable.qiao,
         R.drawable.shuangta, R.drawable.shui, R.drawable.xiangbi)
     // 定义默认显示的图片
-    private var scores = arrayOf("score:5.0(recommended)","score:4.8(recommended)"
-        ,"score:4.9(recommended)","score:4.0","score:4.5(recommended)")
+    private var scores = arrayOf("score:5.0(recommended)","score:4.9(recommended)"
+        ,"score:4.8(recommended)","score:4.5(recommended)","score:4.0")
     private var index = 0
     private var currentImg = 2
     // 定义图片的初始透明度
