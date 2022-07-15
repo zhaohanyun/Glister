@@ -45,7 +45,7 @@ import kotlin.reflect.KProperty
 
 class RecordActivity : AppCompatActivity() {
     fun startEdit(view: View?) = startActivity(Intent(this, EditActivity::class.java))
-    //fun startView(view: View?) = startActivity(Intent(this, ViewImages::class.java))
+    fun startView(view: View?) = startActivity(Intent(this, ViewImages::class.java))
     private val VIDEO_CAPTURE = 101
     private lateinit var startForRecordResult: ActivityResultLauncher<Intent>
     private lateinit var videoView:VideoView
@@ -218,7 +218,7 @@ class RecordActivity : AppCompatActivity() {
 
     private fun submitAlbum() {
         val album = Album(username = "Hanyun",
-            albumname = "07141621")
+            albumname = "454758")
 
         postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri) { msg ->
             runOnUiThread {

@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:name="android.hardware.camera2"
@@ -35,10 +37,10 @@
             android:name=".EditActivity"
             android:label="@string/edit"
             android:parentActivityName=".RecordActivity" />
-        <!--<activity
+        <activity
             android:name=".ViewImages"
             android:label="ViewImages"
-            android:parentActivityName=".RecordActivity" /> -->
+            android:parentActivityName=".RecordActivity" />
         <activity
             android:name=".RecordActivity"
             android:exported="true">

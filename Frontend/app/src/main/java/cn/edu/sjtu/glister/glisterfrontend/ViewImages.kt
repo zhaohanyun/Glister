@@ -1,10 +1,14 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.Image
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -21,6 +25,20 @@ class ViewImages : AppCompatActivity() {
     private var currentImg = 2
     // 定义图片的初始透明度
     private var alpha = 255
+    fun GetPermission()
+    {
+        if (Build.VERSION.SDK_INT >= 23) {
+            val REQUEST_CODE_CONTACT = 101
+            val permissions = arrayOf<String>(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            //验证是否许可权限
+            for (str in permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    //申请权限
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,5 +82,20 @@ class ViewImages : AppCompatActivity() {
             }
             false
         }
+        this.Save.setOnClickListener()
+        {
+            println("bSave clicked!")
+
+            val draw = this.image1.drawable as BitmapDrawable
+            val bitmap = draw.bitmap
+
+            MediaStore.Images.Media.insertImage(
+                contentResolver,
+                bitmap!!,
+                "image_file",
+                "file")
+
+        }
+        GetPermission()
     }
 }
