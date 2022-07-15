@@ -9,31 +9,37 @@
         android:layout_height="wrap_content"
         android:gravity="center">
         <!-- 此处省略三个按钮定义 -->
-        <!--<Button android:id="@+id/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="增大透明度"/>
-        <Button android:id="@+id/minus"
+        <!-- <Button android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="降低透明度"/> -->
         <Button android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="下一张"/>
+            android:text="next"/>
     </LinearLayout>
     <!-- 定义显示图片整体的ImageView -->
+    <TextView android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="score"
+        android:scaleType="fitCenter"/>
     <ImageView android:id="@+id/image1"
         android:layout_width="wrap_content"
         android:layout_height="280dp"
         android:scaleType="fitCenter"/>
 
     <Button
+        android:id="@+id/Star"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Star" />
+    <Button
         android:id="@+id/Save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Save" />
-    <!--android:src="@drawable/shuangta"
-    android:scaleType="fitCenter"/> -->
+    <!-- android:src="@drawable/shuangta" -->
+    android:scaleType="fitCenter"/>
 
 </LinearLayout>
