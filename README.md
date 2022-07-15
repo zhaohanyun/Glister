@@ -55,7 +55,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
  describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
  -->
 
-- `POST /image` <!-- 带文件的http request不会写 -->
+- `POST /image` <!-- 带文件的http request不会�?-->
   
   Use **OkHttp SDK** to upload a photo to server using `multipart/form-data` representation/encoding.
   
@@ -147,6 +147,19 @@ put a copy of your Storymap here.  List all components of your engine architectu
  -->
 
 -  Enzhi Zhang ez_zhang@sjtu.edu.cn
+
+	Contribution:
+	             
+	             Finish the UI of the feature of "View scored photos".
+
+	             Finish the front end work of the feature of "Get recommended photos".
+
+	             Finish the front end work of the feature of "Star photos".
+
+	             Finish the feature of "Download photos to local".
+
+	             Finish the feature of "Adjust photos".
+
 -  Hanyun Zhao zhaohanyun@sjtu.edu.cn 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
 -  Yuchen Xu tonyxu0305@sjtu.edu.cn

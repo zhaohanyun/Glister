@@ -3,6 +3,7 @@ package cn.edu.sjtu.glister.glisterfrontend
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.media.Image
 import android.os.Build
@@ -12,6 +13,7 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_view.*
 import java.time.temporal.TemporalAdjusters.next
 import kotlin.coroutines.EmptyCoroutineContext.plus
@@ -22,6 +24,9 @@ class ViewImages : AppCompatActivity() {
     private var images = intArrayOf(R.drawable.lijiang, R.drawable.qiao,
         R.drawable.shuangta, R.drawable.shui, R.drawable.xiangbi)
     // 定义默认显示的图片
+    private var scores = arrayOf("score:5.0(recommended)","score:4.9(recommended)"
+        ,"score:4.8(recommended)","score:4.5(recommended)","score:4.0")
+    private var index = 0
     private var currentImg = 2
     // 定义图片的初始透明度
     private var alpha = 255
@@ -47,8 +52,17 @@ class ViewImages : AppCompatActivity() {
         //val minus = findViewById<Button>(R.id.minus)
         val image1 = findViewById<ImageView>(R.id.image1)
         val next = findViewById<Button>(R.id.next)
+        val score = findViewById<TextView>(R.id.score)
+        val star = findViewById<Button>(R.id.Star)
         next.setOnClickListener {
             image1.setImageResource(images[++currentImg % images.size])
+            //index = index % 5
+            score.text = scores[index]
+            index = (index + 1) % 5
+            star.setBackgroundColor(Color.parseColor("#3F51B5"))
+        }
+        star.setOnClickListener {
+            star.setBackgroundColor(getResources().getColor(R.color.purple_200))
         }
         // 定义改变图片透明度的方法
         val listener = View.OnClickListener {v ->
