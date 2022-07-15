@@ -55,7 +55,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
  describe how your front-end would communicate with your engine: list and describe your APIs. This is only your initial design, you can change them again later, but you should start thinking about and designing how your front end will communicate with your engine. If you're using existing OS subsystem(s) or 3rd-party SDK(s) to implement your engine, describe how you will interact with these.
  -->
 
-- `POST /image` <!-- 带文件的http request不会�?-->
+- `POST /image` <!-- å¸¦æ–‡ä»¶çš„http requestä¸�ä¼šå†?-->
   
   Use **OkHttp SDK** to upload a photo to server using `multipart/form-data` representation/encoding.
   
@@ -146,21 +146,35 @@ put a copy of your Storymap here.  List all components of your engine architectu
  a list of team members and each member's contribution. You may simply list each member's full name for now, leaving the contribution description to the end of term. Should you want to make your GitHub public at the end of term, what do you want visitors (potential employer) to know about your contribution to this project?  
  -->
 
--  Enzhi Zhang ez_zhang@sjtu.edu.cn
+- Enzhi Zhang ez_zhang@sjtu.edu.cn
 
-	Contribution:
-	             
-	             Finish the UI of the feature of "View scored photos".
+  - ​     Finish the UI of the feature of "View scored photos".
 
-	             Finish the front end work of the feature of "Get recommended photos".
 
-	             Finish the front end work of the feature of "Star photos".
+  - ​     Finish the front end work of the feature of "Get recommended photos".
 
-	             Finish the feature of "Download photos to local".
 
-	             Finish the feature of "Adjust photos".
+  - ​     Finish the front end work of the feature of "Star photos".
 
--  Hanyun Zhao zhaohanyun@sjtu.edu.cn 
+
+  - ​     Finish the feature of "Download photos to local".
+
+
+  - ​     Finish the feature of "Adjust photos".
+
+
+
+- Hanyun Zhao zhaohanyun@sjtu.edu.cn 
+
+  - Finish the feature of recording
+
+  - Finish the feature of upload photos and videos
+  - Finish the feature of specify object in front end
+
+  - Implement API in front end
+
+    
+
 -  Simin Fan olivia-fsm@sjtu.edu.cn
 -  Yuchen Xu tonyxu0305@sjtu.edu.cn
 -  Yuqing Qiu qiuyuqing@sjtu.edu.cn 
