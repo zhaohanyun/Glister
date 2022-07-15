@@ -1,9 +1,15 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
+
 import androidx.databinding.ObservableArrayList
+import com.google.android.material.internal.ContextUtils.getActivity
+import kotlinx.coroutines.Dispatchers.Main
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
@@ -11,6 +17,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 import kotlin.reflect.full.declaredMemberProperties
 
@@ -30,7 +37,7 @@ object AlbumStore {
 
 
     fun postAlbum(
-        context: Context, album: Album, imageUri: Uri?, videoUri: Uri?, //chatt will be replaced later
+        context: Context, album: Album, imageUri: Uri?, videoUri: Uri?,activity: Activity, //chatt will be replaced later
         completion: (String) -> Unit
     )
     //        # Upload video to the server, and create a new album.
@@ -67,6 +74,7 @@ object AlbumStore {
                 falsefile=true
             }
 
+
 //        } ?: unsupported@{
 //            context.toast("Unsupported video format")
 //            return@unsupported
@@ -90,8 +98,10 @@ object AlbumStore {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     //getChatts()
-                    getAlbums(album.username?:"") //I guess we cannot get immediately after post
+                    //getAlbums(album.username?:"") //I guess we cannot get immediately after post
                     completion("new Album posted!")
+                    val intent = Intent (context, ImageActivity::class.java)
+                    activity.startActivity(intent)
                 }
             }
 

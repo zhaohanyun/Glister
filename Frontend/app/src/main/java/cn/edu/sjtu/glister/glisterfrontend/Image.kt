@@ -23,7 +23,22 @@ class ImagePropDelegate private constructor ():
     }
 }
 
-class Image(var score: String? = null,
-            imageUrl: String? = null) {
-    var imageUrl: String? by ChattPropDelegate(imageUrl)
+//class Image(var score: String? = null,
+//            imageUrl: String? = null) {
+//    var imageUrl: String? by ChattPropDelegate(imageUrl)
+//}
+
+//Photo:
+//photoId int
+//photoUri str
+//isRecommended bool
+//isStarred bool
+//score int
+
+class Image(val photoId: Int?=null,
+            photoUri: String? = null,
+            var isRecommended: Boolean = false,
+            var isStarred : Boolean = false,
+            val score: Int? = null){
+    var photoUri: String? by ChattPropDelegate(photoUri)
 }

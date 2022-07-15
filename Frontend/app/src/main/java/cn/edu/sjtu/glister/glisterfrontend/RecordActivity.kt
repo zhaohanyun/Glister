@@ -31,6 +31,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
@@ -40,6 +41,8 @@ import com.google.android.material.navigation.NavigationBarView
 
 
 import kotlinx.android.synthetic.main.activity_record.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -93,7 +96,6 @@ class RecordActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG).show()
             }
         }
-
 
         val forPickedResult =
             registerForActivityResult(ActivityResultContracts.GetContent(), fun(uri: Uri?) {
@@ -211,25 +213,38 @@ class RecordActivity : AppCompatActivity() {
         if (item.itemId == Menu.FIRST) {
             viewState.enableSend = false
             invalidateOptionsMenu()
-            submitAlbum()
+            submitAlbum(this)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun submitAlbum() {
+    private fun submitAlbum(activity: Activity) {
         val album = Album(username = "Hanyun",
-            albumname = "454758")
+            albumname = genAlbumName())
 
-        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri) { msg ->
+
+        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri,activity) { msg ->
             runOnUiThread {
                 toast(msg)
             }
             //finish() //will return to parent?
             //TODO:jump to profile/imageActivity
+
         }
         viewState.enableSend=true
 
     }
+
+    private fun genAlbumName(): String? {
+        val current = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
+        val formatted = current.format(formatter)
+        println(formatted)
+        return formatted
+    }
+
+    //private fun startPost(view: View?) = startActivity(Intent(this, ImageActivity::class.java))
 // onActivityResult已弃用
 //    override fun onActivityResult(requestCode: Int,
 //                                  resultCode: Int, data: Intent?) {

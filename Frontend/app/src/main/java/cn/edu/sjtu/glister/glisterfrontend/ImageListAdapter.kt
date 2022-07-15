@@ -24,7 +24,7 @@ class ImageListAdapter(context: Context, images: List<Image>) :
         getItem(position)?.run {
             //listItemView.scoreTextView.text = username
             listItemView.root.setBackgroundColor(Color.parseColor(if (position % 2 == 0) "#E0E0E0" else "#EEEEEE"))
-            imageUrl?.let {
+            photoUri?.let {
                 listItemView.chattImage.setVisibility(View.VISIBLE)
                 listItemView.chattImage.load(it) {
                     crossfade(true)
