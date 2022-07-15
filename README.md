@@ -250,6 +250,9 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
     
 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
+   - Finish testing and deploying image object relatedness scoring model
+   - Finish finetuning and deploying image aesthetic-base assessment scoring model
+   - Finish image construction pattern recognition scoring system
 -  Yuchen Xu tonyxu0305@sjtu.edu.cn
 -  Yuqing Qiu qiuyuqing@sjtu.edu.cn 
    -  Finish writing and debugging backend API "getAlbums", "getFolders" and "getPhotos" for the feature of "view scored photos" and "get recommended photos"
