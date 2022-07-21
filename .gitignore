@@ -348,3 +348,6 @@ dmypy.json
 Backend/uploads/*
 Backend/app/algorithms/SAMPNet/*
 
+#algorithm and model
+Algorithm/SAMPNet/*
+

@@ -16,9 +16,11 @@ import android.os.Bundle
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
+import android.content.Intent.ACTION_OPEN_DOCUMENT
 
 //import android.support.v7.app.AppCompatActivity
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -51,6 +53,7 @@ class RecordActivity : AppCompatActivity() {
     fun startView(view: View?) = startActivity(Intent(this, ViewImages::class.java))
     private val VIDEO_CAPTURE = 101
     private lateinit var startForRecordResult: ActivityResultLauncher<Intent>
+    private lateinit var forPickedResult: ActivityResultLauncher<String>
     private lateinit var videoView:VideoView
     private val viewState: PostViewState by viewModels()
 
@@ -97,7 +100,7 @@ class RecordActivity : AppCompatActivity() {
             }
         }
 
-        val forPickedResult =
+        forPickedResult =
             registerForActivityResult(ActivityResultContracts.GetContent(), fun(uri: Uri?) {
                 uri?.let {
                     if (it.toString().contains("image"))
@@ -118,8 +121,23 @@ class RecordActivity : AppCompatActivity() {
                         //doCrop(cropIntent)
                     }else
                     {
-                        viewState.videoUri = it
+                        val inStream = contentResolver.openInputStream(it) ?: return
+                        viewState.videoUri = mediaStoreAlloc("video/mp4")
+                        viewState.videoUri?.let {
+                            val outStream = contentResolver.openOutputStream(it) ?: return
+                            val buffer = ByteArray(8192)
+                            var read: Int
+                            while (inStream.read(buffer).also { read = it } != -1) {
+                                outStream.write(buffer, 0, read)
+                            }
+                            outStream.flush()
+                            outStream.close()
+                            inStream.close()
+                        }
                         viewState.videoIcon = android.R.drawable.presence_video_busy
+                        videoView.setVideoURI(viewState.videoUri)
+                        videoView.start()
+                        //viewState.videoUri=it
                         //view.videoButton.setImageResource(viewState.videoIcon)
                     }
                 } ?: run { Log.d("Pick media", "failed") }
@@ -221,7 +239,6 @@ class RecordActivity : AppCompatActivity() {
     private fun submitAlbum(activity: Activity) {
         val album = Album(username = "Hanyun",
             albumname = genAlbumName())
-
 
         postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri,activity) { msg ->
             runOnUiThread {

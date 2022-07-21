@@ -52,7 +52,7 @@ object AlbumStore {
         var falsefile:Boolean = false
 
         imageUri?.run {
-            toFile(context)?.let {
+            toFile(context,this)?.let {
                 mpFD.addFormDataPart(
                     "image", "albumImage",
                     it.asRequestBody("image/jpeg".toMediaType())
@@ -64,7 +64,7 @@ object AlbumStore {
         }
 
         videoUri?.run {
-            toFile(context)?.let {
+            toFile(context,this)?.let {
                 mpFD.addFormDataPart(
                     "video", "albumVideo",
                     it.asRequestBody("video/mp4".toMediaType())
