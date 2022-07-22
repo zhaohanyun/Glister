@@ -224,3 +224,24 @@ def processImages(username, albumname, albumId, outputDir, cursor):
 #                                     'isRecommended': 1 if score > 60 else 0})
 #     return results
 
+@csrf_exempt
+def deleteAlbum(request):
+    if request.method != 'POST':
+             return HttpResponse(status=404)
+    username = request.GET.get("username")
+    albumname = request.GET.get("albumname")
+    print(username, 'is deleting', albumname)
+    
+    dirPath = settings.MEDIA_ROOT / username / albumname
+    shutil.rmtree(dirPath)
+    cursor.execute('PRAGMA foreign_keys=ON')
+    cursor.execute(
+        '''
+        DELETE FROM albums
+        WHERE albumname = {};
+        '''
+        .format(albumname)
+    )
+
+
+    return JsonResponse({})
