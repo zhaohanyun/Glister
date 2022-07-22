@@ -1,10 +1,6 @@
 //take video
 package cn.edu.sjtu.glister.glisterfrontend
 
-import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-
 //class MainActivity : AppCompatActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -13,15 +9,18 @@ import android.os.Bundle
 //}
 
 
+//import android.support.v7.app.AppCompatActivity
+
+
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
-import android.content.Intent.ACTION_OPEN_DOCUMENT
-
-//import android.support.v7.app.AppCompatActivity
 import android.content.pm.PackageManager
-import android.database.Cursor
+import android.hardware.Camera
+import android.hardware.Camera.CameraInfo
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -32,16 +31,10 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
-
-
 import kotlinx.android.synthetic.main.activity_record.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -63,6 +56,11 @@ class RecordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_record)
         videoView=findViewById(R.id.videoView)
         recordButton.isEnabled = hasCamera()
+
+        //test
+//        val info = CameraInfo()
+//        Camera.getCameraInfo(0, info)
+//        val ori=info.orientation
 
         //set up media controller
         val mediaCollection=MediaController(this)
@@ -118,6 +116,7 @@ class RecordActivity : AppCompatActivity() {
                             outStream.close()
                             inStream.close()
                         }
+
                         //doCrop(cropIntent)
                     }else
                     {
