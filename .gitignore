@@ -346,8 +346,8 @@ dmypy.json
 
 *.sqlite3
 Backend/uploads/*
-Backend/app/algorithms/SAMPNet/*
 
 #algorithm and model
 Algorithm/SAMPNet/*
-
+Backend/app/SAMPNet/*
+Backend/app/videoExtract/*

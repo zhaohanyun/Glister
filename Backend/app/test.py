@@ -1,1 +1,1 @@
-import SAMPNet.image_scoring 
+import app.SAMPNet 

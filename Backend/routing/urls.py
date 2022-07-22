@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from app import albums
 from app import photos
 from app import albums
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),

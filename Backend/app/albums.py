@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from pathlib import Path
-
+#from videoExtract.extract import *
+from app.SAMPNet.image_scoring import score_images
 
 """
 {
@@ -133,7 +134,7 @@ def processVideo(username, albumname, albumId, filename, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     filePath = albumPath / filename
     # extract photos from videos
-    os.system('python3 /root/Glister/Backend/app/utils/PyVideoFramesExtractor/extract.py --video {} --sampling 0.5 --output-root {} 2> out.txt'.format(str(filePath), str(albumPath)))
+    os.system('python3 /root/Glister/Backend/app/videoExtract/extract.py --video {} --sampling 0.5 --output-root {} 2> out.txt'.format(str(filePath), str(albumPath)))
     outputDir = filename[:-4] + '_frames'
     os.remove(filePath)
     processImages(username, albumname, albumId, outputDir, cursor)
@@ -143,14 +144,19 @@ def processVideo(username, albumname, albumId, filename, cursor):
 def processImages(username, albumname, albumId, outputDir, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     outputPath = albumPath / outputDir
-    rstPath = "/root/Glister/Backend/app/result.txt"
+    #rstPath = "/root/Glister/Backend/app/result.txt"
     # classify and score photos
-    os.system("python3 /root/Glister/Algorithm/SAMPNet/image_scoring.py --img_dir_path {} --rst_path {} 2> out2.txt".format(str(outputPath), rstPath))
+    #os.system("python3 /root/Glister/Algorithm/SAMPNet/image_scoring.py --img_dir_path {} --rst_path {} 2> out2.txt".format(str(outputPath), rstPath))
     results = {}
-    with open(rstPath, 'r') as openfile:
-        results = json.load(openfile)
-    os.remove(rstPath)
+    #with open(rstPath, 'r') as openfile:
+    #    results = json.load(openfile)
+    #os.remove(rstPath)
     # print("processImages() ", results)
+    
+    results = score_images(str(outputPath))
+
+
+
     for foldername in results:
         # create new folder and add to database
         folderPath = albumPath / foldername
