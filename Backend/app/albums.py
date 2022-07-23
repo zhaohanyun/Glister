@@ -144,24 +144,11 @@ def processVideo(username, albumname, albumId, filename, cursor):
 def processImages(username, albumname, albumId, outputDir, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     outputPath = albumPath / outputDir
-    #rstPath = "/root/Glister/Backend/app/result.txt"
-    # classify and score photos
-    #os.system("python3 /root/Glister/Algorithm/SAMPNet/image_scoring.py --img_dir_path {} --rst_path {} 2> out2.txt".format(str(outputPath), rstPath))
-    results = {}
-    #with open(rstPath, 'r') as openfile:
-    #    results = json.load(openfile)
-    #os.remove(rstPath)
-    # print("processImages() ", results)
-    
     results = score_images(str(outputPath))
-
-
-
     for foldername in results:
         # create new folder and add to database
         folderPath = albumPath / foldername
         os.mkdir(folderPath)
-        # albumId = cursor.lastrowid
         # print("processImage()", foldername, albumId, username)
         cursor.execute(
             '''
@@ -193,36 +180,6 @@ def processImages(username, albumname, albumId, outputDir, cursor):
             )
     shutil.rmtree(outputPath)
     # print("Process image done!")
-
-# """
-# {
-#     "cats" : [{'filename': '1.jpg', 'score': 80, 'isRecommended': 0},
-#               {'filename': '2.jpg', 'score': 90, 'isRecommended': 1},
-#               ......],
-
-#     "dogs" : [{'filename': '3.jpg', 'score': 70, 'isRecommended': 0},
-#               {'filename': '4.jpg', 'score': 100, 'isRecommended': 1},
-#               ......],
-#     ......
-# }
-# """
-# def classifyAndScorePhotos(filePath):
-#     filenames = os.listdir(filePath)
-#     results = {"cats" : [], "dogs" : []}
-#     folders = ['cats', 'dogs']
-#     for i, filename in enumerate(filenames):
-#         score = random.randint(10, 100)
-#         foldername = folders[0]
-#         results[foldername].append({'filename': filename, 
-#                                     'score': score,
-#                                     'isRecommended': 1 if score > 60 else 0})
-#     for i, filename in enumerate(filenames):
-#         score = random.randint(10, 100)
-#         foldername = folders[1]
-#         results[foldername].append({'filename': filename, 
-#                                     'score': score,
-#                                     'isRecommended': 1 if score > 60 else 0})
-#     return results
 
 @csrf_exempt
 def deleteAlbum(request):
