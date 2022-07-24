@@ -191,11 +191,12 @@ def deleteAlbum(request):
     
     dirPath = settings.MEDIA_ROOT / username / albumname
     shutil.rmtree(dirPath)
+    cursor = connection.cursor()
     cursor.execute('PRAGMA foreign_keys=ON')
     cursor.execute(
         '''
         DELETE FROM albums
-        WHERE albumname = {};
+        WHERE albumname = '{}';
         '''
         .format(albumname)
     )
