@@ -104,3 +104,36 @@ def starPhoto(request):
         .format(star, photoId)
     )
     return JsonResponse({})
+
+
+def getFavorites(request):
+    if request.method != 'GET':
+        return HttpResponse(status=404)
+    username = request.GET.get("username")
+    albumname = request.GET.get("albumname")
+    cursor = connection.cursor()
+    cursor.execute(
+        '''
+        SELECT p.photoId, p.photoname, p.photoScore,
+        p.isRecommended, p.isStarred
+        FROM photos p
+        LEFT OUTER JOIN albums a ON a.albumId = p.albumId
+        WHERE p.owner = '{}' AND a.albumname = '{}' AND p.isStarred = 1
+    
+        '''.format(username, albumname)
+    )
+    rows = cursor.fetchall()
+    photos = []
+    for row in rows:
+        photo = {}
+        photo['photoId'] = row[0]
+        photo['photo_url'] = "{}{}/{}/{}/{}.".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
+        photo['score'] = row[2]
+        photo['isRecommended'] = row[3]
+        photo['isStarred'] = row[4]
+        photos.append(photo)
+    response = {}
+    response['photos'] = photos
+    return JsonResponse(response)
+
+

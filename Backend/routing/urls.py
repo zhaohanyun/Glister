@@ -29,4 +29,5 @@ urlpatterns = [
     path('postalbum/', albums.postAlbum, name='postalbum'),
     path('editalbum/', albums.editAlbum, name='editalbum'),
     path('deletealbum/', albums.deleteAlbum, name='deletealbum'),
+    path('getfavorites/', photos.getFavorites, name='getfavorites'),
 ]

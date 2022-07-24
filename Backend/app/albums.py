@@ -216,7 +216,7 @@ def deleteAlbum(request):
     cursor.execute(
         '''
         DELETE FROM albums
-        WHERE albumname = {};
+        WHERE albumname = '{}';
         '''
         .format(albumname)
     )
