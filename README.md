@@ -203,7 +203,7 @@ Photo:
 getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
 
 # GET /getfavorites?username=&albumname=
-getPhotos(username: str, albumname: str) -> list[Photo]
+getFavorites(username: str, albumname: str) -> list[Photo]
 
 # input: photo id, whether to star or unstar the photo (1 for star, 0 for unstar)
 # GET /starphoto?photoid=&star=
