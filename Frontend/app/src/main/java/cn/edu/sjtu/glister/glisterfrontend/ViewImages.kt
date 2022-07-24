@@ -21,11 +21,11 @@ import kotlin.coroutines.EmptyCoroutineContext.plus
 class ViewImages : AppCompatActivity() {
 
     // 定义一个访问图片的数组
-    private var images = intArrayOf(R.drawable.lijiang, R.drawable.qiao,
-        R.drawable.shuangta, R.drawable.shui, R.drawable.xiangbi)
+    private var images = intArrayOf(R.drawable.photo/*R.drawable.lijiang, R.drawable.qiao,
+        R.drawable.shuangta, R.drawable.shui, R.drawable.xiangbi*/)
     // 定义默认显示的图片
-    private var scores = arrayOf("score:5.0(recommended)","score:4.9(recommended)"
-        ,"score:4.8(recommended)","score:4.5(recommended)","score:4.0")
+    private var scores = arrayOf("score:5.0(recommended)"/*,"score:4.9(recommended)"
+        ,"score:4.8(recommended)","score:4.5(recommended)","score:4.0"*/)
     private var index = 0
     private var currentImg = 2
     // 定义图片的初始透明度
@@ -58,7 +58,7 @@ class ViewImages : AppCompatActivity() {
             image1.setImageResource(images[++currentImg % images.size])
             //index = index % 5
             score.text = scores[index]
-            index = (index + 1) % 5
+            index = (index + 1) % 1//5
             star.setBackgroundColor(Color.parseColor("#3F51B5"))
         }
         star.setOnClickListener {
