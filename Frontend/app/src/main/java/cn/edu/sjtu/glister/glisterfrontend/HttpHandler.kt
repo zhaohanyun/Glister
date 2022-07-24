@@ -100,8 +100,8 @@ object AlbumStore {
                     //getChatts()
                     //getAlbums(album.username?:"") //I guess we cannot get immediately after post
                     completion("new Album posted!")
-                    //val intent = Intent (context, ImageActivity::class.java)
-                    val intent = Intent (context, ViewImages::class.java)
+                    val intent = Intent (context, ImageActivity::class.java)
+                    //val intent = Intent (context, ViewImages::class.java)
                     activity.startActivity(intent)
                 }
             }
