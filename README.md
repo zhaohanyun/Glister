@@ -151,14 +151,18 @@ put a copy of your Storymap here.  List all components of your engine architectu
 getAlbums(username: str) -> list[str]
 
 # Upload video to the server, and create a new album.
-# input: username, album name, the uploaded video
-# POST /postalbum?username=&albumname=&image=&video=
-postAlbum(username: str, albumname: str, video)
+# input: username, album name, object focus ("" if None), the uploaded video
+# POST /postalbum?username=&albumname=&focus=&image=&video=
+postAlbum(username: str, albumname: str, focus: str)
 
 
 # input: username, album to edit, new album name
 # GET /editalbum?username=&albumname=&newalbumname=
 editAlbum(username: str, albumname: str, newAlbumname: str)
+
+# input: username, album to delete
+# GET /editalbum?username=&albumname=
+deleteAlbum(username: str, albumname: str)
 
 
 # input: username, album to open
@@ -198,6 +202,8 @@ Photo:
 # GET /getfolders?username=&albumname=&foldername=&
 getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
 
+# GET /getfavorites?username=&albumname=
+getFavorites(username: str, albumname: str) -> list[Photo]
 
 # input: photo id, whether to star or unstar the photo (1 for star, 0 for unstar)
 # GET /starphoto?photoid=&star=
