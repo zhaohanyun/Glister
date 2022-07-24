@@ -98,6 +98,7 @@ def postAlbum(request):
     # loading form-encoded data
     username = request.POST.get("username")
     albumname = request.POST.get("albumname")
+    focus = request.POST.get("focus")
     # print("postalbum()", username, albumname)
     # create new album and add to database
     cursor = connection.cursor()
@@ -118,33 +119,52 @@ def postAlbum(request):
         filename = "{}_{}_{}.jpg".format(username, albumname, str(round(time.time())))
         fs = FileSystemStorage(location=dirpath / "tmp")
         filename = fs.save(filename, content)
-        processImages(username, albumname, albumId, "tmp", cursor)
+        processImages(username, albumname, albumId, focus, "tmp", cursor)
     elif request.FILES.get("video"):
         content = request.FILES['video']
         filename = "{}_{}_{}.mp4".format(username, albumname, str(round(time.time())))
         fs = FileSystemStorage(location=dirpath)
         filename = fs.save(filename, content)
-        processVideo(username, albumname, albumId, filename, cursor)
+        processVideo(username, albumname, albumId, focus, filename, cursor)
     else:
         print("postAlbum() unknown file format:", request.FILES)
     return JsonResponse({})
 
 
-def processVideo(username, albumname, albumId, filename, cursor):
+def processVideo(username, albumname, albumId, focus, filename, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     filePath = albumPath / filename
     # extract photos from videos
     os.system('python3 /root/Glister/Backend/app/videoExtract/extract.py --video {} --sampling 0.5 --output-root {} 2> out.txt'.format(str(filePath), str(albumPath)))
     outputDir = filename[:-4] + '_frames'
     os.remove(filePath)
-    processImages(username, albumname, albumId, outputDir, cursor)
+    processImages(username, albumname, albumId, focus, outputDir, cursor)
     # print("process video done!")
 
 
-def processImages(username, albumname, albumId, outputDir, cursor):
+"""
+{
+    "cats" : [{'filename': '1.jpg', 'score': 80, 'isRecommended': 0},
+              {'filename': '2.jpg', 'score': 90, 'isRecommended': 1},
+              ......],
+
+    "dogs" : [{'filename': '3.jpg', 'score': 70, 'isRecommended': 0},
+              {'filename': '4.jpg', 'score': 100, 'isRecommended': 1},
+              ......],
+    ......
+}
+"""
+def processImages(username, albumname, albumId, focus, outputDir, cursor):
     albumPath = settings.MEDIA_ROOT / username / albumname
     outputPath = albumPath / outputDir
-    results = score_images(str(outputPath))
+    scoreResults = score_images(str(outputPath))
+    results = {}
+
+    if focus != "":
+        results[focus] = scoreResults[focus] if focus in scoreResults else []
+    else:
+        results = scoreResults
+
     for foldername in results:
         # create new folder and add to database
         folderPath = albumPath / foldername
@@ -191,6 +211,7 @@ def deleteAlbum(request):
     
     dirPath = settings.MEDIA_ROOT / username / albumname
     shutil.rmtree(dirPath)
+    cursor = connection.cursor()
     cursor.execute('PRAGMA foreign_keys=ON')
     cursor.execute(
         '''

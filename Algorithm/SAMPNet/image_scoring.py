@@ -3,7 +3,7 @@ from torch import nn
 from torchvision.models import resnet50
 import torchvision.transforms as T
 import torch
-from samp_net import SAMPNet
+from app.SAMPNet.samp_net import SAMPNet
 from torch.utils.data import Dataset, DataLoader
 import torch
 import torch.nn.functional as F
@@ -13,10 +13,11 @@ import json
 import torchvision.transforms as transforms
 import random
 import numpy as np
-from config import Config
+from app.SAMPNet.config import Config
 import cv2
 import matplotlib.pyplot as plt
 import argparse
+import operator
 
 IMAGE_NET_MEAN = [0.485, 0.456, 0.406]
 IMAGE_NET_STD = [0.229, 0.224, 0.225]
@@ -220,27 +221,28 @@ def get_obj_result(img_path=None,
                    transform=transform, ):
     if img_path is None:
         # print("==== DEMO Mode ====")
-        # TODO: REPLACE <img_path> TO THE PATH OF YOUR DEMO IMAGE #
-        img_path = '/home/oliviaaa/VE441/Image-Composition-Assessment-with-SAMP/SAMPNet/raw_images/000000039769.jpg'
+        img_path = '/root/Glister/Backend/app/SAMPNet/raw_images/000000039769.jpg'
     if img_path.startswith("http"):
         im = Image.open(requests.get(img_path, stream=True).raw)
     else:
         im = Image.open(img_path)
     scores, boxes = detect(im, detr, transform)
     obj_score_dict = {}
+    objs = []
     for p, (_, _, _, _), c in zip(scores, boxes.tolist(), COLORS * 100):
         cl = p.argmax()
         obj_cls = CLASSES[cl]
         obj_score = p[cl]
         text = f'{CLASSES[cl]}: {p[cl]:0.2f}'
         obj_score_dict[obj_cls] = obj_score
+        objs.append(obj_cls)
 
     if plot:
         print("=== image path ===")
         for i, s in obj_score_dict.items():
             print(f"{i} => {np.round(s,2)}")
         plot_results(im, scores, boxes)
-    return obj_score_dict
+    return objs
 
 # ==================== Aesthetic Assessment ==================== #
 # Refer to: Saliency detection: A spectral residual approach
@@ -292,8 +294,7 @@ img_transformer = transforms.Compose([
 def get_img(image_file):
     if image_file is None:
         print("==== DEMO Mode ====")
-        # TODO: REPLACE <img_path> TO THE PATH OF YOUR DEMO IMAGE #
-        image_file = '/home/oliviaaa/VE441/Image-Composition-Assessment-with-SAMP/SAMPNet/raw_images/000000039769.jpg'
+        image_file = '/root/Glister/Backend/app/SAMPNet/raw_images/000000039769.jpg'
     if image_file.startswith("http"):
         src = Image.open(requests.get(
             image_file, stream=True).raw).convert('RGB')
@@ -318,38 +319,45 @@ def dist2ave(pred_dist):
 ### FINAL FUNCTION ###
 
 
-def assess_img(image_file_path, plot=False):
+def score_images(image_dir_path, plot=False):
+    filenames = os.listdir(image_dir_path)
+    results = {}
+    for filename in filenames:
+        image_file_path = image_dir_path + "/" + filename
+        im, sal = get_img(image_file_path)
+        weight, attribute, output_score = model(im, sal)
+        # if weight is not None:
+        #     print('weight', weight.shape, F.softmax(weight, dim=1))
+        # if attribute is not None:
+        #     print('attribute', attribute.shape, attribute)
+        pred_score = dist2ave(output_score)
+        pred_score = np.round(pred_score.squeeze().item(), 4)
 
-    im, sal = get_img(image_file_path)
-    weight, attribute, output_score = model(im, sal)
-    # if weight is not None:
-    #     print('weight', weight.shape, F.softmax(weight, dim=1))
-    # if attribute is not None:
-    #     print('attribute', attribute.shape, attribute)
-    pred_score = dist2ave(output_score)
-    pred_score = np.round(pred_score.squeeze().item(), 4)
-    print('Final Score => ', pred_score)
-
-    obj_score_dict = get_obj_result(image_file_path, plot)
-    return {
-        "image_path": image_file_path,
-        "raw_image": im.squeeze().detach().numpy(),
-        "saliency_map": sal.squeeze().detach().numpy(),
-        "object_dict": obj_score_dict,
-        "pattern_weights": weight.squeeze().detach().numpy(),
-        "final score": pred_score}
+        objs = get_obj_result(image_file_path, plot)
+        for obj in objs:
+            if obj not in results:
+                results[obj] = []
+            results[obj].append({'filename': filename, 'score': int(pred_score * 20), 'isRecommended': 0})
+        for rst in results.values():
+            rst.sort(key=operator.itemgetter('score'))
+            rst[0]['isRecommended'] = 1
+    return results
 
 
 #########################################################################
 # Prepare Parser
 ##########################################################################
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--img_path', required=False, default=None,
-                        help='input image path')
-    parser.add_argument('--plot', type=bool, required=False, default=False,
-                        help='whether plot the image with detected objects')
-    args = parser.parse_args()
-    img_results = assess_img(args.img_path, args.plot)
-    # obj_score_dict = get_obj_result(args.img_path, args.plot)
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--img_dir_path', required=True, default=None,
+#                         help='input image path')
+#     parser.add_argument('--plot', type=bool, required=False, default=False,
+#                         help='whether plot the image with detected objects')
+#     parser.add_argument('--rst_path', required=True, default=False,
+#                         help='output file path')
+#     args = parser.parse_args()
+#     results = score_images(args.img_dir_path, args.plot)
+#     json_object = json.dumps(results, indent=4)
+#     with open(args.rst_path, "w+") as outfile:
+#         outfile.write(json_object)
