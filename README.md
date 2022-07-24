@@ -151,7 +151,7 @@ put a copy of your Storymap here.  List all components of your engine architectu
 getAlbums(username: str) -> list[str]
 
 # Upload video to the server, and create a new album.
-# input: username, album name, object focus ("" if None), the uploaded video
+# input: username, album name, object focus ("" if not define), the uploaded video
 # POST /postalbum?username=&albumname=&focus=&image=&video=
 postAlbum(username: str, albumname: str, focus: str)
 
