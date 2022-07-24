@@ -160,7 +160,7 @@ def processImages(username, albumname, albumId, focus, outputDir, cursor):
     scoreResults = score_images(str(outputPath))
     results = {}
 
-    if focus != "":
+    if focus != None:
         results[focus] = scoreResults[focus] if focus in scoreResults else []
     else:
         results = scoreResults
