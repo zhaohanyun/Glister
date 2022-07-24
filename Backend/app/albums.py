@@ -32,7 +32,7 @@ def getAlbums(request):
         '''
         .format(username)
     )
-    rows = cursor.fetchall()
+    rows = [i[0] for i in cursor.fetchall()]
     response = {}
     response['albums'] = rows
     return JsonResponse(response)
@@ -61,7 +61,7 @@ def getFolders(request):
         '''
         .format(username, albumname, )
     )
-    rows = cursor.fetchall()
+    rows = [i[0] for i in cursor.fetchall()]
     response = {}
     response['folders'] = rows
     return JsonResponse(response)
@@ -220,6 +220,4 @@ def deleteAlbum(request):
         '''
         .format(albumname)
     )
-
-
     return JsonResponse({})
