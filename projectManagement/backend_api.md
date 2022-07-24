@@ -13,30 +13,38 @@ login(username: str, password: str)
 ## albums and folders
 
 ```python
-# input: username
-# output: a list of albums of this user (e.g. Jay Chou concert, NBA live)
 # GET /getalbums?username=
+# input: username
+# output: a list of album names of this user (e.g. Jay Chou concert, NBA live)
+#          {"albums": ["albumname1", "albumname2", "albumname3", ...]}
 getAlbums(username: str) -> list[str]
 
 
+# POST /postalbum?username=&albumname=&image=&video=
 # Upload video to the server, and create a new album.
 # input: username, album name, the uploaded video
-# output: a list of albums of this user
-# POST /postalbum?username=&albumname=&image=&video=
-postAlbum(username: str, albumname: str, video) -> list[str]
+# output: {}
+postAlbum(username: str, albumname: str, video)
 
 
-# input: username, album to edit, new album name
-# output: a list of albums of this user
 # GET /editalbum?username=&albumname=&newalbumname=
-editAlbum(username: str, albumname: str, newAlbumname: str) -> list[str]
+# input: username, album to edit, new album name
+# output: {}
+editAlbum(username: str, albumname: str, newAlbumname: str)
 
 
+# GET /getfolders?username=&albumname=
 # input: username, album to open
 # output: a list of foldernames in the album
-# GET /getfolders?username=&albumname=
+#	      {"folders": ["foldername1", "foldername2", "foldername3", ...]}
 getFolders(username: str, albumname: str) -> list[str]
 
+
+
+# POST /deleteAlbum?username=&albumname=
+# input: user name and album name to be deleted
+# output: {}
+deleteAlbum(username: str, albumname: str)
 ```
 
 
@@ -51,18 +59,25 @@ Photo:
     isStarred bool
     score int
 
+    
+# GET /getfolders?username=&albumname=&foldername=&
 # input: user name, album name, folder to open (e.g. default/tree/people/favourite)
 # output: a list of photos in this folder
-# GET /getfolders?username=&albumname=&foldername=&
 getPhotos(username: str, albumname: str, foldername: str) -> list[Photo]
 
-# input: ..., whether to star or unstar the photo (1 for star, 0 for unstar)
-# output: editted photo
-# GET /starphoto?photoid=&star=
-starPhoto(photoId: int, star: int) -> Photo
 
-# input: ..., photo to delete
+# GET /starphoto?photoid=&star=
+# input: ..., whether to star or unstar the photo (1 for star, 0 for unstar)
+# output: {}
+starPhoto(photoId: int, star: int) 
+
 # GET /deletephoto?username=&albumname=&foldername=&photoid=
+# input: ..., photo to delete
 deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
+
+# GET /getfavorites?username=&albumname=&
+# input: username, album name
+# output: a list of starred photos in the album
+getFavorites(username: str, albumname: str) -> list[Photo]
 ```
 
