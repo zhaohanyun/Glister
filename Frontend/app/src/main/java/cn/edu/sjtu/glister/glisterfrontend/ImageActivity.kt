@@ -75,7 +75,7 @@ class ImageActivity : AppCompatActivity() {
         override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) { }
     }
     private fun refreshTimeline() {
-        getImages("Hanyun","20220715_121710","cat")
+        getImages("Hanyun","20220725_055244","cat")
 
         // stop the refreshing animation upon completion:
         view.refreshContainer.isRefreshing = false

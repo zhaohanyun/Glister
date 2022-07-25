@@ -99,17 +99,22 @@ object AlbumStore {
                 if (response.isSuccessful) {
                     //getChatts()
                     //getAlbums(album.username?:"") //I guess we cannot get immediately after post
+
                     completion("new Album posted!")
-                    val intent = Intent (context, ImageActivity::class.java)
-                    //val intent = Intent (context, ViewImages::class.java)
-                    activity.startActivity(intent)
+                    val intent = Intent (context, AlbumFolderActivity::class.java)
+                    intent.putExtra("username","Hanyun")
+                    activity.startActivity(intent) //go to album folder page
+
+//                    val intent = Intent (context, ImageActivity::class.java) //go to image folder page
+//                    //val intent = Intent (context, ViewImages::class.java)
+//                    activity.startActivity(intent)
                 }
             }
 
         })
     }
 
-    fun getAlbums(username:String)
+    fun getAlbums(context: Context,username:String,activity: Activity)
 //        # input: username
 //        # output: a list of albums of this user (e.g. Jay Chou concert, NBA live)
 //        # GET /getalbums?username=&albumname=
@@ -134,9 +139,22 @@ object AlbumStore {
                     println("You have albums:")
                     for (i in 0 until albumsReceived.length()) {
                         println(albumsReceived[i])
+                        albums.add(Album(username, albumsReceived[i] as String?)) //update Model
+                    }
+                    val albumnames = Array(albumsReceived.length()) {
+                        albumsReceived.getString(it)
                     }
                     //TODO: use these name to generate view of album folders
+
+                    //bad implementation!
+//                    val intent = Intent (context, AlbumFolderActivity::class.java)
+//                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
+//                    intent.putExtra("username",username)
+//                    activity.startActivity(intent)
+
+
                 }
+
 
             }
         })

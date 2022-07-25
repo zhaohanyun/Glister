@@ -32,7 +32,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import kotlinx.android.synthetic.main.activity_record.*
@@ -173,6 +175,9 @@ class RecordActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     // Respond to navigation item 2 click
+                    val intent = Intent (applicationContext, AlbumFolderActivity::class.java)
+                    intent.putExtra("username","Hanyun")
+                    this.startActivity(intent) //go to album folder page
                     true
                 }
                 else -> false
@@ -293,13 +298,7 @@ class PostViewState: ViewModel() {
 }
 
 class Album(var username: String? = null,
-            var albumname: String? = null,
-            var timestamp: String? = null,
-            imageUrl: String? = null,
-            videoUrl: String? = null) {
-    var imageUrl: String? by ChattPropDelegate(imageUrl)
-    var videoUrl: String? by ChattPropDelegate(videoUrl)
-}
+            var albumname: String? = null)
 
 //only used for test ****************************
 class Chatt(var username: String? = null,

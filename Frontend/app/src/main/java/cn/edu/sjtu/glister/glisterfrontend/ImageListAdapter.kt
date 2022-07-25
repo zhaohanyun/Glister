@@ -39,14 +39,14 @@ class ImageListAdapter(context: Context, images: List<Image>) :
                 val bitmap = draw.bitmap
 
                 MediaStore.Images.Media.insertImage(
-                    contentResolver,
+                    context.getContentResolver(),
                     bitmap!!,
                     "image_file",
                     "file")
 
             }
             listItemView.star.setOnClickListener {
-                listItemView.star.setBackgroundColor(getResources().getColor(R.color.purple_200))
+                listItemView.star.setBackgroundColor(context.getResources().getColor(R.color.purple_200))
             }
             listItemView.root.setBackgroundColor(Color.parseColor(if (position % 2 == 0) "#E0E0E0" else "#EEEEEE"))
             photoUri?.let {

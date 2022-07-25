@@ -57,6 +57,12 @@
             android:label="@string/preview"
             android:parentActivityName=".RecordActivity" />
 
+        <activity
+            android:name=".AlbumFolderActivity"
+            android:label="AlbumFolderActivity"
+            android:parentActivityName=".RecordActivity" />
+
+
 
 <!--        <activity-->
 <!--            android:name=".PopupActivity" />-->
