@@ -44,8 +44,8 @@ def getPhotos(request):
         photo['photoId'] = row[0]
         photo['photo_url'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
         photo['score'] = row[2]
-        photo['isRecommended'] = row[3]
-        photo['isStarred'] = row[4]
+        photo['isRecommended'] = bool(row[3])
+        photo['isStarred'] = bool(row[4])
         photos.append(photo)
     response = {}
     response['photos'] = photos
@@ -129,8 +129,8 @@ def getFavorites(request):
         photo['photoId'] = row[0]
         photo['photo_url'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
         photo['score'] = row[2]
-        photo['isRecommended'] = row[3]
-        photo['isStarred'] = row[4]
+        photo['isRecommended'] = bool(row[3])
+        photo['isStarred'] = bool(row[4])
         photos.append(photo)
     response = {}
     response['photos'] = photos
