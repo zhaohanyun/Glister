@@ -15,7 +15,9 @@ class ImagePropDelegate private constructor ():
             field = if (newValue == "null" || newValue.isEmpty()) null else newValue
         }
 
-    constructor(initialValue: String?): this() { _value = initialValue }
+    constructor(initialValue: String?): this() {
+        _value = initialValue
+    }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>) = _value
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
@@ -36,9 +38,9 @@ class ImagePropDelegate private constructor ():
 //score int
 
 class Image(val photoId: Int?=null,
-            photoUri: String? = null,
+            val photoUri: String? = null,
             var isRecommended: Boolean = false,
             var isStarred : Boolean = false,
             val score: Int? = null){
-    var photoUri: String? by ImagePropDelegate(photoUri)
+    //var photoUri: String? by ImagePropDelegate(photoUri) //Gson.fromJson will not call constructor
 }

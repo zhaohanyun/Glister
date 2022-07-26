@@ -55,7 +55,7 @@
         <activity
             android:name=".ImageActivity"
             android:label="@string/preview"
-            android:parentActivityName=".RecordActivity" />
+            android:parentActivityName=".AlbumFolderActivity" />
 
         <activity
             android:name=".AlbumFolderActivity"
