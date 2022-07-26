@@ -40,5 +40,5 @@ class Image(val photoId: Int?=null,
             var isRecommended: Boolean = false,
             var isStarred : Boolean = false,
             val score: Int? = null){
-    var photoUri: String? by ChattPropDelegate(photoUri)
+    var photoUri: String? by ImagePropDelegate(photoUri)
 }
