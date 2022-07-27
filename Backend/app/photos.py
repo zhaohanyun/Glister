@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 """
 {
-    "photos": [{"photoId": 0, "photo_url": photo_url1, "score": score1, "isRecommended": 0, "isStarred": 0},
-               {"photoId": 1, "photo_url": photo_url2, "score": score2, "isRecommended": 1, "isStarred": 1},
+    "photos": [{"photoId": 0, "photoUri": photoUri1, "score": score1, "isRecommended": 0, "isStarred": 0},
+               {"photoId": 1, "photoUri": photoUri2, "score": score2, "isRecommended": 1, "isStarred": 1},
                ...
               ]
 }
@@ -42,7 +42,7 @@ def getPhotos(request):
     for row in rows:
         photo = {}
         photo['photoId'] = row[0]
-        photo['photo_url'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
+        photo['photoUri'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
         photo['score'] = row[2]
         photo['isRecommended'] = bool(row[3])
         photo['isStarred'] = bool(row[4])
@@ -127,7 +127,7 @@ def getFavorites(request):
     for row in rows:
         photo = {}
         photo['photoId'] = row[0]
-        photo['photo_url'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
+        photo['photoUri'] = "{}{}/{}/{}/{}".format(settings.MEDIA_URL, username, albumname, foldername, row[1])
         photo['score'] = row[2]
         photo['isRecommended'] = bool(row[3])
         photo['isStarred'] = bool(row[4])
@@ -137,3 +137,55 @@ def getFavorites(request):
     return JsonResponse(response)
 
 
+@csrf_exempt
+def editPhoto(request):
+    if request.method != 'POST':
+        return HttpResponse(status=404)
+    username = request.POST.get("username")
+    albumname = request.POST.get("albumname")
+    foldername = request.POST.get("foldername")
+    photoId = request.POST.get("photoid")
+    score = request.POST.get("score")
+    newFolder = request.POST.get("newfoldername")
+
+    print("score = ", score)
+    print("new folder: ", newFolder)
+    
+    if score != None:
+        cursor = connection.cursor()
+        cursor.execute(
+            '''
+            UPDATE photos
+            set photoScore = {}
+            WHERE photoid = {};
+            '''
+            .format(score, photoId)
+        )
+    
+    if newFolder != None:
+        cursor = connection.cursor()
+        # find new folder id, (not checking new folder exist now)
+        cursor.execute(
+            '''
+            SELECT f.folderId FROM folders f
+            WHERE   f.foldername = "{}" 
+                AND f.owner = "{}" 
+                AND f.albumId in (SELECT albumId FROM albums
+                                  WHERE albumname = "{}" AND owner = "{}")
+            '''
+            .format(newFolder, username, albumname, username)
+        )
+        
+        newFolderId = cursor.fetchone()[0]
+        print("changing to new folder of id =", newFolderId)
+
+        cursor.execute(
+            '''
+            UPDATE photos
+            set folderId = {}
+            WHERE photoId = {};
+            '''
+            .format(newFolderId, photoId)
+        )
+
+    return JsonResponse({})

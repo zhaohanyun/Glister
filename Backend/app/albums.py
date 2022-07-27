@@ -53,7 +53,7 @@ def getFolders(request):
     cursor = connection.cursor()
     cursor.execute(
         '''
-        SELECT f.foldername
+        SELECT f.foldername, f.folderId
         FROM folders f
         LEFT OUTER JOIN albums a ON f.albumId = a.albumId
         WHERE a.owner = '{}' AND a.albumname = '{}'
@@ -62,6 +62,7 @@ def getFolders(request):
         .format(username, albumname, )
     )
     rows = [i[0] for i in cursor.fetchall()]
+    #rows = cursor.fetchall()
     response = {}
     response['folders'] = rows
     return JsonResponse(response)
@@ -205,8 +206,8 @@ def processImages(username, albumname, albumId, focus, outputDir, cursor):
 def deleteAlbum(request):
     if request.method != 'POST':
              return HttpResponse(status=404)
-    username = request.GET.get("username")
-    albumname = request.GET.get("albumname")
+    username = request.POST.get("username")
+    albumname = request.POST.get("albumname")
     print(username, 'is deleting', albumname)
     
     dirPath = settings.MEDIA_ROOT / username / albumname
