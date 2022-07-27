@@ -27,6 +27,8 @@ class FolderAdapter(context: Context, foldernames: ArrayList<Album>) :
                 listItemView.albumButton.setOnClickListener { v: View ->
                     if (v.id == R.id.albumButton) {
                         val intent = Intent (context, ImageActivity::class.java)
+                        intent.putExtra("username","Hanyun")
+                        intent.putExtra("albumname",albumname)
                         context.startActivity(intent)
                     }
                 }

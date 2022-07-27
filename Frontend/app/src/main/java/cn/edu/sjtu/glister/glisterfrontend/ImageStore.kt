@@ -91,4 +91,26 @@ object ImageStore {
             }
         })
     }
+
+    fun getFavorites(username: String, albumname: String) {
+//    # GET /getfavorites?username=&albumname=
+//    getFavorites(username: str, albumname: str) -> list[Photo]
+
+        //TODO
+    }
+    fun starPhoto(photoId: Int, star: Int) {
+//    # request parameter: photo id, whether to star or unstar the photo (1 for star, 0 for unstar)
+//    # GET /starphoto?photoid=&star=
+//    starPhoto(photoId: int, star: int)
+
+        //TODO
+    }
+
+    fun deletePhoto(username: String, albumname: String, foldername: String, photoId: Int) {
+//    # request parameter: user name, album name, folder name, photo id to delete
+//    # GET /deletephoto?username=&albumname=&foldername=&photoid=
+//    deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
+
+        //TODO
+    }
 }

@@ -41,8 +41,8 @@ object AlbumStore {
         completion: (String) -> Unit
     )
     //        # Upload video to the server, and create a new album.
-    //        # input: username, album name, the uploaded video
-    //        # output: a list of albums of this user
+    //        # request parameter: username, album name, the uploaded video
+    //        # response: a list of albums of this user
     //        # POST /postalbum?username=&albumname=&image=&video=
     {
         val mpFD = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -115,8 +115,8 @@ object AlbumStore {
     }
 
     fun getAlbums(context: Context,username:String,activity: Activity)
-//        # input: username
-//        # output: a list of albums of this user (e.g. Jay Chou concert, NBA live)
+//        # request parameter: username
+//        # response: a list of albums of this user (e.g. Jay Chou concert, NBA live)
 //        # GET /getalbums?username=&albumname=
 //        getAlbums(username: str) -> list[str]
     {
@@ -160,12 +160,28 @@ object AlbumStore {
         })
     }
 
-    fun getFolders()
-//    # input: username, album to open
-//    # output: a list of foldernames in the album
+    fun getFolders(username:String, albumname:String){
+//    # request parameter: username, album to open
+//    # response: a list of foldernames in the album
 //    # GET /getfolders?username=&albumname=
 //    getFolders(username: str, albumname: str) -> list[str]
-    {
 
+        //TODO: leave to Hanyun
+    }
+
+    fun editAlbum(username: String, albumname: String, newAlbumname: String){
+//    # request parameter: username, album to edit, new album name
+//    # GET /editalbum?username=&albumname=&newalbumname=
+//    editAlbum(username: str, albumname: str, newAlbumname: str)
+
+        //TODO
+    }
+
+    fun deleteAlbum(username:String, albumname:String) {
+//    # request parameter: username, album to delete
+//    # GET /editalbum?username=&albumname=
+//    deleteAlbum(username: str, albumname: str)
+
+        //TODO
     }
 }
