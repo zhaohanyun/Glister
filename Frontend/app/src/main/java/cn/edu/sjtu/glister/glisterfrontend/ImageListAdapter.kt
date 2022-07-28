@@ -1,14 +1,8 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
-import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +10,18 @@ import android.widget.ArrayAdapter
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemImageBinding
 import coil.load
 import kotlinx.android.synthetic.main.activity_view.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.*
+import java.lang.System.load
+import java.net.MalformedURLException
+import java.net.URL
+
 
 class ImageListAdapter(context: Context, images: List<Image>) :
     ArrayAdapter<Image>(context, 0, images) {
 
+    @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val listItemView = (convertView?.tag /* reuse binding */ ?: run {
             val rowView = LayoutInflater.from(context).inflate(R.layout.listitem_image, parent, false)
@@ -27,26 +29,51 @@ class ImageListAdapter(context: Context, images: List<Image>) :
             rowView.tag
         }) as ListitemImageBinding
 
+
         getItem(position)?.run {
+
             //listItemView.scoreTextView.text = username
             listItemView.score.text = score.toString()
+            //listItemView.score.text = photoUri.toString()
+            if (isRecommended) listItemView.ifRecommended.text = "Recommended"
+            else listItemView.ifRecommended.text = ""
+            if (isStarred) listItemView.star.text = "UNSTAR"
+            else listItemView.star.text = "STAR"
 
-            listItemView.save.setOnClickListener()
+            /*listItemView.save.setOnClickListener()
             {
+
                 println("bSave clicked!")
 
                 val draw = listItemView.chattImage.drawable as BitmapDrawable
                 val bitmap = draw.bitmap
 
                 MediaStore.Images.Media.insertImage(
-                    context.getContentResolver(),
+                    context.contentResolver,
                     bitmap!!,
                     "image_file",
                     "file")
 
-            }
+            }*/
+
+            /*listItemView.save.setOnClickListener { v: View ->
+                if (v.id == R.id.save) {
+                    val intent = Intent(context, SaveActivity::class.java)
+                    intent.putExtra("IMAGE_URI", Uri.parse(photoUri))
+                    context.startActivity(intent)
+                    /*println("bSave clicked!")
+                    MediaStore.Images.Media.insertImage(
+                        context.getContentResolver(),
+                        bitmap!!,
+                        "image_file",
+                        "file")*/
+                }
+            }*/
+
             listItemView.star.setOnClickListener {
-                listItemView.star.setBackgroundColor(context.getResources().getColor(R.color.purple_200))
+                if (listItemView.star.text == "UNSTAR") listItemView.star.text = "STAR"
+                else listItemView.star.text = "UNSTAR"
+                //listItemView.star.setBackgroundColor(context.getResources().getColor(R.color.purple_200))
             }
             listItemView.root.setBackgroundColor(Color.parseColor(if (position % 2 == 0) "#E0E0E0" else "#EEEEEE"))
             photoUri?.let {
@@ -60,8 +87,16 @@ class ImageListAdapter(context: Context, images: List<Image>) :
                 listItemView.chattImage.setImageBitmap(null)
             }
 
+            listItemView.save.setOnClickListener()
+            {
+                //var a = URL("https://106.14.1.108/uploads/Hanyun/20220726_010101/cat/Hanyun_20220726_010101_cat_0.jpg").readBytes()
+                File("image").writeBytes(URL(photoUri).readBytes())
+            }
+
+
         }
 
         return listItemView.root
     }
 }
+

@@ -40,13 +40,14 @@ class ImageActivity : AppCompatActivity() {
         setContentView(view.root)
 
         imageListAdapter = ImageListAdapter(this, images)
+
         view.imageListView.setAdapter(imageListAdapter)
         images.addOnListChangedCallback(propertyObserver)
 
         val username:String=(getIntent().getExtras()?.getString("username"))?:""
         val albumname:String=(getIntent().getExtras()?.getString("albumname"))?:""
         //val objectname:String=
-
+        //GetPermission()
         // setup refreshContainer here later
         view.refreshContainer.setOnRefreshListener {
             refreshTimeline(username,albumname)
@@ -86,3 +87,4 @@ class ImageActivity : AppCompatActivity() {
         view.refreshContainer.isRefreshing = false
     }
 }
+

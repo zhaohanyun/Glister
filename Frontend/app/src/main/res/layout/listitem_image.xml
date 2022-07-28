@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/score"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/score"
@@ -44,8 +44,8 @@
 
     <Button
         android:id="@+id/star"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="16dp"
         android:text="star"
         android:textSize="14sp"
@@ -56,21 +56,21 @@
     <Button
         android:id="@+id/save"
         android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:text="save"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/star"
-        app:layout_constraintTop_toBottomOf="@+id/star" />
+        app:layout_constraintStart_toEndOf="@+id/change"
+        app:layout_constraintTop_toTopOf="@+id/change" />
 
     <Button
         android:id="@+id/delete"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:text="delete"
-        app:layout_constraintStart_toStartOf="@+id/save"
-        app:layout_constraintTop_toBottomOf="@+id/save" />
+        app:layout_constraintStart_toEndOf="@+id/save"
+        app:layout_constraintTop_toTopOf="@+id/save" />
 
     <Button
         android:id="@+id/change"

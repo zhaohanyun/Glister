@@ -110,6 +110,6 @@ class ViewImages : AppCompatActivity() {
                 "file")
 
         }
-        GetPermission()
+        //GetPermission()
     }
 }
