@@ -49,15 +49,15 @@ class ImageActivity : AppCompatActivity() {
 
         val username:String=(getIntent().getExtras()?.getString("username"))?:""
         val albumname:String=(getIntent().getExtras()?.getString("albumname"))?:""
+        val objectname:String=(getIntent().getExtras()?.getString("objectname"))?:""
 
-        //val objectname:String=
         //GetPermission()
         // setup refreshContainer here later
         view.refreshContainer.setOnRefreshListener {
-            refreshTimeline(username,albumname)
+            refreshTimeline(username,albumname,objectname)
         }
 
-        refreshTimeline(username,albumname)
+        refreshTimeline(username,albumname,objectname)
         //getImages()
         GetPermission()
     }
@@ -83,8 +83,8 @@ class ImageActivity : AppCompatActivity() {
                                       itemCount: Int) { }
         override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) { }
     }
-    private fun refreshTimeline(username:String, albumname:String) {
-        getImages(username,albumname,"cat")
+    private fun refreshTimeline(username:String, albumname:String, objectname:String) {
+        getImages(username,albumname,objectname)
         //TODO: call getImage with var username, albumname and foldername
 
         // stop the refreshing animation upon completion:

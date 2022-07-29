@@ -21,16 +21,16 @@ import java.io.File
 import java.io.IOException
 import kotlin.reflect.full.declaredMemberProperties
 
+const val serverUrl ="https://106.14.1.108/"
 
 object AlbumStore {
     private val _albums = arrayListOf<Album>()
     val albums = ObservableArrayList<Album>()
-    private val nFields = Chatt::class.declaredMemberProperties.size
 
     //private const val serverUrl ="https://52.39.198.75/"
     //private val serverUrl : String=  Resources.getSystem().getString(R.string.Hanyun_server)
     //private val serverUrl : String=  Resources.getSystem().getString(R.string.server)
-    private const val serverUrl ="https://106.14.1.108/"
+    //private const val serverUrl ="https://106.14.1.108/"
     private val client = OkHttpClient.Builder()
         .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
         .build()
@@ -144,8 +144,6 @@ object AlbumStore {
                     val albumnames = Array(albumsReceived.length()) {
                         albumsReceived.getString(it)
                     }
-                    //TODO: use these name to generate view of album folders
-
                     //bad implementation!
 //                    val intent = Intent (context, AlbumFolderActivity::class.java)
 //                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
@@ -160,14 +158,6 @@ object AlbumStore {
         })
     }
 
-    fun getFolders(username:String, albumname:String){
-//    # request parameter: username, album to open
-//    # response: a list of foldernames in the album
-//    # GET /getfolders?username=&albumname=
-//    getFolders(username: str, albumname: str) -> list[str]
-
-        //TODO: leave to Hanyun
-    }
 
     fun editAlbum(username: String, albumname: String, newAlbumname: String){
 //    # request parameter: username, album to edit, new album name
@@ -184,4 +174,47 @@ object AlbumStore {
 
         //TODO
     }
+}
+
+
+object ObjectFolderStore {
+    private val _objectfolders = arrayListOf<ObjectFolder>()
+    val objectfolders = ObservableArrayList<ObjectFolder>()
+    private val client = OkHttpClient.Builder()
+        .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+        .build()
+
+    fun getFolders(username:String, albumname:String){
+//    # request parameter: username, album to open
+//    # response: a list of foldernames in the album
+//    # GET /getfolders?username=&albumname=
+//    getFolders(username: str, albumname: str) -> list[str]
+
+        val getFoldersUrl = (serverUrl+"getfolders/").toHttpUrl().newBuilder()
+            .addQueryParameter("username", username)
+            .addQueryParameter("albumname", albumname)
+            .build()
+        val request = Request.Builder()
+            .url(getFoldersUrl)
+            .build()
+
+        ObjectFolderStore.client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("getObjectFolders", "Failed GET object folder request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val objectFoldersReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("folders") } catch (e: JSONException) { JSONArray() }
+                    //albumsReceived is a list of albumnames
+                    println("You have object folders:")
+                    for (i in 0 until objectFoldersReceived.length()) {
+                        println(objectFoldersReceived[i])
+                        objectfolders.add(ObjectFolder(username, albumname, objectFoldersReceived[i] as String?)) //update Model
+                    }
+                }
+            }
+        })
+    }
+
 }

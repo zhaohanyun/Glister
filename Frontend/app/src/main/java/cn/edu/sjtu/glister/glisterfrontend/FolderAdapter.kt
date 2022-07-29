@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemFolderBinding
 
-class FolderAdapter(context: Context, foldernames: ArrayList<Album>) :
+class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
     ArrayAdapter<Album>(context, 0, foldernames){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -21,12 +21,12 @@ class FolderAdapter(context: Context, foldernames: ArrayList<Album>) :
         }) as ListitemFolderBinding
 
         getItem(position)?.run{
-            listItemView.albumButton.text=albumname
+            listItemView.folderButton.text=albumname
 
             albumname?.let {
-                listItemView.albumButton.setOnClickListener { v: View ->
-                    if (v.id == R.id.albumButton) {
-                        val intent = Intent (context, ImageActivity::class.java)
+                listItemView.folderButton.setOnClickListener { v: View ->
+                    if (v.id == R.id.folderButton) {
+                        val intent = Intent (context, ObjectFolderActivity::class.java)
                         intent.putExtra("username","Hanyun")
                         intent.putExtra("albumname",albumname)
                         context.startActivity(intent)
@@ -69,5 +69,36 @@ class FolderAdapter(context: Context, foldernames: ArrayList<Album>) :
 //        }
 //
 //        return listItemView.root
+    }
+}
+
+
+class ObjectFolderAdapter(context: Context, foldernames: ArrayList<ObjectFolder>) :
+    ArrayAdapter<ObjectFolder>(context, 0, foldernames) {
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val listItemView = (convertView?.tag /* reuse binding */ ?: run {
+            val rowView =
+                LayoutInflater.from(context).inflate(R.layout.listitem_folder, parent, false)
+            rowView.tag = ListitemFolderBinding.bind(rowView) // cache binding
+            rowView.tag
+        }) as ListitemFolderBinding
+
+        getItem(position)?.run {
+            listItemView.folderButton.text = objectname
+
+            objectname?.let {
+                listItemView.folderButton.setOnClickListener { v: View ->
+                    if (v.id == R.id.folderButton) {
+                        val intent = Intent(context, ImageActivity::class.java)
+                        intent.putExtra("username", "Hanyun")
+                        intent.putExtra("albumname", albumname)
+                        intent.putExtra("objectname",objectname)
+                        context.startActivity(intent)
+                    }
+                }
+            }
+        }
+        return listItemView.root
     }
 }
