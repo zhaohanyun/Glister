@@ -2,7 +2,9 @@ package cn.edu.sjtu.glister.glisterfrontend
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +12,15 @@ import android.widget.ArrayAdapter
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemImageBinding
 import coil.load
 import kotlinx.android.synthetic.main.activity_view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.*
 import java.lang.System.load
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.concurrent.Executors
 
 
 class ImageListAdapter(context: Context, images: List<Image>) :
@@ -56,6 +61,7 @@ class ImageListAdapter(context: Context, images: List<Image>) :
 
             }*/
 
+            //用saveactivity的方法
             /*listItemView.save.setOnClickListener { v: View ->
                 if (v.id == R.id.save) {
                     val intent = Intent(context, SaveActivity::class.java)
@@ -87,10 +93,25 @@ class ImageListAdapter(context: Context, images: List<Image>) :
                 listItemView.chattImage.setImageBitmap(null)
             }
 
+            //直接设置方法
             listItemView.save.setOnClickListener()
             {
-                //var a = URL("https://106.14.1.108/uploads/Hanyun/20220726_010101/cat/Hanyun_20220726_010101_cat_0.jpg").readBytes()
-                File("image").writeBytes(URL(photoUri).readBytes())
+                val executor = Executors.newSingleThreadExecutor()
+
+                //找个有图的网址做演示
+                //用executor
+                /*executor.execute {
+                    val url = "https://106.14.1.108/uploads/Hanyun/20220726_010101/cat/Hanyun_20220726_010101_cat_0.jpg"
+                    val bytes = URL(url).readBytes()
+                    File("image.jpg").writeBytes(bytes)
+                    /*runOnUiThread {
+                        // update UI
+                    }*/
+                }*/
+                //不用executor
+                val url = "https://106.14.1.108/uploads/Hanyun/20220726_010101/cat/Hanyun_20220726_010101_cat_0.jpg"
+                val bytes = URL(url).readBytes()
+                File("image.jpg").writeBytes(bytes)
             }
 
 

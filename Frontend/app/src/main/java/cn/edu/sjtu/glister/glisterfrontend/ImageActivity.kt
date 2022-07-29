@@ -13,6 +13,9 @@ import androidx.databinding.ObservableList
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.images
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.getImages
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ActivityImagesBinding
+import java.io.File
+import java.net.URL
+import java.util.concurrent.Executors
 
 class ImageActivity : AppCompatActivity() {
     private lateinit var view: ActivityImagesBinding
@@ -46,6 +49,7 @@ class ImageActivity : AppCompatActivity() {
 
         val username:String=(getIntent().getExtras()?.getString("username"))?:""
         val albumname:String=(getIntent().getExtras()?.getString("albumname"))?:""
+
         //val objectname:String=
         //GetPermission()
         // setup refreshContainer here later

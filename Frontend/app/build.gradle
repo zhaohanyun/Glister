@@ -52,4 +52,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.code.gson:gson:2.9.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 }

@@ -15,7 +15,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_view.*
+import java.io.File
+import java.net.URL
 import java.time.temporal.TemporalAdjusters.next
+import java.util.concurrent.Executors
 import kotlin.coroutines.EmptyCoroutineContext.plus
 
 class ViewImages : AppCompatActivity() {
@@ -54,6 +57,8 @@ class ViewImages : AppCompatActivity() {
         val next = findViewById<Button>(R.id.next)
         val score = findViewById<TextView>(R.id.score)
         val star = findViewById<Button>(R.id.Star)
+
+
         next.setOnClickListener {
             image1.setImageResource(images[++currentImg % images.size])
             //index = index % 5

@@ -9,6 +9,9 @@ import android.provider.MediaStore
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ActivitySaveBinding
+import java.io.File
+import java.net.URL
+import java.util.concurrent.Executors
 
 class SaveActivity : AppCompatActivity() {
     /*override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +37,20 @@ class SaveActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //GetPermission()
 
-        val view = ActivitySaveBinding.inflate(layoutInflater)
+        val executor = Executors.newSingleThreadExecutor()
+
+        executor.execute {
+            val url = "https://106.14.1.108/uploads/Hanyun/20220726_010101/cat/Hanyun_20220726_010101_cat_0.jpg"
+            val bytes = URL(url).readBytes()
+            File("image.jpg").writeBytes(bytes)
+            runOnUiThread {
+                // update UI
+            }
+        }
+        /*val view = ActivitySaveBinding.inflate(layoutInflater)
         setContentView(view.root)
 
-        view.imageView.setImageURI(intent.getParcelableExtra("VIDEO_URI"))
+        view.imageView.setImageURI(intent.getParcelableExtra("VIDEO_URI"))*/
 
 
 
