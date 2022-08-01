@@ -6,7 +6,7 @@
     <string name="score">Score</string>
 
 <!--    popup menu-->
-    <string name="action_settings">Settings</string>
+    <string name="audio_input">Audio Input</string>
     <string name="object_flowers">Flowers</string>
     <string name="object_faces">Faces</string>
     <string name="object_cars">Cars</string>

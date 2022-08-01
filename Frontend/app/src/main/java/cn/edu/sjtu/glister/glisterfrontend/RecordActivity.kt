@@ -17,12 +17,12 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.Camera
-import android.hardware.Camera.CameraInfo
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -32,16 +32,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.lifecycle.ViewModel
-import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import kotlinx.android.synthetic.main.activity_record.*
+import java.lang.reflect.Method
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import java.util.*
 
 class RecordActivity : AppCompatActivity() {
     fun startEdit(view: View?) = startActivity(Intent(this, EditActivity::class.java))
@@ -49,8 +48,10 @@ class RecordActivity : AppCompatActivity() {
     private val VIDEO_CAPTURE = 101
     private lateinit var startForRecordResult: ActivityResultLauncher<Intent>
     private lateinit var forPickedResult: ActivityResultLauncher<String>
+    private lateinit var startForAudioResult: ActivityResultLauncher<Intent>
     private lateinit var videoView:VideoView
     private val viewState: PostViewState by viewModels()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -145,6 +146,20 @@ class RecordActivity : AppCompatActivity() {
             })
 
 
+        startForAudioResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result ->
+            if (result.resultCode == RESULT_OK)
+            {
+                val text = (result.data)?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                //what's in text?
+                //txvResult.text = text[0]  //txvResult is the id of TextView
+                Toast.makeText(this@RecordActivity, "You said : " + (text?.get(0) ?: "nothing"), Toast.LENGTH_SHORT).show()
+            }
+            //TODO:save input to local var
+
+        }
+
+
         navigation.setOnNavigationItemSelectedListener{ item ->
         //NavigationBarView.OnItemSelectedListener { item ->
             //println("hello object")
@@ -162,11 +177,53 @@ class RecordActivity : AppCompatActivity() {
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
                             R.id.object_cars ->
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                            R.id.audio_input ->{
+                                //TODO  trigger activity
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+
+                                if (intent.resolveActivity(packageManager) != null) {
+                                    startForAudioResult.launch(intent)
+                                } else {
+                                    Toast.makeText(this,
+                                        "Your Device Doesn't Support Speech Input",
+                                        Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
                         }
                         true
                     })
+                    // show icons on popup menu
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        popupMenu.setForceShowIcon(true)
+                    }else {
+                        try {
+                            val fields = popupMenu.javaClass.declaredFields
+                            for (field in fields) {
+                                if ("mPopup" == field.name) {
+                                    field.isAccessible = true
+                                    val menuPopupHelper = field.get(popupMenu)
+                                    val classPopupHelper =
+                                        Class.forName(menuPopupHelper.javaClass.name)
+                                    val setForceIcons: Method = classPopupHelper.getMethod(
+                                        "setForceShowIcon",
+                                        Boolean::class.javaPrimitiveType
+                                    )
+                                    setForceIcons.invoke(menuPopupHelper, true)
+                                    break
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
                     popupMenu.show()
                     true
+
                 }
                 R.id.upload -> {
                     // Respond to navigation item 2 click
