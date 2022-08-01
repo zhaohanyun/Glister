@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Glister</string>
+    <string name="navi_newEventBtn">New Video Event</string>
+    <string name="navi_imgAnalysisBtn">Image\nAnalysis</string>
+    <string name="navi_uploadVideoBtn">Upload\nVideo</string>
+    <string name="navi_PrevEventTitle">Previous Events</string>
+    <string name="background_image_desp">Background Image</string>
+    <string name="untitled_0">UNTITLED</string>
+    <string name="prevEvent1">Graduation</string>
+    <string name="prevEvent2">Food</string>
+    <string name="defaultFolderName">UNTITLED</string>
+    <string name="img_analyze">Analyze</string>
+    <string name="default_imgScore">0.00</string>
+    <string name="image_analysis">Image Analysis</string>
+    <string name="test_img">test_img</string>
+    <string name="test_saliency">test_Saliency</string>
+    <string name="saliency_map">Saliency Map</string>
+    <string name="score_explanation">Score Explanation</string>
+    <string name="dominant_pattern_headline">Dominant Pattern</string>
+    <string name="test_dominant_pattern">test_dominant pattern(8)</string>
+    <string name="test_all_scores">patten score: 0.44/1.00\tOverall: 4.02/5.00</string>
+
+</resources>

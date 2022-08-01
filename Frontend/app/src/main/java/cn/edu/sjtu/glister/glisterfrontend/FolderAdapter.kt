@@ -9,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemFolderBinding
+import com.ddd.androidutils.DoubleClick
+import com.ddd.androidutils.DoubleClickListener
+
 
 class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
     ArrayAdapter<Album>(context, 0, foldernames){
@@ -22,6 +25,9 @@ class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
 
         getItem(position)?.run{
             listItemView.folderButton.text=albumname
+            // TODO: Incorporate EditAlbum with EditText View
+
+
 
             albumname?.let {
                 listItemView.folderButton.setOnClickListener { v: View ->

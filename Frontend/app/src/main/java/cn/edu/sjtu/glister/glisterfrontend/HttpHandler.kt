@@ -160,11 +160,48 @@ object AlbumStore {
 
 
     fun editAlbum(username: String, albumname: String, newAlbumname: String){
-//    # request parameter: username, album to edit, new album name
-//    # GET /editalbum?username=&albumname=&newalbumname=
-//    editAlbum(username: str, albumname: str, newAlbumname: str)
+        //    # request parameter: username, album to edit, new album name
+        //    # GET /editalbum?username=&albumname=&newalbumname=
+        //    editAlbum(username: str, albumname: str, newAlbumname: str)
+        // TODO: FSM
 
-        //TODO
+        val editAlbumsUrl = (serverUrl+"editalbum/").toHttpUrl().newBuilder()
+            .addQueryParameter("username", username)
+            .build()
+        val request = Request.Builder()
+            .url(getAlbumsUrl)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("getAlbums", "Failed GET album request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val albumsReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("albums") } catch (e: JSONException) { JSONArray() }
+                    //albumsReceived is a list of albumnames
+                    println("You have albums:")
+                    for (i in 0 until albumsReceived.length()) {
+                        println(albumsReceived[i])
+                        albums.add(Album(username, albumsReceived[i] as String?)) //update Model
+                    }
+                    val albumnames = Array(albumsReceived.length()) {
+                        albumsReceived.getString(it)
+                    }
+                    //bad implementation!
+//                    val intent = Intent (context, AlbumFolderActivity::class.java)
+//                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
+//                    intent.putExtra("username",username)
+//                    activity.startActivity(intent)
+
+
+                }
+
+
+            }
+        })
+
     }
 
     fun deleteAlbum(username:String, albumname:String) {
@@ -173,6 +210,42 @@ object AlbumStore {
 //    deleteAlbum(username: str, albumname: str)
 
         //TODO
+        val deleteAlbumsUrl = (serverUrl+"editalbums/").toHttpUrl().newBuilder()
+            .addQueryParameter("username", username)
+            .build()
+        val request = Request.Builder()
+            .url(deleteAlbumsUrl)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("deleteAlbums", "Failed GET album request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val albumsReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("albums") } catch (e: JSONException) { JSONArray() }
+                    //albumsReceived is a list of albumnames
+                    println("You have albums:")
+                    for (i in 0 until albumsReceived.length()) {
+                        println(albumsReceived[i])
+                        albums.add(Album(username, albumsReceived[i] as String?)) //update Model
+                    }
+                    val albumnames = Array(albumsReceived.length()) {
+                        albumsReceived.getString(it)
+                    }
+                    //bad implementation!
+//                    val intent = Intent (context, AlbumFolderActivity::class.java)
+//                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
+//                    intent.putExtra("username",username)
+//                    activity.startActivity(intent)
+
+
+                }
+
+
+            }
+        })
     }
 }
 

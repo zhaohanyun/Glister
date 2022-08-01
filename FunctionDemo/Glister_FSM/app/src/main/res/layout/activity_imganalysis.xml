@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageAnalysis"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/img_analysis_OrigImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:contentDescription="@string/background_image_desp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_analysis_0" />
+
+    <RatingBar
+        android:id="@+id/img_ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rating="5"
+        android:numStars="5"
+        android:tooltipText="Rate this image by moving on the rating stars :)"/>
+
+    <TextView
+        android:id="@+id/img_tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingEnd="30dp"
+        android:background="@color/hintTextColor"
+        android:alpha="0.5"
+        android:text="@string/default_imgScore"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/img_analysisBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/img_analyze"/>
+
+</LinearLayout>

@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "Glister Frontend"
+rootProject.name = "Glister_FSM"
 include ':app'
