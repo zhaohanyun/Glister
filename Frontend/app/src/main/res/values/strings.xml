@@ -9,6 +9,7 @@
     <string name="object_flowers">Flowers</string>
     <string name="object_faces">Faces</string>
     <string name="object_cars">Cars</string>
+    <string name="object_cats">Cats</string>
 
 <!--    bottom navigation bar-->
     <string name="action_object_focus">Object Focus</string>

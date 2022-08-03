@@ -154,9 +154,8 @@ class RecordActivity : AppCompatActivity() {
                 //what's in text?
                 //txvResult.text = text[0]  //txvResult is the id of TextView
                 Toast.makeText(this@RecordActivity, "You said : " + (text?.get(0) ?: "nothing"), Toast.LENGTH_SHORT).show()
+                setObjectFocus(text?.get(0))
             }
-            //TODO:save input to local var
-
         }
 
 
@@ -171,14 +170,24 @@ class RecordActivity : AppCompatActivity() {
                     popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
                     popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { obj ->
                         when(obj.itemId) {
-                            R.id.object_flowers ->
+                            R.id.object_flowers ->{
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
-                            R.id.object_faces ->
+                                setObjectFocus("flower")
+                            }
+                            R.id.object_faces ->{
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
-                            R.id.object_cars ->
+                                setObjectFocus("face")
+                            }
+                            R.id.object_cars ->{
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                                setObjectFocus("car")
+                            }
+                            R.id.object_cats ->{
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                                setObjectFocus("cat")
+                            }
                             R.id.audio_input ->{
-                                //TODO  trigger activity
+                            //TODO  trigger activity
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
                                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -187,10 +196,7 @@ class RecordActivity : AppCompatActivity() {
                                 if (intent.resolveActivity(packageManager) != null) {
                                     startForAudioResult.launch(intent)
                                 } else {
-                                    Toast.makeText(this,
-                                        "Your Device Doesn't Support Speech Input",
-                                        Toast.LENGTH_SHORT)
-                                        .show()
+                                    Toast.makeText(this, "Your Device Doesn't Support Speech Input", Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -269,6 +275,11 @@ class RecordActivity : AppCompatActivity() {
             values)
     }
 
+    private fun setObjectFocus(obj:String?){
+        //TODO: determine whether obj is in our set
+        viewState.objectFocus=obj
+    }
+
 //    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 //        menu?.apply {
 //            add(Menu.NONE, Menu.FIRST, Menu.NONE, getString(R.string.send))
@@ -301,13 +312,10 @@ class RecordActivity : AppCompatActivity() {
         val album = Album(username = "Hanyun",
             albumname = genAlbumName())
 
-        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri,activity) { msg ->
+        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri,activity,viewState.objectFocus) { msg ->
             runOnUiThread {
                 toast(msg)
             }
-            //finish() //will return to parent?
-            //TODO:jump to profile/imageActivity
-
         }
         viewState.enableSend=true
 
@@ -352,6 +360,7 @@ class PostViewState: ViewModel() {
     var imageUri: Uri? = null
     var videoUri: Uri? = null
     var videoIcon = android.R.drawable.presence_video_online
+    var objectFocus:String?=null
 }
 
 class Album(var username: String? = null,
@@ -364,3 +373,8 @@ class Album(var username: String? = null,
 class ObjectFolder(var username: String? = null,
                    var albumname: String? = null,
                    var objectname: String?=null)
+
+
+//kind tip from Hanyun:
+//key to any emulator problem:
+//taskkill /F /IM "qemu-system-x86_64.exe" /T

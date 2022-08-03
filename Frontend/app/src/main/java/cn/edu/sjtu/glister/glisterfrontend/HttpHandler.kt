@@ -37,17 +37,20 @@ object AlbumStore {
 
 
     fun postAlbum(
-        context: Context, album: Album, imageUri: Uri?, videoUri: Uri?,activity: Activity, //chatt will be replaced later
+        context: Context, album: Album, imageUri: Uri?, videoUri: Uri?,activity: Activity, objectFocus:String?,
         completion: (String) -> Unit
     )
-    //        # Upload video to the server, and create a new album.
-    //        # request parameter: username, album name, the uploaded video
-    //        # response: a list of albums of this user
-    //        # POST /postalbum?username=&albumname=&image=&video=
+        //    # Upload video to the server, and create a new album.
+        //    # input: username, album name, object focus (optional), the uploaded video
+        //    # POST /postalbum?username=&albumname=&focus=&image=&video=
     {
         val mpFD = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("username", album.username ?: "")
             .addFormDataPart("albumname", album.albumname ?: "")
+
+        objectFocus?.let {
+            mpFD.addFormDataPart("focus",objectFocus)
+        }
 
         var falsefile:Boolean = false
 
@@ -141,16 +144,14 @@ object AlbumStore {
                         println(albumsReceived[i])
                         albums.add(Album(username, albumsReceived[i] as String?)) //update Model
                     }
-                    val albumnames = Array(albumsReceived.length()) {
-                        albumsReceived.getString(it)
-                    }
+//                    val albumnames = Array(albumsReceived.length()) {
+//                        albumsReceived.getString(it)
+//                    }
                     //bad implementation!
 //                    val intent = Intent (context, AlbumFolderActivity::class.java)
 //                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
 //                    intent.putExtra("username",username)
 //                    activity.startActivity(intent)
-
-
                 }
 
 
@@ -169,7 +170,7 @@ object AlbumStore {
             .addQueryParameter("username", username)
             .build()
         val request = Request.Builder()
-            .url(getAlbumsUrl)
+            .url(editAlbumsUrl)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -186,19 +187,7 @@ object AlbumStore {
                         println(albumsReceived[i])
                         albums.add(Album(username, albumsReceived[i] as String?)) //update Model
                     }
-                    val albumnames = Array(albumsReceived.length()) {
-                        albumsReceived.getString(it)
-                    }
-                    //bad implementation!
-//                    val intent = Intent (context, AlbumFolderActivity::class.java)
-//                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
-//                    intent.putExtra("username",username)
-//                    activity.startActivity(intent)
-
-
                 }
-
-
             }
         })
 
