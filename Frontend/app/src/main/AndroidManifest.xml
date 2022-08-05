@@ -44,10 +44,6 @@
             android:label="@string/edit"
             android:parentActivityName=".RecordActivity" />
         <activity
-            android:name=".ViewImages"
-            android:label="ViewImages"
-            android:parentActivityName=".RecordActivity" />
-        <activity
             android:name=".RecordActivity"
             android:exported="true">
             <intent-filter>

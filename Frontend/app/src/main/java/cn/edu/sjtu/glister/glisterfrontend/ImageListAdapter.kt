@@ -22,8 +22,6 @@ import android.widget.Toast
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.starPhoto
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemImageBinding
 import coil.load
-import kotlinx.android.synthetic.main.activity_view.*
-import retrofit2.http.Url
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
