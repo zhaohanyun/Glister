@@ -20,6 +20,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editscore"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/score"
+        app:layout_constraintEnd_toEndOf="@+id/score"
+        app:layout_constraintStart_toStartOf="@+id/score"
+        app:layout_constraintTop_toTopOf="@+id/score"
+        android:visibility="invisible" />
+
     <ImageView
         android:id="@+id/chattImage"
         android:contentDescription="@string/preview"
@@ -60,8 +70,8 @@
         android:layout_marginStart="16dp"
         android:text="save"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/change"
-        app:layout_constraintTop_toTopOf="@+id/change" />
+        app:layout_constraintStart_toEndOf="@+id/relocate"
+        app:layout_constraintTop_toTopOf="@+id/relocate" />
 
     <Button
         android:id="@+id/delete"
@@ -73,12 +83,23 @@
         app:layout_constraintTop_toTopOf="@+id/save" />
 
     <Button
-        android:id="@+id/change"
+        android:id="@+id/relocate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="change score"
+        android:text="relocate"
         app:layout_constraintStart_toStartOf="@+id/chattImage"
         app:layout_constraintTop_toBottomOf="@+id/chattImage" />
+
+    <EditText
+        android:id="@+id/relocate_dst"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/relocate"
+        app:layout_constraintEnd_toEndOf="@+id/relocate"
+        app:layout_constraintStart_toStartOf="@+id/relocate"
+        app:layout_constraintTop_toTopOf="@+id/relocate"
+        android:autofillHints="new folder name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

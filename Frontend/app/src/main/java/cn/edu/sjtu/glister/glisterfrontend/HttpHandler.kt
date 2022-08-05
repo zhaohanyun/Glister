@@ -186,6 +186,8 @@ object AlbumStore {
                 if (response.isSuccessful) {
                     getAlbums(username)
                     //use completion handler will end this activity
+                }else{
+                    Log.e("deleteAlbums","error response")
                 }
             }
         })

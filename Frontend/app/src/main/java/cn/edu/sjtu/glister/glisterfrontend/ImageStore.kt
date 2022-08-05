@@ -1,28 +1,19 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
-import android.content.Context
-import android.content.res.Resources
-import android.net.Uri
-import android.util.Log
-import androidx.core.net.toFile
-import androidx.databinding.ObservableArrayList
-import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
-import cn.edu.sjtu.glister.glisterfrontend.ObjectFolderStore.getFolders
 /*import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley.newRequestQueue*/
+
+import android.util.Log
+import androidx.databinding.ObservableArrayList
+import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.asRequestBody
 import okio.IOException
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-
 import kotlin.reflect.full.declaredMemberProperties
 
 
@@ -211,5 +202,70 @@ object ImageStore {
                 }
             }
         })
+    }
+
+    fun scorePhoto(username: String, albumname: String, foldername: String, photoId: Int, score:Int){
+//    # input: user name, album name, folder name. photo id to delete, score to replace, new folder name to replace
+//    # POST /editphoto?username=&albumname=&foldername=&photoid=&score=&newfoldername=
+//    editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: int, newfoldername: str)
+
+        val mpFD = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("username", username)
+            .addFormDataPart("albumname", albumname)
+            .addFormDataPart("foldername", foldername)
+            .addFormDataPart("photoid", photoId.toString())
+            .addFormDataPart("score", score.toString())
+            .build()
+        val request = Request.Builder()
+            .url(serverUrl+"editphoto/")
+            .post(mpFD)
+            .build()
+
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: java.io.IOException) {
+                Log.e("scorephoto", "Failed GET scorePhoto request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    getImages(username,albumname,foldername)
+                }
+            }
+        })
+
+    }
+
+
+    fun relocatePhoto(username: String, albumname: String, foldername: String, photoId: Int, location:String){
+//    # input: user name, album name, folder name. photo id to delete, score to replace, new folder name to replace
+//    # POST /editphoto?username=&albumname=&foldername=&photoid=&score=&newfoldername=
+//    editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: int, newfoldername: str)
+
+        val mpFD = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("username", username)
+            .addFormDataPart("albumname", albumname)
+            .addFormDataPart("foldername", foldername)
+            .addFormDataPart("photoid", photoId.toString())
+            .addFormDataPart("newfoldername", location)
+            .build()
+        val request = Request.Builder()
+            .url(serverUrl+"editphoto/")
+            .post(mpFD)
+            .build()
+
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: java.io.IOException) {
+                Log.e("relocatephoto", "Failed GET relocatephoto request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    getImages(username,albumname,foldername)
+                }
+            }
+        })
+
     }
 }
