@@ -13,6 +13,9 @@ import androidx.databinding.ObservableList
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.images
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.getImages
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ActivityImagesBinding
+import java.io.File
+import java.net.URL
+import java.util.concurrent.Executors
 
 class ImageActivity : AppCompatActivity() {
     private lateinit var view: ActivityImagesBinding
@@ -40,15 +43,21 @@ class ImageActivity : AppCompatActivity() {
         setContentView(view.root)
 
         imageListAdapter = ImageListAdapter(this, images)
+
         view.imageListView.setAdapter(imageListAdapter)
         images.addOnListChangedCallback(propertyObserver)
 
+        val username:String=(getIntent().getExtras()?.getString("username"))?:""
+        val albumname:String=(getIntent().getExtras()?.getString("albumname"))?:""
+        val objectname:String=(getIntent().getExtras()?.getString("objectname"))?:""
+
+        //GetPermission()
         // setup refreshContainer here later
         view.refreshContainer.setOnRefreshListener {
-            refreshTimeline()
+            refreshTimeline(username,albumname,objectname)
         }
 
-        refreshTimeline()
+        refreshTimeline(username,albumname,objectname)
         //getImages()
         GetPermission()
     }
@@ -74,10 +83,10 @@ class ImageActivity : AppCompatActivity() {
                                       itemCount: Int) { }
         override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) { }
     }
-    private fun refreshTimeline() {
-        getImages("Hanyun","20220715_121710","cat")
-
+    private fun refreshTimeline(username:String, albumname:String, objectname:String) {
+        getImages(username,albumname,objectname)
         // stop the refreshing animation upon completion:
         view.refreshContainer.isRefreshing = false
     }
 }
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageExplain">
+
+    <TextView
+        android:id="@+id/tv_imgExplain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.85"
+        android:background="@color/brown"
+        android:paddingStart="30dp"
+        android:paddingTop="25dp"
+        android:paddingEnd="165dp"
+        android:paddingBottom="20dp"
+        android:text="@string/image_analysis"
+        android:textAlignment="gravity"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_24ssp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints" />
+
+    <ScrollView
+        android:id="@+id/img_explainScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="84dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_imgExplain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/img_explainScrollViewLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/gray"
+            android:alpha="1.0">
+
+            <ImageView
+                android:id="@+id/origImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="@string/test_img"
+                android:src="@drawable/test_analysis_0"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/tv_saliencyMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.85"
+                android:background="@color/yellow"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="165dp"
+                android:paddingBottom="10dp"
+                android:text="@string/saliency_map"
+                android:textAlignment="gravity"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/saliencyMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="@string/test_saliency"
+                android:src="@drawable/test_analysis_1"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/tv_scoreExplainHeadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.85"
+                android:background="@color/yellow"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="165dp"
+                android:paddingBottom="10dp"
+                android:text="@string/score_explanation"
+                android:textAlignment="gravity"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_scoreExplain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.85"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="165dp"
+                android:paddingBottom="10dp"
+                android:text="@string/dominant_pattern_headline"
+                android:textAlignment="gravity"
+                android:textColor="@color/darkGray"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/patternImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="@string/test_dominant_pattern"
+                android:src="@drawable/ptn8"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/text_tv_allScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.85"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="165dp"
+                android:paddingBottom="10dp"
+                android:text="@string/test_all_scores"
+                android:textAlignment="gravity"
+                android:textColor="@color/darkGray"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

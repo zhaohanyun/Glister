@@ -17,12 +17,12 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.Camera
-import android.hardware.Camera.CameraInfo
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -32,14 +32,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.lifecycle.ViewModel
 import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.postAlbum
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import kotlinx.android.synthetic.main.activity_record.*
+import java.lang.reflect.Method
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import java.util.*
 
 class RecordActivity : AppCompatActivity() {
     fun startEdit(view: View?) = startActivity(Intent(this, EditActivity::class.java))
@@ -47,8 +48,10 @@ class RecordActivity : AppCompatActivity() {
     private val VIDEO_CAPTURE = 101
     private lateinit var startForRecordResult: ActivityResultLauncher<Intent>
     private lateinit var forPickedResult: ActivityResultLauncher<String>
+    private lateinit var startForAudioResult: ActivityResultLauncher<Intent>
     private lateinit var videoView:VideoView
     private val viewState: PostViewState by viewModels()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +146,19 @@ class RecordActivity : AppCompatActivity() {
             })
 
 
+        startForAudioResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result ->
+            if (result.resultCode == RESULT_OK)
+            {
+                val text = (result.data)?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                //what's in text?
+                //txvResult.text = text[0]  //txvResult is the id of TextView
+                Toast.makeText(this@RecordActivity, "You said : " + (text?.get(0) ?: "nothing"), Toast.LENGTH_SHORT).show()
+                setObjectFocus(text?.get(0))
+            }
+        }
+
+
         navigation.setOnNavigationItemSelectedListener{ item ->
         //NavigationBarView.OnItemSelectedListener { item ->
             //println("hello object")
@@ -154,17 +170,66 @@ class RecordActivity : AppCompatActivity() {
                     popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
                     popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { obj ->
                         when(obj.itemId) {
-                            R.id.object_flowers ->
+                            R.id.object_flowers ->{
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
-                            R.id.object_faces ->
+                                setObjectFocus("flower")
+                            }
+                            R.id.object_faces ->{
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
-                            R.id.object_cars ->
+                                setObjectFocus("face")
+                            }
+                            R.id.object_cars ->{
                                 Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                                setObjectFocus("car")
+                            }
+                            R.id.object_cats ->{
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                                setObjectFocus("cat")
+                            }
+                            R.id.audio_input ->{
+                            //TODO  trigger activity
+                                Toast.makeText(this@RecordActivity, "You Clicked : " + obj.title, Toast.LENGTH_SHORT).show()
+                                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+
+                                if (intent.resolveActivity(packageManager) != null) {
+                                    startForAudioResult.launch(intent)
+                                } else {
+                                    Toast.makeText(this, "Your Device Doesn't Support Speech Input", Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         }
                         true
                     })
+                    // show icons on popup menu
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        popupMenu.setForceShowIcon(true)
+                    }else {
+                        try {
+                            val fields = popupMenu.javaClass.declaredFields
+                            for (field in fields) {
+                                if ("mPopup" == field.name) {
+                                    field.isAccessible = true
+                                    val menuPopupHelper = field.get(popupMenu)
+                                    val classPopupHelper =
+                                        Class.forName(menuPopupHelper.javaClass.name)
+                                    val setForceIcons: Method = classPopupHelper.getMethod(
+                                        "setForceShowIcon",
+                                        Boolean::class.javaPrimitiveType
+                                    )
+                                    setForceIcons.invoke(menuPopupHelper, true)
+                                    break
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
                     popupMenu.show()
                     true
+
                 }
                 R.id.upload -> {
                     // Respond to navigation item 2 click
@@ -173,6 +238,9 @@ class RecordActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     // Respond to navigation item 2 click
+                    val intent = Intent (applicationContext, AlbumFolderActivity::class.java)
+                    intent.putExtra("username","Hanyun")
+                    this.startActivity(intent) //go to album folder page
                     true
                 }
                 else -> false
@@ -207,6 +275,11 @@ class RecordActivity : AppCompatActivity() {
             values)
     }
 
+    private fun setObjectFocus(obj:String?){
+        //TODO: determine whether obj is in our set
+        viewState.objectFocus=obj
+    }
+
 //    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 //        menu?.apply {
 //            add(Menu.NONE, Menu.FIRST, Menu.NONE, getString(R.string.send))
@@ -239,13 +312,10 @@ class RecordActivity : AppCompatActivity() {
         val album = Album(username = "Hanyun",
             albumname = genAlbumName())
 
-        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri,activity) { msg ->
+        postAlbum(applicationContext, album, viewState.imageUri, viewState.videoUri,activity,viewState.objectFocus) { msg ->
             runOnUiThread {
                 toast(msg)
             }
-            //finish() //will return to parent?
-            //TODO:jump to profile/imageActivity
-
         }
         viewState.enableSend=true
 
@@ -290,42 +360,21 @@ class PostViewState: ViewModel() {
     var imageUri: Uri? = null
     var videoUri: Uri? = null
     var videoIcon = android.R.drawable.presence_video_online
+    var objectFocus:String?=null
 }
 
 class Album(var username: String? = null,
-            var albumname: String? = null,
-            var timestamp: String? = null,
-            imageUrl: String? = null,
-            videoUrl: String? = null) {
-    var imageUrl: String? by ChattPropDelegate(imageUrl)
-    var videoUrl: String? by ChattPropDelegate(videoUrl)
-}
+            var albumname: String? = null)
 
-//only used for test ****************************
-class Chatt(var username: String? = null,
-            var message: String? = null,
-            var timestamp: String? = null,
-            imageUrl: String? = null,
-            videoUrl: String? = null) {
-    var imageUrl: String? by ChattPropDelegate(imageUrl)
-    var videoUrl: String? by ChattPropDelegate(videoUrl)
-}
-class ChattPropDelegate private constructor ():
-    ReadWriteProperty<Any?, String?> {
-    private var _value: String? = null
-        // Kotlin custom setter
-        set(newValue) {
-            newValue ?: run {
-                field = null
-                return
-            }
-            field = if (newValue == "null" || newValue.isEmpty()) null else newValue
-        }
+//class ObjectFolder:Album(){ //This type is final, so it cannot be inherited from
+//    var objectname: String?=null
+//}
 
-    constructor(initialValue: String?): this() { _value = initialValue }
+class ObjectFolder(var username: String? = null,
+                   var albumname: String? = null,
+                   var objectname: String?=null)
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>) = _value
-    override fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
-        _value = value
-    }
-}
+
+//kind tip from Hanyun:
+//key to any emulator problem:
+//taskkill /F /IM "qemu-system-x86_64.exe" /T

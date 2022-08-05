@@ -161,7 +161,7 @@ postAlbum(username: str, albumname: str, focus: str)
 editAlbum(username: str, albumname: str, newAlbumname: str)
 
 # input: username, album to delete
-# GET /editalbum?username=&albumname=
+# GET /deletealbum?username=&albumname=
 deleteAlbum(username: str, albumname: str)
 
 

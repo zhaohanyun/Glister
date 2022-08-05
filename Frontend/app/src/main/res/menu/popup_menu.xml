@@ -13,4 +13,15 @@
         android:id="@+id/object_cars"
         android:title="@string/object_cars"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/object_cats"
+        android:title="@string/object_cats"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/audio_input"
+        android:title="@string/audio_input"
+        android:icon="@drawable/ic_action_audio_input"
+        android:iconTint="#FFFFFF"
+        android:iconTintMode="src_in"
+        app:showAsAction="never"/>
 </menu>
