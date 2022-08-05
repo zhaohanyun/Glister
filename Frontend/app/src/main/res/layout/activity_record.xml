@@ -15,7 +15,11 @@
         android:alpha="0.6"
         android:contentDescription="@string/background_image_desp"
         android:scaleType="centerCrop"
-        android:src="@drawable/test_bg" />
+        android:src="@drawable/test_bg"
+        app:srcCompat="@drawable/test_bg"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@drawable/test_bg" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/recordButton"

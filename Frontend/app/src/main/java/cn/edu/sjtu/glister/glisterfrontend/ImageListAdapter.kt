@@ -19,6 +19,8 @@ import android.view.ViewGroup
 import android.webkit.DownloadListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import cn.edu.sjtu.glister.glisterfrontend.ImageStore.deletePhoto
+import cn.edu.sjtu.glister.glisterfrontend.ImageStore.getImages
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.starPhoto
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemImageBinding
 import coil.load
@@ -28,7 +30,7 @@ import java.net.URL
 import java.util.concurrent.Executors
 
 
-class ImageListAdapter(context: Context, images: List<Image>) :
+class ImageListAdapter(context: Context, images: List<Image>,username:String,albumname:String,objectname:String) :
     ArrayAdapter<Image>(context, 0, images) {
 
     @SuppressLint("SetTextI18n")
@@ -85,7 +87,13 @@ class ImageListAdapter(context: Context, images: List<Image>) :
 //                if (listItemView.star.text == "UNSTAR") listItemView.star.text = "STAR"
 //                else listItemView.star.text = "UNSTAR"
                 //listItemView.star.setBackgroundColor(context.getResources().getColor(R.color.purple_200))
-                starPhoto(photoId?:-1,if(isStarred)1 else 0)
+                starPhoto(photoId?:-1,if(isStarred)0 else 1)
+                //TODO
+                //no way to refresh
+            }
+            listItemView.delete.setOnClickListener {
+                //TODO
+                //no way to delete! no access to username, albumname, foldername
             }
             listItemView.root.setBackgroundColor(Color.parseColor(if (position % 2 == 0) "#E0E0E0" else "#EEEEEE"))
             photoUri?.let {
@@ -120,7 +128,6 @@ class ImageListAdapter(context: Context, images: List<Image>) :
 //                val url = URL(photoUri)
 //                val bytes = url.readBytes()
 //                File("image.jpg").writeBytes(bytes)
-                //TODO readBytes() collapse
 
                 var mImage: Bitmap?
                 val myExecutor = Executors.newSingleThreadExecutor()

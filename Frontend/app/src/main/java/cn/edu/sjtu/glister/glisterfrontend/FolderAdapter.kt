@@ -41,51 +41,63 @@ class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
 //                        context.startActivity(intent)
 //                    }
 //                }
-                listItemView.folderButton.setOnClickListener(DoubleClick(object : DoubleClickListener {
-                    override fun onSingleClickEvent(view: View?) {
-                            val intent = Intent (context, ObjectFolderActivity::class.java)
-                            intent.putExtra("username","Hanyun")
-                            intent.putExtra("albumname",albumname)
+                if(it!="myfavorites") {
+                    listItemView.folderButton.setOnClickListener(DoubleClick(object :
+                        DoubleClickListener {
+                        override fun onSingleClickEvent(view: View?) {
+                            val intent = Intent(context, ObjectFolderActivity::class.java)
+                            intent.putExtra("username", "Hanyun")
+                            intent.putExtra("albumname", albumname)
                             context.startActivity(intent)
-                    }
+                        }
 
-                    override fun onDoubleClickEvent(view: View?) {
-                        // DO STUFF DOUBLE CLICK
-                        listItemView.folderButton.visibility = View.INVISIBLE
-                        listItemView.edtTextRename.visibility = View.VISIBLE
-                    }
-                }))
+                        override fun onDoubleClickEvent(view: View?) {
+                            // DO STUFF DOUBLE CLICK
+                            listItemView.folderButton.visibility = View.INVISIBLE
+                            listItemView.edtTextRename.visibility = View.VISIBLE
+                        }
+                    }))
 
 //                listItemView.edtTextRename.setOnLongClickListener(OnLongClickListener {
 //                    deleteAlbum(username?:"", albumname!!)
 //                    true
 //                })
-                listItemView.edtTextRename.setOnClickListener(DoubleClick(object : DoubleClickListener {
-                    override fun onSingleClickEvent(view: View?) {
-                        // DO STUFF SINGLE CLICK
-                        var newAlbumName: String = listItemView.edtTextRename.text.toString()
-                        if (newAlbumName.isEmpty()){
-                            newAlbumName = "UNTITLED"
+                    listItemView.edtTextRename.setOnClickListener(DoubleClick(object :
+                        DoubleClickListener {
+                        override fun onSingleClickEvent(view: View?) {
+                            // DO STUFF SINGLE CLICK
+                            var newAlbumName: String = listItemView.edtTextRename.text.toString()
+                            if (newAlbumName.isEmpty()) {
+                                newAlbumName = "UNTITLED"
+                            }
+                            println(newAlbumName)
+                            //listItemView.folderButton.text = newAlbumName
+                            listItemView.folderButton.visibility = View.VISIBLE
+                            listItemView.edtTextRename.visibility = View.INVISIBLE
+                            editAlbum(username ?: "", it, newAlbumName)
                         }
-                        println(newAlbumName)
-                        //listItemView.folderButton.text = newAlbumName
-                        listItemView.folderButton.visibility = View.VISIBLE
-                        listItemView.edtTextRename.visibility = View.INVISIBLE
-                        editAlbum(username?:"",it,newAlbumName)
-                    }
 
-                    override fun onDoubleClickEvent(view: View?) {
-                        // DO STUFF DOUBLE CLICK
-                        listItemView.edtTextRename.visibility = View.VISIBLE
-                        listItemView.folderButton.visibility = View.INVISIBLE
-                        listItemView.edtTextRename.setBackgroundColor(Color.parseColor("@color/purple_200"))
-                        //cannot set background color in xml, or will destroy databinding!
-                    }
-                }))
+                        override fun onDoubleClickEvent(view: View?) {
+                            // DO STUFF DOUBLE CLICK
+                            listItemView.edtTextRename.visibility = View.VISIBLE
+                            listItemView.folderButton.visibility = View.INVISIBLE
+                            listItemView.edtTextRename.setBackgroundColor(Color.parseColor("@color/purple_200"))
+                            //cannot set background color in xml, or will destroy databinding!
+                        }
+                    }))
 
-                listItemView.deleteAlbum.setOnClickListener {  v: View ->
-                    if (v.id == R.id.delete_album) {
-                        deleteAlbum(username ?: "", it)
+                    listItemView.deleteAlbum.setOnClickListener { v: View ->
+                        if (v.id == R.id.delete_album) {
+                            deleteAlbum(username ?: "", it)
+                        }
+                    }
+                }else{
+                    listItemView.deleteAlbum.visibility= GONE
+                    listItemView.folderButton.setOnClickListener { v: View ->
+                        val intent = Intent (context, ObjectFolderActivity::class.java)
+                        intent.putExtra("username","Hanyun")
+                        intent.putExtra("albumname","myfavorites")
+                        context.startActivity(intent)
                     }
                 }
             }

@@ -42,14 +42,14 @@ class ImageActivity : AppCompatActivity() {
         view.root.setBackgroundColor(Color.parseColor("#E0E0E0"))
         setContentView(view.root)
 
-        imageListAdapter = ImageListAdapter(this, images)
-
-        view.imageListView.setAdapter(imageListAdapter)
-        images.addOnListChangedCallback(propertyObserver)
-
         val username:String=(getIntent().getExtras()?.getString("username"))?:""
         val albumname:String=(getIntent().getExtras()?.getString("albumname"))?:""
         val objectname:String=(getIntent().getExtras()?.getString("objectname"))?:""
+
+        imageListAdapter = ImageListAdapter(this, images,username,albumname,objectname)
+
+        view.imageListView.setAdapter(imageListAdapter)
+        images.addOnListChangedCallback(propertyObserver)
 
         //GetPermission()
         // setup refreshContainer here later
