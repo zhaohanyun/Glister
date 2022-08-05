@@ -274,6 +274,10 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
      - **[Current Limitation]**: However according to the dataset scale, it is only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
 - Front-end Design
 - Back-end Construction
+  - Challenge 1: The video extraction function always reverse the portrait videos and cause errors to object detection
+    - **[Solution]**: We searched online for functions detecting the intrinsic rotation flag in the video and rotate the video according to it before extraction
+  - Challenge 2: Debugging for backend is tedious and it's hard for us to see the output error, especially for SQL statements
+    - **[Solution]**: We first use "service gunicorn status" to see the printing messages. We then debug SQL statements by directing entering the database and type in the statements into terminal. We also write scripts for resetting database and directories so that we can start over if something bad happens.
  
  ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
