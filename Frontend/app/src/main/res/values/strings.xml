@@ -20,6 +20,7 @@
     <string name="send">Send</string>
     <string name="Hanyun_server">https://52.39.198.75/</string>
     <string name="server">https://106.14.1.108/</string>
+    <string name="background_image_desp">Background Image</string>
 
 
 </resources>
