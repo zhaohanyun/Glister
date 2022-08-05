@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.activity_main_navigation.*
 
 class MainNavigationActivity : AppCompatActivity() {
     // Properties
-    private val startRecordIntent = Intent(this, VideoRecordingActivity::class.java)
-    private val imgAnalysisIntent = Intent(this, ImageAnalysis::class.java)
+    //private val startRecordIntent = Intent(this, VideoRecordingActivity::class.java)
+    //private val imgAnalysisIntent = Intent(this, ImageAnalysis::class.java)
 //    fun startRecordIntent(view: View?) = startActivity(Intent(this, VideoRecordingActivity::class.java))
 
 
@@ -65,9 +65,11 @@ class MainNavigationActivity : AppCompatActivity() {
             // 1. Get img_path from Uri
             // 2. input to image_analysis activity
             // imgAnalysisIntent.putExtra("img_path", img_path)
+            val imgAnalysisIntent = Intent(this, ImageAnalysis::class.java)
             startActivity(imgAnalysisIntent)
         }
         btn_naviNewEvent.setOnClickListener{
+            val startRecordIntent = Intent(this, VideoRecordingActivity::class.java)
             startActivity(startRecordIntent)
         }
 

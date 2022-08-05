@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Glister</string>
+    <string name="app_name">Glister_fsm</string>
     <string name="navi_newEventBtn">New Video Event</string>
     <string name="navi_imgAnalysisBtn">Image\nAnalysis</string>
     <string name="navi_uploadVideoBtn">Upload\nVideo</string>

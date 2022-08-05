@@ -85,8 +85,6 @@ class ImageActivity : AppCompatActivity() {
     }
     private fun refreshTimeline(username:String, albumname:String, objectname:String) {
         getImages(username,albumname,objectname)
-        //TODO: call getImage with var username, albumname and foldername
-
         // stop the refreshing animation upon completion:
         view.refreshContainer.isRefreshing = false
     }

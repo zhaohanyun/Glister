@@ -3,11 +3,15 @@ package cn.edu.sjtu.glister.glisterfrontend
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.deleteAlbum
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.editAlbum
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemFolderBinding
 import com.ddd.androidutils.DoubleClick
 import com.ddd.androidutils.DoubleClickListener
@@ -28,14 +32,60 @@ class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
             // TODO: Incorporate EditAlbum with EditText View
 
 
-
             albumname?.let {
-                listItemView.folderButton.setOnClickListener { v: View ->
-                    if (v.id == R.id.folderButton) {
-                        val intent = Intent (context, ObjectFolderActivity::class.java)
-                        intent.putExtra("username","Hanyun")
-                        intent.putExtra("albumname",albumname)
-                        context.startActivity(intent)
+//                listItemView.folderButton.setOnClickListener { v: View ->
+//                    if (v.id == R.id.folderButton) {
+//                        val intent = Intent (context, ObjectFolderActivity::class.java)
+//                        intent.putExtra("username","Hanyun")
+//                        intent.putExtra("albumname",albumname)
+//                        context.startActivity(intent)
+//                    }
+//                }
+                listItemView.folderButton.setOnClickListener(DoubleClick(object : DoubleClickListener {
+                    override fun onSingleClickEvent(view: View?) {
+                            val intent = Intent (context, ObjectFolderActivity::class.java)
+                            intent.putExtra("username","Hanyun")
+                            intent.putExtra("albumname",albumname)
+                            context.startActivity(intent)
+                    }
+
+                    override fun onDoubleClickEvent(view: View?) {
+                        // DO STUFF DOUBLE CLICK
+                        listItemView.folderButton.visibility = View.INVISIBLE
+                        listItemView.edtTextRename.visibility = View.VISIBLE
+                    }
+                }))
+
+//                listItemView.edtTextRename.setOnLongClickListener(OnLongClickListener {
+//                    deleteAlbum(username?:"", albumname!!)
+//                    true
+//                })
+                listItemView.edtTextRename.setOnClickListener(DoubleClick(object : DoubleClickListener {
+                    override fun onSingleClickEvent(view: View?) {
+                        // DO STUFF SINGLE CLICK
+                        var newAlbumName: String = listItemView.edtTextRename.text.toString()
+                        if (newAlbumName.isEmpty()){
+                            newAlbumName = "UNTITLED"
+                        }
+                        println(newAlbumName)
+                        //listItemView.folderButton.text = newAlbumName
+                        listItemView.folderButton.visibility = View.VISIBLE
+                        listItemView.edtTextRename.visibility = View.INVISIBLE
+                        editAlbum(username?:"",it,newAlbumName)
+                    }
+
+                    override fun onDoubleClickEvent(view: View?) {
+                        // DO STUFF DOUBLE CLICK
+                        listItemView.edtTextRename.visibility = View.VISIBLE
+                        listItemView.folderButton.visibility = View.INVISIBLE
+                        listItemView.edtTextRename.setBackgroundColor(Color.parseColor("@color/purple_200"))
+                        //cannot set background color in xml, or will destroy databinding!
+                    }
+                }))
+
+                listItemView.deleteAlbum.setOnClickListener {  v: View ->
+                    if (v.id == R.id.delete_album) {
+                        deleteAlbum(username ?: "", it)
                     }
                 }
             }
@@ -92,6 +142,7 @@ class ObjectFolderAdapter(context: Context, foldernames: ArrayList<ObjectFolder>
 
         getItem(position)?.run {
             listItemView.folderButton.text = objectname
+            listItemView.deleteAlbum.visibility= GONE
 
             objectname?.let {
                 listItemView.folderButton.setOnClickListener { v: View ->

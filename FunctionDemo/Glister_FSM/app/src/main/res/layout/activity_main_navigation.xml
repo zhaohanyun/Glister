@@ -34,7 +34,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
-        android:tooltipText="Start a new video recording"/>
+        android:tooltipText="Start a new video recording" />
 
     <Button
         android:id="@+id/btn_imageAnalysis"

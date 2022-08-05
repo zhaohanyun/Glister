@@ -29,6 +29,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".VideoRecordingActivity"/>
+        <activity
+            android:name=".ImageExplain"/>
+        <activity
+            android:name=".ImageAnalysis"/>
+
     </application>
 
 </manifest>

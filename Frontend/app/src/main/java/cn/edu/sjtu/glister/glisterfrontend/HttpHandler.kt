@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 
 import androidx.databinding.ObservableArrayList
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.albums
 import com.google.android.material.internal.ContextUtils.getActivity
 import kotlinx.coroutines.Dispatchers.Main
 import okhttp3.*
@@ -117,7 +119,7 @@ object AlbumStore {
         })
     }
 
-    fun getAlbums(context: Context,username:String,activity: Activity)
+    fun getAlbums(username:String)
 //        # request parameter: username
 //        # response: a list of albums of this user (e.g. Jay Chou concert, NBA live)
 //        # GET /getalbums?username=&albumname=
@@ -140,6 +142,7 @@ object AlbumStore {
                     val albumsReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("albums") } catch (e: JSONException) { JSONArray() }
                     //albumsReceived is a list of albumnames
                     println("You have albums:")
+                    albums.clear()
                     for (i in 0 until albumsReceived.length()) {
                         println(albumsReceived[i])
                         albums.add(Album(username, albumsReceived[i] as String?)) //update Model
@@ -164,10 +167,11 @@ object AlbumStore {
         //    # request parameter: username, album to edit, new album name
         //    # GET /editalbum?username=&albumname=&newalbumname=
         //    editAlbum(username: str, albumname: str, newAlbumname: str)
-        // TODO: FSM
 
         val editAlbumsUrl = (serverUrl+"editalbum/").toHttpUrl().newBuilder()
             .addQueryParameter("username", username)
+            .addQueryParameter("albumname", albumname)
+            .addQueryParameter("newalbumname", newAlbumname)
             .build()
         val request = Request.Builder()
             .url(editAlbumsUrl)
@@ -175,18 +179,13 @@ object AlbumStore {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("getAlbums", "Failed GET album request")
+                Log.e("editalbum", "Failed GET edit album request")
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    val albumsReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("albums") } catch (e: JSONException) { JSONArray() }
-                    //albumsReceived is a list of albumnames
-                    println("You have albums:")
-                    for (i in 0 until albumsReceived.length()) {
-                        println(albumsReceived[i])
-                        albums.add(Album(username, albumsReceived[i] as String?)) //update Model
-                    }
+                    getAlbums(username)
+                    //use completion handler will end this activity
                 }
             }
         })
@@ -199,8 +198,9 @@ object AlbumStore {
 //    deleteAlbum(username: str, albumname: str)
 
         //TODO
-        val deleteAlbumsUrl = (serverUrl+"editalbums/").toHttpUrl().newBuilder()
+        val deleteAlbumsUrl = (serverUrl+"editalbum/").toHttpUrl().newBuilder()
             .addQueryParameter("username", username)
+            .addQueryParameter("albumname", albumname)
             .build()
         val request = Request.Builder()
             .url(deleteAlbumsUrl)
@@ -208,31 +208,13 @@ object AlbumStore {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("deleteAlbums", "Failed GET album request")
+                Log.e("deleteAlbums", "Failed GET delete album request")
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    val albumsReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("albums") } catch (e: JSONException) { JSONArray() }
-                    //albumsReceived is a list of albumnames
-                    println("You have albums:")
-                    for (i in 0 until albumsReceived.length()) {
-                        println(albumsReceived[i])
-                        albums.add(Album(username, albumsReceived[i] as String?)) //update Model
-                    }
-                    val albumnames = Array(albumsReceived.length()) {
-                        albumsReceived.getString(it)
-                    }
-                    //bad implementation!
-//                    val intent = Intent (context, AlbumFolderActivity::class.java)
-//                    intent.putStringArrayListExtra("ArrayofFolders",ArrayList(albumnames.toMutableList())) //ArrayList
-//                    intent.putExtra("username",username)
-//                    activity.startActivity(intent)
-
-
+                    getAlbums(username)
                 }
-
-
             }
         })
     }
@@ -269,7 +251,7 @@ object ObjectFolderStore {
                 if (response.isSuccessful) {
                     val objectFoldersReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("folders") } catch (e: JSONException) { JSONArray() }
                     //albumsReceived is a list of albumnames
-                    println("You have object folders:")
+                    objectfolders.clear()
                     for (i in 0 until objectFoldersReceived.length()) {
                         println(objectFoldersReceived[i])
                         objectfolders.add(ObjectFolder(username, albumname, objectFoldersReceived[i] as String?)) //update Model

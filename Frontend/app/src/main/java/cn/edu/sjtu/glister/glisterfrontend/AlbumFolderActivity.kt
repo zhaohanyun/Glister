@@ -61,7 +61,7 @@ class AlbumFolderActivity : AppCompatActivity() {
     private fun refreshTimeline(username:String) {
         //ImageStore.getImages("Hanyun", "20220715_121710", "cat") //test
 
-        getAlbums(applicationContext,username,this)
+        getAlbums(username)
         // stop the refreshing animation upon completion:
         view.refreshContainer.isRefreshing = false
     }

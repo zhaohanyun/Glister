@@ -6,6 +6,8 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.net.toFile
 import androidx.databinding.ObservableArrayList
+import cn.edu.sjtu.glister.glisterfrontend.AlbumStore.getAlbums
+import cn.edu.sjtu.glister.glisterfrontend.ObjectFolderStore.getFolders
 /*import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -95,22 +97,74 @@ object ImageStore {
     fun getFavorites(username: String, albumname: String) {
 //    # GET /getfavorites?username=&albumname=
 //    getFavorites(username: str, albumname: str) -> list[Photo]
+        val getFavoritesUrl = (serverUrl+"getfavorites/").toHttpUrl().newBuilder()
+            .addQueryParameter("username", username)
+            .addQueryParameter("albumname", albumname)
+            .build()
+        val request = Request.Builder()
+            .url(getFavoritesUrl)
+            .build()
 
-        //TODO
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: java.io.IOException) {
+                Log.e("getFavorites", "Failed GET getFavorites request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    getFolders(username,albumname)
+                }
+            }
+        })
     }
     fun starPhoto(photoId: Int, star: Int) {
 //    # request parameter: photo id, whether to star or unstar the photo (1 for star, 0 for unstar)
 //    # GET /starphoto?photoid=&star=
 //    starPhoto(photoId: int, star: int)
+        val getStarsUrl = (serverUrl+"starphoto/").toHttpUrl().newBuilder()
+            .addQueryParameter("photoid", photoId.toString())
+            .addQueryParameter("star", star.toString())
+            .build()
+        val request = Request.Builder()
+            .url(getStarsUrl)
+            .build()
 
-        //TODO
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: java.io.IOException) {
+                Log.e("starphoto", "Failed GET starphoto request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    //refresh
+                }
+            }
+        })
     }
 
     fun deletePhoto(username: String, albumname: String, foldername: String, photoId: Int) {
 //    # request parameter: user name, album name, folder name, photo id to delete
 //    # GET /deletephoto?username=&albumname=&foldername=&photoid=
 //    deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
+        val getDeletePhotoUrl = (serverUrl+"deletephoto/").toHttpUrl().newBuilder()
+            .addQueryParameter("username", username)
+            .addQueryParameter("foldername", foldername)
+            .addQueryParameter("photoid", photoId.toString())
+            .build()
+        val request = Request.Builder()
+            .url(getDeletePhotoUrl)
+            .build()
 
-        //TODO
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: java.io.IOException) {
+                Log.e("deletephoto", "Failed GET DeletePhoto request")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    getImages(username,albumname,foldername)
+                }
+            }
+        })
     }
 }
