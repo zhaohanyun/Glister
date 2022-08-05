@@ -111,6 +111,7 @@ def getFavorites(request):
         return HttpResponse(status=404)
     username = request.GET.get("username")
     albumname = request.GET.get("albumname")
+    foldername = 'myfavorites'
     cursor = connection.cursor()
     cursor.execute(
         '''

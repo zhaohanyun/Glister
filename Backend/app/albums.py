@@ -33,7 +33,7 @@ def getAlbums(request):
         .format(username)
     )
     rows = [i[0] for i in cursor.fetchall()]
-    rows.append("myfavorites")
+    # rows.append("myfavorites")
     response = {}
     response['albums'] = rows
     return JsonResponse(response)
@@ -63,6 +63,7 @@ def getFolders(request):
         .format(username, albumname, )
     )
     rows = [i[0] for i in cursor.fetchall()]
+    rows.append("myfavorites")
     #rows = cursor.fetchall()
     response = {}
     response['folders'] = rows
@@ -211,8 +212,6 @@ def deleteAlbum(request):
     albumname = request.GET.get("albumname")
     print(username, 'is deleting', albumname)
     
-    dirPath = settings.MEDIA_ROOT / username / albumname
-    shutil.rmtree(dirPath)
     cursor = connection.cursor()
     cursor.execute('PRAGMA foreign_keys=ON')
     cursor.execute(
@@ -222,4 +221,6 @@ def deleteAlbum(request):
         '''
         .format(albumname)
     )
+    dirPath = settings.MEDIA_ROOT / username / albumname
+    shutil.rmtree(dirPath)
     return JsonResponse({})
