@@ -298,6 +298,9 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    - Finish testing and deploying image object relatedness scoring model
    - Finish finetuning and deploying image aesthetic-base assessment scoring model
    - Finish image construction pattern recognition scoring system
+   - Finish backend function for image aesthetic score explanation with Saliency Map
+   - Implement front-end design for folder rename
+   - Implement front-end design for image analyze
 - Yuchen Xu tonyxu0305@sjtu.edu.cn
   -  Finish the UI design and UI flow
   -  Finish the front-face interface design
