@@ -305,6 +305,7 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
    - Engine architecture and systematic design
+   - Preprocess the CADB image aesthetic scoring training dataset [[processed CADB](https://drive.google.com/file/d/1scdHgmPOmiNzhdpqhCDdNW2K184b_7rp/view?usp=sharing)]
    - Finish testing and deploying image object relatedness scoring model
    - Finish finetuning and deploying image aesthetic-base assessment scoring model
    - Finish backend function for image aesthetic score explanation with Saliency Map and pattern-wise importance scoring
