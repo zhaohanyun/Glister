@@ -274,6 +274,10 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
      - **[Solution]**: Since the backbone deeplearning model could be continually trained, the manually scored photos from different users could be collected for further fine-tuning a more personalized photo assessment model. 
      - **[Current Limitation]**: However, since it is inapplicable to get fine-grained pattern-wise scores from users, currently we trained a regression model to predict a personalized overall aesthetic score. ***Thus, the personalized model cannot support explainability.*** Mainwhile, to avoid overfitting, only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
 - Front-end Design
+  - Challenge 1: The APP will terminate when saving the photo to local disk by url in the list view  
+    - **[Solution]**: After several days searching and studying, we decided to use a executor to do this task to avoid it from terminating, and we used two helper functions, one to generate the corresponding bitmap according to the url, the next is to save the photo to local album by the bitmap, and it can work now. 
+   - Challenge 2: It is hard to complete the feature of editting photo
+     - **[Solution]**: After several days search, we find it hard to use the code of other project of editting photos for our project because we require different settings of graddle, last we choose to use the Android Camera API to accomplish it. 
 - Back-end Construction
   - Challenge 1: The video extraction function always reverse the portrait videos and cause errors to object detection
     - **[Solution]**: We searched online for functions detecting the intrinsic rotation flag in the video and rotate the video according to it before extraction
