@@ -186,6 +186,8 @@ object AlbumStore {
                 if (response.isSuccessful) {
                     getAlbums(username)
                     //use completion handler will end this activity
+                }else{
+                    Log.e("deleteAlbums","error response")
                 }
             }
         })
@@ -198,7 +200,7 @@ object AlbumStore {
 //    deleteAlbum(username: str, albumname: str)
 
         //TODO
-        val deleteAlbumsUrl = (serverUrl+"editalbum/").toHttpUrl().newBuilder()
+        val deleteAlbumsUrl = (serverUrl+"deletealbum/").toHttpUrl().newBuilder()
             .addQueryParameter("username", username)
             .addQueryParameter("albumname", albumname)
             .build()
@@ -214,6 +216,8 @@ object AlbumStore {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     getAlbums(username)
+                }else{
+                    Log.e("deleteAlbums","error response")
                 }
             }
         })

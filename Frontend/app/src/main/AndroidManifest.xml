@@ -44,10 +44,6 @@
             android:label="@string/edit"
             android:parentActivityName=".RecordActivity" />
         <activity
-            android:name=".ViewImages"
-            android:label="ViewImages"
-            android:parentActivityName=".RecordActivity" />
-        <activity
             android:name=".RecordActivity"
             android:exported="true">
             <intent-filter>
@@ -60,11 +56,13 @@
         <activity
             android:name=".AlbumFolderActivity"
             android:label="AlbumFolderActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".RecordActivity" />
 
         <activity
             android:name=".ObjectFolderActivity"
             android:label="ObjectFolderActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".AlbumFolderActivity" />
         <activity
             android:name=".ImageActivity"

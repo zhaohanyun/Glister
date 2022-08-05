@@ -41,12 +41,13 @@ class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
 //                        context.startActivity(intent)
 //                    }
 //                }
-                listItemView.folderButton.setOnClickListener(DoubleClick(object : DoubleClickListener {
+                listItemView.folderButton.setOnClickListener(DoubleClick(object :
+                    DoubleClickListener {
                     override fun onSingleClickEvent(view: View?) {
-                            val intent = Intent (context, ObjectFolderActivity::class.java)
-                            intent.putExtra("username","Hanyun")
-                            intent.putExtra("albumname",albumname)
-                            context.startActivity(intent)
+                        val intent = Intent(context, ObjectFolderActivity::class.java)
+                        intent.putExtra("username", "Hanyun")
+                        intent.putExtra("albumname", albumname)
+                        context.startActivity(intent)
                     }
 
                     override fun onDoubleClickEvent(view: View?) {
@@ -60,18 +61,19 @@ class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
 //                    deleteAlbum(username?:"", albumname!!)
 //                    true
 //                })
-                listItemView.edtTextRename.setOnClickListener(DoubleClick(object : DoubleClickListener {
+                listItemView.edtTextRename.setOnClickListener(DoubleClick(object :
+                    DoubleClickListener {
                     override fun onSingleClickEvent(view: View?) {
                         // DO STUFF SINGLE CLICK
                         var newAlbumName: String = listItemView.edtTextRename.text.toString()
-                        if (newAlbumName.isEmpty()){
+                        if (newAlbumName.isEmpty()) {
                             newAlbumName = "UNTITLED"
                         }
                         println(newAlbumName)
                         //listItemView.folderButton.text = newAlbumName
                         listItemView.folderButton.visibility = View.VISIBLE
                         listItemView.edtTextRename.visibility = View.INVISIBLE
-                        editAlbum(username?:"",it,newAlbumName)
+                        editAlbum(username ?: "", it, newAlbumName)
                     }
 
                     override fun onDoubleClickEvent(view: View?) {
@@ -83,7 +85,7 @@ class AlbumFolderAdapter(context: Context, foldernames: ArrayList<Album>) :
                     }
                 }))
 
-                listItemView.deleteAlbum.setOnClickListener {  v: View ->
+                listItemView.deleteAlbum.setOnClickListener { v: View ->
                     if (v.id == R.id.delete_album) {
                         deleteAlbum(username ?: "", it)
                     }
@@ -145,12 +147,30 @@ class ObjectFolderAdapter(context: Context, foldernames: ArrayList<ObjectFolder>
             listItemView.deleteAlbum.visibility= GONE
 
             objectname?.let {
+//                if(it!="myfavorites") {
+//                    listItemView.folderButton.setOnClickListener { v: View ->
+//                        if (v.id == R.id.folderButton) {
+//                            val intent = Intent(context, ImageActivity::class.java)
+//                            intent.putExtra("username", "Hanyun")
+//                            intent.putExtra("albumname", albumname)
+//                            intent.putExtra("objectname", objectname)
+//                            context.startActivity(intent)
+//                        }
+//                    }
+//                }else {
+//                    listItemView.folderButton.setOnClickListener { v: View ->
+//                        val intent = Intent(context, ImageActivity::class.java)
+//                        intent.putExtra("username", "Hanyun")
+//                        intent.putExtra("albumname", "myfavorites")
+//                        context.startActivity(intent)
+//                    }
+//                }
                 listItemView.folderButton.setOnClickListener { v: View ->
                     if (v.id == R.id.folderButton) {
                         val intent = Intent(context, ImageActivity::class.java)
                         intent.putExtra("username", "Hanyun")
                         intent.putExtra("albumname", albumname)
-                        intent.putExtra("objectname",objectname)
+                        intent.putExtra("objectname", objectname)
                         context.startActivity(intent)
                     }
                 }

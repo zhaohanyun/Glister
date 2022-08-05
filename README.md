@@ -1,12 +1,11 @@
 # Glister
 This is the project for UMJI VE441 App Development for Entrepreneurs from Group Glister. This app can help you capture good scene and moments without your operation. 
 
-
-
 ## Getting Started
 <!--
 documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies. 
 -->
+
 
 ### FrontEnd
 
@@ -212,9 +211,11 @@ starPhoto(photoId: int, star: int)
 # input: user name, album name, folder name, photo id to delete
 # GET /deletephoto?username=&albumname=&foldername=&photoid=
 deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
+
+# input: user name, album name, folder name. photo id to delete, score to replace, new folder name to replace
+# POST /editphoto?username=&albumname=&foldername=&photoid=&score=&newfoldername=
+editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: int, newfoldername: str)
 ```
-
-
 
  ## View UI/UX
 ### Usability Test Results
@@ -264,40 +265,58 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
  <!--
  a list of team members and each member's contribution. You may simply list each member's full name for now, leaving the contribution description to the end of term. Should you want to make your GitHub public at the end of term, what do you want visitors (potential employer) to know about your contribution to this project?  
  -->
-
+ ### Main Challenges
+<!--  challenges you have encountered during the app development and how much effort you have spent on tackling them.  -->
+- Machine learning(Computer Vision)-based Image Assessment System
+  - Challenge 1: The black-box maching-learning model cannot be explanable to get user's trust   
+    - **[Solution]**: After comprehensive literature review for image aesthetic assessment, we choose to use SAMP-Net as the deep learning model structure and [CADB](https://drive.google.com/file/d/1fpZoo5exRfoarqDvdLDpQVXVOKFW63vz/view) as the training dataset. Since the training process of SAMP-Net not only consider the color saliency map of the photo, but also assess the photo by pattern-wise importance scores, we are able to use these properties to build an explanable and more trustworth image aesthetic app. 
+   - Challenge 2: It is hard for the ML model to adapt to personalized preference
+     - **[Solution]**: Since the backbone deeplearning model could be continually trained, the manually scored photos from different users could be collected for further fine-tuning a more personalized photo assessment model. 
+     - **[Current Limitation]**: However, since it is inapplicable to get fine-grained pattern-wise scores from users, currently we trained a regression model to predict a personalized overall aesthetic score. ***Thus, the personalized model cannot support explainability.*** Mainwhile, to avoid overfitting, only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
+- Front-end Design
+  - Challenge 1: The APP will terminate when saving the photo to local disk by url in the list view  
+    - **[Solution]**: After several days searching and studying, we decided to use a executor to do this task to avoid it from terminating, and we used two helper functions, one to generate the corresponding bitmap according to the url, the next is to save the photo to local album by the bitmap, and it can work now. 
+   - Challenge 2: It is hard to complete the feature of editting photo
+     - **[Solution]**: After several days search, we find it hard to use the code of other project of editting photos for our project because we require different settings of graddle, last we choose to use the Android Camera API to accomplish it. 
+- Back-end Construction
+  - Challenge 1: The video extraction function always reverse the portrait videos and cause errors to object detection
+    - **[Solution]**: We searched online for functions detecting the intrinsic rotation flag in the video and rotate the video according to it before extraction
+  - Challenge 2: Debugging for backend is tedious and it's hard for us to see the output error, especially for SQL statements
+    - **[Solution]**: We first use "service gunicorn status" to see the printing messages. We then debug SQL statements by directing entering the database and type in the statements into terminal. We also write scripts for resetting database and directories so that we can start over if something bad happens.
+ 
+ ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
 
-  - ​     Finish the UI of the feature of "View scored photos".
-
-
-  - ​     Finish the front end work of the feature of "Get recommended photos".
-
-
-  - ​     Finish the front end work of the feature of "Star photos".
-
-
-  - ​     Finish the feature of "Download photos to local".
-
-
-  - ​     Finish the feature of "Adjust photos".
-
+  - Finish the front end work of the feature of "View scored photos".
+  - Finish the front end work of the feature of "Get recommended photos".
+  - Finish the front end work of the feature of "Star photos".
+  - Finish the feature of "Download photos to local".
+  - Finish the feature of "Adjust photos".
+  - Finish the UI of "manually score photos".
+  - Finish the UI of "delete unwanted photos".
+  
+   
+  
 
 
 - Hanyun Zhao zhaohanyun@sjtu.edu.cn 
 
   - Finish the feature of recording
-
   - Finish the feature of upload photos and videos
   - Finish the feature of specify object in front end
-
   - Implement API in front end
 
     
 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
+   - Engine architecture and systematic design
+   - Preprocess the CADB image aesthetic scoring training dataset [[processed CADB](https://drive.google.com/file/d/1scdHgmPOmiNzhdpqhCDdNW2K184b_7rp/view?usp=sharing)]
    - Finish testing and deploying image object relatedness scoring model
    - Finish finetuning and deploying image aesthetic-base assessment scoring model
-   - Finish image construction pattern recognition scoring system
+   - Finish backend function for image aesthetic score explanation with Saliency Map and pattern-wise importance scoring
+   - Implement front-end design for folder rename, manually image scoring with rating bar and image aesthetic score explanation
+   - Implement fine-tuning SAMPNET with manually scored images (only when amount>100)
+
 - Yuchen Xu tonyxu0305@sjtu.edu.cn
   -  Finish the UI design and UI flow
   -  Finish the front-face interface design
@@ -311,6 +330,8 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    -  Finish writing backend API "postAlbum" and subfunctions "processVideo" and "processImages" for the feature of "Real-time recording", "Upload photos" and "Upload videos"
    -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
    -  Finish setting up the database
+   -  Finish revising the “Extract Video” function to deal with both portrait and landscape photos or videos.
+   -  Finish adding “object focus” input for the backend API “postAlbum” so that users are able to specify the object focus they want to capture.
 -  Zechen Huang huangzechen@sjtu.edu.cn  
    - Deploy the backend frameworks and tools on the cloud server.
    - Configure the backend directory and write shell scripts to control the app.

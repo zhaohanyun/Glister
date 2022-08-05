@@ -1,12 +1,14 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -16,22 +18,29 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.DownloadListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import cn.edu.sjtu.glister.glisterfrontend.ImageStore.deletePhoto
+import cn.edu.sjtu.glister.glisterfrontend.ImageStore.getImages
+import cn.edu.sjtu.glister.glisterfrontend.ImageStore.relocatePhoto
+import cn.edu.sjtu.glister.glisterfrontend.ImageStore.scorePhoto
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.starPhoto
 import cn.edu.sjtu.glister.glisterfrontend.databinding.ListitemImageBinding
 import coil.load
-import kotlinx.android.synthetic.main.activity_view.*
-import retrofit2.http.Url
+import com.ddd.androidutils.DoubleClick
+import com.ddd.androidutils.DoubleClickListener
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.Executors
 
 
-class ImageListAdapter(context: Context, images: List<Image>) :
+class ImageListAdapter(context: Context, images: List<Image>,username:String,albumname:String,foldername:String) :
     ArrayAdapter<Image>(context, 0, images) {
+
+    private val username=username
+    private val albumname=albumname
+    private val foldername=foldername
 
     @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -87,7 +96,14 @@ class ImageListAdapter(context: Context, images: List<Image>) :
 //                if (listItemView.star.text == "UNSTAR") listItemView.star.text = "STAR"
 //                else listItemView.star.text = "UNSTAR"
                 //listItemView.star.setBackgroundColor(context.getResources().getColor(R.color.purple_200))
-                starPhoto(photoId?:-1,if(isStarred)1 else 0)
+                starPhoto(photoId?:-1,if(isStarred)0 else 1)
+                getImages(username,albumname,foldername)
+            }
+            listItemView.delete.setOnClickListener {
+                if (photoId != null) {
+                    deletePhoto(username,albumname,foldername,photoId)
+                }
+                getImages(username,albumname,foldername)
             }
             listItemView.root.setBackgroundColor(Color.parseColor(if (position % 2 == 0) "#E0E0E0" else "#EEEEEE"))
             photoUri?.let {
@@ -102,8 +118,7 @@ class ImageListAdapter(context: Context, images: List<Image>) :
             }
 
             //直接设置方法
-            listItemView.save.setOnClickListener()
-            {
+            listItemView.save.setOnClickListener() {
                 //val executor = Executors.newSingleThreadExecutor()
 
                 //找个有图的网址做演示
@@ -122,7 +137,6 @@ class ImageListAdapter(context: Context, images: List<Image>) :
 //                val url = URL(photoUri)
 //                val bytes = url.readBytes()
 //                File("image.jpg").writeBytes(bytes)
-                //TODO readBytes() collapse
 
                 var mImage: Bitmap?
                 val myExecutor = Executors.newSingleThreadExecutor()
@@ -135,6 +149,75 @@ class ImageListAdapter(context: Context, images: List<Image>) :
                 }
 
             }
+
+            //editscore
+            listItemView.score.setOnClickListener(DoubleClick(object :
+                DoubleClickListener {
+                override fun onSingleClickEvent(view: View?) {
+                }
+                override fun onDoubleClickEvent(view: View?) {
+                    // DO STUFF DOUBLE CLICK
+                    listItemView.score.visibility = View.INVISIBLE
+                    listItemView.editscore.visibility = View.VISIBLE
+                }
+            }))
+
+            listItemView.editscore.setOnClickListener(DoubleClick(object :
+                DoubleClickListener {
+                override fun onSingleClickEvent(view: View?) {
+                    // DO STUFF SINGLE CLICK
+                    var newScore: String = listItemView.editscore.text.toString()
+                    if (newScore.isEmpty()) {
+                        newScore = "UNTITLED"
+                    }
+                    println(newScore)
+                    //listItemView.folderButton.text = newAlbumName
+                    listItemView.score.visibility = View.VISIBLE
+                    listItemView.editscore.visibility = View.INVISIBLE
+                    if (photoId != null) {
+                        scorePhoto(username,albumname,foldername,photoId, newScore.toInt())
+                    }
+                }
+
+                override fun onDoubleClickEvent(view: View?) {
+                    // DO STUFF DOUBLE CLICK
+                    listItemView.editscore.visibility = View.VISIBLE
+                    listItemView.score.visibility = View.INVISIBLE
+                }
+            }))
+
+
+            //edit location
+            listItemView.relocate.setOnClickListener{
+                    listItemView.relocate.visibility = View.INVISIBLE
+                    listItemView.relocateDst.visibility = View.VISIBLE
+            }
+
+
+            listItemView.relocateDst.setOnClickListener(DoubleClick(object :
+                DoubleClickListener {
+                override fun onSingleClickEvent(view: View?) {
+                    // DO STUFF SINGLE CLICK
+                    var newLocation: String = listItemView.relocateDst.text.toString()
+                    if (newLocation.isEmpty()) {
+                        newLocation = "UNTITLED"
+                    }
+                    println(newLocation)
+                    //listItemView.folderButton.text = newAlbumName
+                    listItemView.relocate.visibility = View.VISIBLE
+                    listItemView.relocateDst.visibility = View.INVISIBLE
+                    if (photoId != null) {
+                        relocatePhoto(username,albumname,foldername,photoId, newLocation)
+                    }
+                }
+
+                override fun onDoubleClickEvent(view: View?) {
+                    // DO STUFF DOUBLE CLICK
+                    listItemView.relocateDst.visibility = View.VISIBLE
+                    listItemView.relocate.visibility = View.INVISIBLE
+                }
+            }))
+
 
 
         }

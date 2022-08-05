@@ -56,7 +56,11 @@ class AlbumFolderActivity : AppCompatActivity() {
         }
         override fun onItemRangeMoved(sender: ObservableArrayList<Int>?, fromPosition: Int, toPosition: Int,
                                       itemCount: Int) { }
-        override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) { }
+        override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) {
+            runOnUiThread {
+                albumfolderAdapter.notifyDataSetChanged()
+            }
+        }
     }
     private fun refreshTimeline(username:String) {
         //ImageStore.getImages("Hanyun", "20220715_121710", "cat") //test

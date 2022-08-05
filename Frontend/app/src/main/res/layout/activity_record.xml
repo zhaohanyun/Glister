@@ -10,11 +10,16 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:alpha="0.6"
         android:contentDescription="@string/background_image_desp"
         android:scaleType="centerCrop"
         android:src="@drawable/test_bg"
-        tools:ignore="MissingConstraints" />
+        app:srcCompat="@drawable/test_bg"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@drawable/test_bg" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/recordButton"
@@ -57,15 +62,6 @@
         app:layout_constraintStart_toEndOf="@+id/recordButton"
         app:layout_constraintTop_toTopOf="@+id/recordButton" />
 
-    <Button
-        android:id="@+id/view_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:onClick="startView"
-        android:text="ViewImages"
-        app:layout_constraintEnd_toStartOf="@+id/recordButton"
-        app:layout_constraintTop_toTopOf="@+id/recordButton" />
 
 
 
