@@ -302,7 +302,8 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    - Finish image construction pattern recognition scoring system
    - Finish backend function for image aesthetic score explanation with Saliency Map and pattern-wise importance scoring
    - Implement front-end design for folder rename
-   - Implement front-end design for image analyze
+   - Implement front-end design for manually image scoring with rating bar
+   - Implement front-end design for image analysis
 - Yuchen Xu tonyxu0305@sjtu.edu.cn
   -  Finish the UI design and UI flow
   -  Finish the front-face interface design
