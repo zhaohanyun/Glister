@@ -207,8 +207,8 @@ def processImages(username, albumname, albumId, focus, outputDir, cursor):
 def deleteAlbum(request):
     if request.method != 'GET':
              return HttpResponse(status=404)
-    username = request.POST.get("username")
-    albumname = request.POST.get("albumname")
+    username = request.GET.get("username")
+    albumname = request.GET.get("albumname")
     print(username, 'is deleting', albumname)
     
     dirPath = settings.MEDIA_ROOT / username / albumname
