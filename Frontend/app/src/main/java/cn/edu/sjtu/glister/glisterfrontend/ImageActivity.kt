@@ -67,8 +67,17 @@ class ImageActivity : AppCompatActivity() {
         images.removeOnListChangedCallback(propertyObserver)
     }
     private val propertyObserver = object: ObservableList.OnListChangedCallback<ObservableArrayList<Int>>() {
-        override fun onChanged(sender: ObservableArrayList<Int>?) { }
-        override fun onItemRangeChanged(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) { }
+        override fun onChanged(sender: ObservableArrayList<Int>?) {
+            runOnUiThread {
+                imageListAdapter.notifyDataSetChanged()
+            }
+        }
+        override fun onItemRangeChanged(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) {
+            println("onItemRangeChanged: $positionStart, $itemCount")
+            runOnUiThread {
+                imageListAdapter.notifyDataSetChanged()
+            }
+        }
         override fun onItemRangeInserted(
             sender: ObservableArrayList<Int>?,
             positionStart: Int,
@@ -80,8 +89,11 @@ class ImageActivity : AppCompatActivity() {
             }
         }
         override fun onItemRangeMoved(sender: ObservableArrayList<Int>?, fromPosition: Int, toPosition: Int,
-                                      itemCount: Int) { }
-        override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) { }
+                                      itemCount: Int) {}
+        override fun onItemRangeRemoved(sender: ObservableArrayList<Int>?, positionStart: Int, itemCount: Int) {             println("onItemRangeInserted: $positionStart, $itemCount")
+            runOnUiThread {
+                imageListAdapter.notifyDataSetChanged()
+            } }
     }
     private fun refreshTimeline(username:String, albumname:String, objectname:String) {
         getImages(username,albumname,objectname)

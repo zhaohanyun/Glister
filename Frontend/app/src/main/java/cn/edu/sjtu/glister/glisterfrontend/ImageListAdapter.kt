@@ -1,12 +1,13 @@
 package cn.edu.sjtu.glister.glisterfrontend
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent.getIntent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -16,7 +17,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.DownloadListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import cn.edu.sjtu.glister.glisterfrontend.ImageStore.deletePhoto
@@ -30,8 +30,12 @@ import java.net.URL
 import java.util.concurrent.Executors
 
 
-class ImageListAdapter(context: Context, images: List<Image>,username:String,albumname:String,objectname:String) :
+class ImageListAdapter(context: Context, images: List<Image>,username:String,albumname:String,foldername:String) :
     ArrayAdapter<Image>(context, 0, images) {
+
+    private val username=username
+    private val albumname=albumname
+    private val foldername=foldername
 
     @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -88,11 +92,16 @@ class ImageListAdapter(context: Context, images: List<Image>,username:String,alb
 //                else listItemView.star.text = "UNSTAR"
                 //listItemView.star.setBackgroundColor(context.getResources().getColor(R.color.purple_200))
                 starPhoto(photoId?:-1,if(isStarred)0 else 1)
+                getImages(username,albumname,foldername)
                 //TODO
                 //no way to refresh
             }
             listItemView.delete.setOnClickListener {
                 //TODO
+                if (photoId != null) {
+                    deletePhoto(username,albumname,foldername,photoId)
+                }
+                getImages(username,albumname,foldername)
                 //no way to delete! no access to username, albumname, foldername
             }
             listItemView.root.setBackgroundColor(Color.parseColor(if (position % 2 == 0) "#E0E0E0" else "#EEEEEE"))

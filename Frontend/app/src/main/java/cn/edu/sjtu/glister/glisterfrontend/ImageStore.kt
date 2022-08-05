@@ -47,31 +47,60 @@ object ImageStore {
 //        # output: a list of photos in this folder
 //        # GET /getphotos?username=&albumname=&foldername=&
 
-        val getPhotosUrl = (serverUrl +"getphotos/").toHttpUrl().newBuilder()
-            .addQueryParameter("username", username)
-            .addQueryParameter("albumname", albumname)
-            .addQueryParameter("foldername", foldername)
-            .build()
-        val request = Request.Builder()
-            .url(getPhotosUrl)
-            .build()
+//        var request :Request
+//        if(albumname!="myfavorites") {
+//            val getPhotosUrl = (serverUrl + "getphotos/").toHttpUrl().newBuilder()
+//                .addQueryParameter("username", username)
+//                .addQueryParameter("albumname", albumname)
+//                .addQueryParameter("foldername", foldername)
+//                .build()
+//            request = Request.Builder()
+//                .url(getPhotosUrl)
+//                .build()
+//        }else{
+//            val getFavoritesUrl = (serverUrl+"getfavorites/").toHttpUrl().newBuilder()
+//                .addQueryParameter("username", username)
+//                .addQueryParameter("albumname", albumname)
+//                .build()
+//            request = Request.Builder()
+//                .url(getFavoritesUrl)
+//                .build()
+//        }
+        if (foldername=="myfavorites") {
+            getFavorites(username,albumname)
+        }
+        else {
+            val getPhotosUrl = (serverUrl + "getphotos/").toHttpUrl().newBuilder()
+                .addQueryParameter("username", username)
+                .addQueryParameter("albumname", albumname)
+                .addQueryParameter("foldername", foldername)
+                .build()
+            val request = Request.Builder()
+                .url(getPhotosUrl)
+                .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("getPhotos", "Failed GET request")
-            }
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e("getPhotos", "Failed GET request")
+                }
 
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    val imagesReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("photos") } catch (e: JSONException) { JSONArray() }
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.isSuccessful) {
+                        val imagesReceived = try {
+                            JSONObject(response.body?.string() ?: "").getJSONArray("photos")
+                        } catch (e: JSONException) {
+                            JSONArray()
+                        }
 
-                    images.clear()
-                    for (i in 0 until imagesReceived.length()) {
-                        //val imageEntry = JSONArray(imagesReceived[i])//as JSONObject
-                        val imageEntry = Gson().fromJson(imagesReceived[i].toString(),Image::class.java)?:null
+                        images.clear()
+                        for (i in 0 until imagesReceived.length()) {
+                            //val imageEntry = JSONArray(imagesReceived[i])//as JSONObject
+                            val imageEntry =
+                                Gson().fromJson(imagesReceived[i].toString(), Image::class.java)
+                                    ?: null
 
-                        if (imageEntry !== null) {
-                            images.add(imageEntry)
+                            if (imageEntry !== null) {
+                                images.add(imageEntry)
 //                          Photo:{
 //                          photoId int
 //                          photoUri str
@@ -85,18 +114,22 @@ object ImageStore {
 //                                isStarred = imageEntry[3] as Boolean,
 //                                score = imageEntry[4] as Int?
 //                            ))
-                        } else {
-                            Log.e("getPhotos", "not a Photo object")
+                            } else {
+                                Log.e("getPhotos", "not a Photo object")
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 
     fun getFavorites(username: String, albumname: String) {
 //    # GET /getfavorites?username=&albumname=
 //    getFavorites(username: str, albumname: str) -> list[Photo]
+        println("get favorites")
+        println(username)
+        println(albumname)
         val getFavoritesUrl = (serverUrl+"getfavorites/").toHttpUrl().newBuilder()
             .addQueryParameter("username", username)
             .addQueryParameter("albumname", albumname)
@@ -112,7 +145,18 @@ object ImageStore {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    getFolders(username,albumname)
+                    val imagesReceived = try { JSONObject(response.body?.string() ?: "").getJSONArray("photos") } catch (e: JSONException) { JSONArray() }
+                    images.clear()
+                    for (i in 0 until imagesReceived.length()) {
+                        //val imageEntry = JSONArray(imagesReceived[i])//as JSONObject
+                        val imageEntry = Gson().fromJson(imagesReceived[i].toString(),Image::class.java)?:null
+                        if (imageEntry !== null) {
+                            images.add(imageEntry)
+                        }
+//                         else {
+//                            Log.e("getfavorites", "fail")
+//                        }
+                    }
                 }
             }
         })
@@ -148,6 +192,7 @@ object ImageStore {
 //    deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
         val getDeletePhotoUrl = (serverUrl+"deletephoto/").toHttpUrl().newBuilder()
             .addQueryParameter("username", username)
+            .addQueryParameter("albumname", albumname)
             .addQueryParameter("foldername", foldername)
             .addQueryParameter("photoid", photoId.toString())
             .build()
