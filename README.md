@@ -266,7 +266,14 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
  -->
  ### Main Challenges
 <!--  challenges you have encountered during the app development and how much effort you have spent on tackling them.  -->
-
+- Machine learning(Computer Vision)-based Image Assessment System
+  - Challenge 1: The black-box maching-learning model cannot be explanable to get user's trust   
+    - **[Solution]**: After comprehensive literature review for image aesthetic assessment, we choose to use SAMP-Net as the deep learning model structure and [CADB](https://drive.google.com/file/d/1fpZoo5exRfoarqDvdLDpQVXVOKFW63vz/view) as the training dataset. Since the training process of SAMP-Net not only consider the color saliency map of the photo, but also assess the photo by pattern-wise importance scores, we are able to use these properties to build an explanable and more trustworth image aesthetic app. 
+   - Challenge 2: It is hard for the ML model to adapt to personalized preference
+     - **[Solution]**: Since the backbone deeplearning model could be continually trained, the manually scored photos from different users could be collected for further fine-tuning a more personalized photo assessment model. 
+     - **[Current Limitation]**: However according to the dataset scale, it is only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
+- Front-end Design
+- Back-end Construction
  
  ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
@@ -299,13 +306,12 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
     
 
 -  Simin Fan olivia-fsm@sjtu.edu.cn
+   - Engine architecture and systematic design
    - Finish testing and deploying image object relatedness scoring model
    - Finish finetuning and deploying image aesthetic-base assessment scoring model
-   - Finish image construction pattern recognition scoring system
    - Finish backend function for image aesthetic score explanation with Saliency Map and pattern-wise importance scoring
-   - Implement front-end design for folder rename
-   - Implement front-end design for manually image scoring with rating bar
-   - Implement front-end design for image analysis
+   - Implement front-end design for folder rename, manually image scoring with rating bar and image aesthetic score explanation
+
 - Yuchen Xu tonyxu0305@sjtu.edu.cn
   -  Finish the UI design and UI flow
   -  Finish the front-face interface design
