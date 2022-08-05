@@ -33,6 +33,7 @@ def getAlbums(request):
         .format(username)
     )
     rows = [i[0] for i in cursor.fetchall()]
+    rows.append("myfavorites")
     response = {}
     response['albums'] = rows
     return JsonResponse(response)
@@ -53,7 +54,7 @@ def getFolders(request):
     cursor = connection.cursor()
     cursor.execute(
         '''
-        SELECT f.foldername
+        SELECT f.foldername, f.folderId
         FROM folders f
         LEFT OUTER JOIN albums a ON f.albumId = a.albumId
         WHERE a.owner = '{}' AND a.albumname = '{}'
@@ -62,6 +63,7 @@ def getFolders(request):
         .format(username, albumname, )
     )
     rows = [i[0] for i in cursor.fetchall()]
+    #rows = cursor.fetchall()
     response = {}
     response['folders'] = rows
     return JsonResponse(response)
@@ -203,7 +205,7 @@ def processImages(username, albumname, albumId, focus, outputDir, cursor):
 
 @csrf_exempt
 def deleteAlbum(request):
-    if request.method != 'POST':
+    if request.method != 'GET':
              return HttpResponse(status=404)
     username = request.GET.get("username")
     albumname = request.GET.get("albumname")
