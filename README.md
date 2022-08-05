@@ -282,25 +282,13 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
  ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
 
-  - ​     Finish the front end work of the feature of "View scored photos".
-
-
-  - ​     Finish the front end work of the feature of "Get recommended photos".
-
-
-  - ​     Finish the front end work of the feature of "Star photos".
-
-
-  - ​     Finish the feature of "Download photos to local".
-
-
-  - ​     Finish the feature of "Adjust photos".
-  
-  
-  - ​     Finish the UI of "manually score photos".
-  
-
-  - ​     Finish the UI of "delete unwanted photos".
+  - Finish the front end work of the feature of "View scored photos".
+  - Finish the front end work of the feature of "Get recommended photos".
+  - Finish the front end work of the feature of "Star photos".
+  - Finish the feature of "Download photos to local".
+  - Finish the feature of "Adjust photos".
+  - Finish the UI of "manually score photos".
+  - Finish the UI of "delete unwanted photos".
   
    
   
@@ -309,10 +297,8 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
 - Hanyun Zhao zhaohanyun@sjtu.edu.cn 
 
   - Finish the feature of recording
-
   - Finish the feature of upload photos and videos
   - Finish the feature of specify object in front end
-
   - Implement API in front end
 
     
