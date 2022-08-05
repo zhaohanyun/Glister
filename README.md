@@ -271,7 +271,7 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
     - **[Solution]**: After comprehensive literature review for image aesthetic assessment, we choose to use SAMP-Net as the deep learning model structure and [CADB](https://drive.google.com/file/d/1fpZoo5exRfoarqDvdLDpQVXVOKFW63vz/view) as the training dataset. Since the training process of SAMP-Net not only consider the color saliency map of the photo, but also assess the photo by pattern-wise importance scores, we are able to use these properties to build an explanable and more trustworth image aesthetic app. 
    - Challenge 2: It is hard for the ML model to adapt to personalized preference
      - **[Solution]**: Since the backbone deeplearning model could be continually trained, the manually scored photos from different users could be collected for further fine-tuning a more personalized photo assessment model. 
-     - **[Current Limitation]**: However according to the dataset scale, it is only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
+     - **[Current Limitation]**: However, since it is inapplicable to get fine-grained pattern-wise scores from users, currently we trained a regression model to predict a personalized overall aesthetic score. ***Thus, the personalized model cannot support explainability.*** Mainwhile, to avoid overfitting, only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
 - Front-end Design
 - Back-end Construction
   - Challenge 1: The video extraction function always reverse the portrait videos and cause errors to object detection
@@ -309,6 +309,7 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
    - Finish finetuning and deploying image aesthetic-base assessment scoring model
    - Finish backend function for image aesthetic score explanation with Saliency Map and pattern-wise importance scoring
    - Implement front-end design for folder rename, manually image scoring with rating bar and image aesthetic score explanation
+   - Implement fine-tuning SAMPNET with manually scored images (only when amount>100)
 
 - Yuchen Xu tonyxu0305@sjtu.edu.cn
   -  Finish the UI design and UI flow
