@@ -1,8 +1,6 @@
 # Glister
 This is the project for UMJI VE441 App Development for Entrepreneurs from Group Glister. This app can help you capture good scene and moments without your operation. 
 
-
-
 ## Getting Started
 <!--
 documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies. 
@@ -264,7 +262,11 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
  <!--
  a list of team members and each member's contribution. You may simply list each member's full name for now, leaving the contribution description to the end of term. Should you want to make your GitHub public at the end of term, what do you want visitors (potential employer) to know about your contribution to this project?  
  -->
+ ### Main Challenges
+<!--  challenges you have encountered during the app development and how much effort you have spent on tackling them.  -->
 
+ 
+ ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
 
   - ​     Finish the UI of the feature of "View scored photos".
@@ -298,7 +300,7 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    - Finish testing and deploying image object relatedness scoring model
    - Finish finetuning and deploying image aesthetic-base assessment scoring model
    - Finish image construction pattern recognition scoring system
-   - Finish backend function for image aesthetic score explanation with Saliency Map
+   - Finish backend function for image aesthetic score explanation with Saliency Map and pattern-wise importance scoring
    - Implement front-end design for folder rename
    - Implement front-end design for image analyze
 - Yuchen Xu tonyxu0305@sjtu.edu.cn
