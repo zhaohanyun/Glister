@@ -98,7 +98,7 @@ class CADBDataset(Dataset):
             return im, score_mean, score_dist, sal_map, attrs, emd_weight
         else:
             return im, score_mean, score_dist, sal_map, attrs
-
+            
     def get_attribute(self, image_name):
         all_attrs = self.comp_attrs[image_name]
         attrs = [all_attrs[k] for k in self.attr_types]
