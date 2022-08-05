@@ -6,6 +6,7 @@ This is the project for UMJI VE441 App Development for Entrepreneurs from Group 
 documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies. 
 -->
 
+
 ### FrontEnd
 
 - Image editing:  IMG.LY https://img.ly/docs/pesdk/android/introduction/getting_started/
