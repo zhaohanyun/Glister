@@ -210,9 +210,11 @@ starPhoto(photoId: int, star: int)
 # input: user name, album name, folder name, photo id to delete
 # GET /deletephoto?username=&albumname=&foldername=&photoid=
 deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
+
+# input: user name, album name, folder name. photo id to delete, score to replace, new folder name to replace
+# POST /editphoto?username=&albumname=&foldername=&photoid=&score=&newfoldername=
+editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: int, newfoldername: str)
 ```
-
-
 
  ## View UI/UX
 ### Usability Test Results
@@ -317,6 +319,8 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
    -  Finish writing backend API "postAlbum" and subfunctions "processVideo" and "processImages" for the feature of "Real-time recording", "Upload photos" and "Upload videos"
    -  Finish integrating the algorithm with subfunctions "processVideo" and "processImages"
    -  Finish setting up the database
+   -  Finish revising the “Extract Video” function to deal with both portrait and landscape photos or videos.
+   -  Finish adding “object focus” input for the backend API “postAlbum” so that users are able to specify the object focus they want to capture.
 -  Zechen Huang huangzechen@sjtu.edu.cn  
    - Deploy the backend frameworks and tools on the cloud server.
    - Configure the backend directory and write shell scripts to control the app.
