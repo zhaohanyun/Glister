@@ -11,7 +11,7 @@ import cn.edu.sjtu.glister.glisterfrontend.databinding.AlbumFoldersBinding
 
 class AlbumFolderActivity : AppCompatActivity() {
     private lateinit var view: AlbumFoldersBinding
-    private lateinit var folderAdapter: FolderAdapter
+    private lateinit var albumfolderAdapter: AlbumFolderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +24,8 @@ class AlbumFolderActivity : AppCompatActivity() {
         //cannot pass List within intent
         val username:String=(getIntent().getExtras()?.getString("username"))?:""
 
-        folderAdapter = FolderAdapter(this, albums)
-        view.AlbumFolderListView.setAdapter(folderAdapter)
+        albumfolderAdapter = AlbumFolderAdapter(this, albums)
+        view.AlbumFolderListView.setAdapter(albumfolderAdapter)
         albums.addOnListChangedCallback(propertyObserver)
 
         // setup refreshContainer here later
@@ -51,7 +51,7 @@ class AlbumFolderActivity : AppCompatActivity() {
         ) {
             println("onItemRangeInserted: $positionStart, $itemCount")
             runOnUiThread {
-                folderAdapter.notifyDataSetChanged()
+                albumfolderAdapter.notifyDataSetChanged()
             }
         }
         override fun onItemRangeMoved(sender: ObservableArrayList<Int>?, fromPosition: Int, toPosition: Int,
@@ -61,7 +61,7 @@ class AlbumFolderActivity : AppCompatActivity() {
     private fun refreshTimeline(username:String) {
         //ImageStore.getImages("Hanyun", "20220715_121710", "cat") //test
 
-        getAlbums(applicationContext,username,this)
+        getAlbums(username)
         // stop the refreshing animation upon completion:
         view.refreshContainer.isRefreshing = false
     }

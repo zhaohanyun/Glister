@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainNavigationActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:contentDescription="@string/background_image_desp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_bg" />
+
+
+    <Button
+        android:id="@+id/btn_naviNewEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/btn_imageAnalysis"
+        android:layout_alignEnd="@id/btn_uploadVideo"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:alpha="0.75"
+        android:background="@drawable/btn_bg"
+        android:paddingStart="70dp"
+        android:paddingTop="50dp"
+        android:paddingEnd="70dp"
+        android:paddingBottom="50dp"
+        android:text="@string/navi_newEventBtn"
+        android:textAlignment="gravity"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        android:tooltipText="Start a new video recording" />
+
+    <Button
+        android:id="@+id/btn_imageAnalysis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_naviNewEvent"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginTop="30dp"
+        android:alpha="0.75"
+        android:background="@drawable/btn_bg"
+        android:paddingStart="20dp"
+        android:paddingTop="35dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="35dp"
+        android:text="@string/navi_imgAnalysisBtn"
+        android:textAlignment="gravity"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        android:tooltipText="Upload and Analyze images" />
+
+    <Button
+        android:id="@+id/btn_uploadVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_naviNewEvent"
+        android:layout_marginStart="@dimen/_170sdp"
+        android:layout_marginTop="30dp"
+        android:alpha="0.75"
+        android:background="@drawable/btn_bg"
+        android:paddingStart="30dp"
+        android:paddingTop="35dp"
+        android:paddingEnd="30dp"
+        android:paddingBottom="35dp"
+        android:text="@string/navi_uploadVideoBtn"
+        android:textAlignment="gravity"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        android:tooltipText="Upload local videos" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_270sdp">
+
+        <TextView
+            android:id="@+id/tv_naviPrevEvent"
+            android:layout_width="match_parent"
+            android:layout_height="349dp"
+            android:layout_marginTop="30dp"
+            android:alpha="0.75"
+            android:background="@color/brown"
+            android:paddingStart="30dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="50dp"
+            android:text="@string/navi_PrevEventTitle"
+            android:textAlignment="gravity"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_24ssp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edt_prevEvent0"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="98dp"
+            android:layout_marginEnd="185dp"
+            android:alpha="0.9"
+            android:background="@color/brown"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            android:autofillHints="Rename the Album"
+            android:inputType="text"
+            android:visibility="invisible"
+            tools:ignore="LabelFor"/>
+
+        <Button
+            android:id="@+id/btn_prevEvent0"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="95dp"
+            android:layout_marginEnd="185dp"
+            android:alpha="0.9"
+            android:background="@color/brown"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/untitled_0"
+            android:textAlignment="gravity"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:visibility="visible"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_prevEvent1"
+            android:layout_width="231dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="170dp"
+            android:layout_marginEnd="185dp"
+            android:alpha="0.9"
+            android:background="@color/brown"
+            android:paddingStart="0dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/prevEvent1"
+            android:textAlignment="gravity"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_prevEvent2"
+            android:layout_width="157dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="245dp"
+            android:layout_marginEnd="185dp"
+            android:alpha="0.9"
+            android:background="@color/brown"
+            android:paddingStart="0dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/prevEvent2"
+            android:textAlignment="gravity"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+
+</RelativeLayout>
