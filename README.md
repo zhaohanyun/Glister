@@ -9,15 +9,15 @@ documentation on how to build and run your project. For now, simply list and pro
 
 ### FrontEnd
 
-- Image editing:  IMG.LY https://img.ly/docs/pesdk/android/introduction/getting_started/
-- Automatic Speech Recognition: Xunfei https://www.xfyun.cn/doc/asr/voicedictation/Android-SDK.html#_1%E3%80%81%E7%AE%80%E4%BB%8B
-  
+- Install Glister/Backend/selfsigned.crt to your emulator.
 
 <!--
 Andriod camera  https://developer.android.com/guide/topics/media/camera
 preview + video,audio + focus + face detection
 Andriod audio  https://developer.android.com/training/wearables/user-input/voice
-no audio recognition
+no audio recognition 
+Image editing:  IMG.LY https://img.ly/docs/pesdk/android/introduction/getting_started/
+Automatic Speech Recognition: Xunfei https://www.xfyun.cn/doc/asr/voicedictation/Android-SDK.html#_1%E3%80%81%E7%AE%80%E4%BB%8B
 -->
 
 
@@ -278,12 +278,18 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
     - **[Solution]**: After several days searching and studying, we decided to use a executor to do this task to avoid it from terminating, and we used two helper functions, one to generate the corresponding bitmap according to the url, the next is to save the photo to local album by the bitmap, and it can work now. 
    - Challenge 2: It is hard to complete the feature of editting photo
      - **[Solution]**: After several days search, we find it hard to use the code of other project of editting photos for our project because we require different settings of graddle, last we choose to use the Android Camera API to accomplish it. 
+  - Challenge 3: Upload file fail with some local path
+     - **[Solution]**: The final solution is change URI string from URL encoding to utf-8 encoding, then copy the file to cache and get a new, stable uri. This single problem takes up to 30h to solve.
+  - Challenge 4: Have a hard time starting with Kotlin
+     - **[Solution]**: There was little progress in the first two weeks, and we lagged in skeletal. If you cannot improve coding speed on new language with exponential rate, then it's not possible to finish task on time. At first I copy a lot, from labs and online resources, and try to make slight changes to make codes serve for me. Later it becomes easier and I can create my own pieces.
+  - Challenge 5: Emulator not stable
+     - **[Solution]**: All of us have a hard time with running emulator on our hardware. Slow, and always crashes. The most serious case, one of our frontend colleague cannot run emulator at all. And some bug is purely due to emulator, but is quite confusing for debugging. No good solution, just try and rerun again and again.
 - Back-end Construction
   - Challenge 1: The video extraction function always reverse the portrait videos and cause errors to object detection
     - **[Solution]**: We searched online for functions detecting the intrinsic rotation flag in the video and rotate the video according to it before extraction
   - Challenge 2: Debugging for backend is tedious and it's hard for us to see the output error, especially for SQL statements
     - **[Solution]**: We first use "service gunicorn status" to see the printing messages. We then debug SQL statements by directing entering the database and type in the statements into terminal. We also write scripts for resetting database and directories so that we can start over if something bad happens.
- 
+
  ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
 
@@ -302,9 +308,28 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
 - Hanyun Zhao zhaohanyun@sjtu.edu.cn 
 
   - Finish the feature of recording
+
   - Finish the feature of upload photos and videos
-  - Finish the feature of specify object in front end
-  - Implement API in front end
+
+  - Finish the feature of specify object by text and by speech
+
+  - Finish the feature of star photos
+
+  - Finish the feature of edit photo galleries
+
+  - Finish the folder structure (group the photos)
+
+  - Finish the feature of manually group photos
+
+  - Finish the feature of manually score the photos
+
+  - Finish the feature of remove unwanted photos
+
+  - Fix feature of download, fix controller of MVC
+
+  - Implement all APIs in front end
+
+  - Debug everything in frontend, co-testing with backend colleagues
 
     
 
@@ -322,6 +347,7 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
   -  Finish the front-face interface design
   -  Implement API in back-end
   -  Finish making the video of UI demo and presentation
+  
 -  Yuqing Qiu qiuyuqing@sjtu.edu.cn 
    -  Finish writing and debugging backend API "getAlbums", "getFolders" and "getPhotos" for the feature of "view scored photos" and "get recommended photos"
    -  Finish writing and debugging backend API "editAlbum" for the feature of "rename the photo folder
@@ -332,6 +358,7 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
    -  Finish setting up the database
    -  Finish revising the “Extract Video” function to deal with both portrait and landscape photos or videos.
    -  Finish adding “object focus” input for the backend API “postAlbum” so that users are able to specify the object focus they want to capture.
+   
 -  Zechen Huang huangzechen@sjtu.edu.cn  
    - Deploy the backend frameworks and tools on the cloud server.
    - Configure the backend directory and write shell scripts to control the app.
