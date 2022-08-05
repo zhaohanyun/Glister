@@ -10,11 +10,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:alpha="0.6"
         android:contentDescription="@string/background_image_desp"
         android:scaleType="centerCrop"
-        android:src="@drawable/test_bg"
-        tools:ignore="MissingConstraints" />
+        android:src="@drawable/test_bg" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/recordButton"
