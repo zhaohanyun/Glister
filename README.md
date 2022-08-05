@@ -278,7 +278,7 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
  ### Tean Members and Personal Contribution
 - Enzhi Zhang ez_zhang@sjtu.edu.cn
 
-  - ​     Finish the UI of the feature of "View scored photos".
+  - ​     Finish the front end work of the feature of "View scored photos".
 
 
   - ​     Finish the front end work of the feature of "Get recommended photos".
@@ -291,7 +291,15 @@ editPhoto(username: str, albumname: str, foldername: str, photoId: int, score: i
 
 
   - ​     Finish the feature of "Adjust photos".
+  
+  
+  - ​     Finish the UI of "manually score photos".
+  
 
+  - ​     Finish the UI of "delete unwanted photos".
+  
+   
+  
 
 
 - Hanyun Zhao zhaohanyun@sjtu.edu.cn 
