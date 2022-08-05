@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".RecordActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.6"
+        android:contentDescription="@string/background_image_desp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test_bg"
+        tools:ignore="MissingConstraints" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/recordButton"
         android:layout_width="wrap_content"
