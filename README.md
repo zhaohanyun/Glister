@@ -268,8 +268,8 @@ deletePhoto(username: str, albumname: str, foldername: str, photoId: int)
   - Challenge 1: The black-box maching-learning model cannot be explanable to get user's trust   
     - **[Solution]**: After comprehensive literature review for image aesthetic assessment, we choose to use SAMP-Net as the deep learning model structure and [CADB](https://drive.google.com/file/d/1fpZoo5exRfoarqDvdLDpQVXVOKFW63vz/view) as the training dataset. Since the training process of SAMP-Net not only consider the color saliency map of the photo, but also assess the photo by pattern-wise importance scores, we are able to use these properties to build an explanable and more trustworth image aesthetic app. 
    - Challenge 2: It is hard for the ML model to adapt to personalized preference
-    - **[Solution]**: Since the backbone deeplearning model could be continually trained, the manually scored photos from different users could be collected for further fine-tuning a more personalized photo assessment model. 
-    - **[Current Limitation]**: However according to the dataset scale, it is only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
+     - **[Solution]**: Since the backbone deeplearning model could be continually trained, the manually scored photos from different users could be collected for further fine-tuning a more personalized photo assessment model. 
+     - **[Current Limitation]**: However according to the dataset scale, it is only when the number of manually scored photos reaches 100, the adaptive fine-tuning process could be started.
 - Front-end Design
 - Back-end Construction
  
