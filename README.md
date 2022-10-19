@@ -1,6 +1,8 @@
 # Glister
 This is the project for UMJI VE441 App Development for Entrepreneurs from Group Glister. This app can help you capture good scene and moments without your operation. 
 
+Demo: https://www.bilibili.com/video/BV1MB4y1k7wE/?vd_source=022c994e29b59e2222dc4483b4fbd068
+
 ## Getting Started
 <!--
 documentation on how to build and run your project. For now, simply list and provide a link to all 3rd-party tools, libraries, SDKs, APIs your project will rely on directly, that is, you don't need to list libraries that will be installed automatically as dependencies when installing the libraries you rely on directly. List both front-end and back-end dependencies. 
